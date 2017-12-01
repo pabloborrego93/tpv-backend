@@ -2,9 +2,8 @@ package com.pbg.tpvBackEnd.model.security;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.pbg.tpvBackEnd.model.Restaurant;
 
@@ -55,11 +56,20 @@ public class User implements Serializable {
 	@Column(length = 32)
 	private String email;
 	
+	@Getter @Setter @NonNull
+    private Boolean enabled;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Getter @Setter @NonNull
+    private Date lastPasswordResetDate;
+	
+	@Getter @Setter
 	@ManyToMany
 	private List<Restaurant> worksIn = new ArrayList<Restaurant>();
 
+	@Getter @Setter
 	@ManyToMany
-	private Set<Role> roles = new HashSet<Role>();
+	private List<Role> roles = new ArrayList<Role>();
 	
 	public User() {
 		super();
@@ -67,7 +77,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return firstname + ", " + lastname;
+		return String.format("%s, %s", this.firstname, this.lastname);
 	}
 
 }

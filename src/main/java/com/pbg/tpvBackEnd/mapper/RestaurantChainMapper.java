@@ -6,7 +6,7 @@ import com.pbg.tpvBackEnd.dto.RestaurantChainDto;
 import com.pbg.tpvBackEnd.dto.RestaurantChainPostDto;
 import com.pbg.tpvBackEnd.model.RestaurantChain;
 
-@Mapper(uses = { RestaurantChain.class }, componentModel = "spring")
+@Mapper(uses = { RestaurantMapper.class }, componentModel = "spring")
 public interface RestaurantChainMapper {
 
     RestaurantChainDto asRestaurantChainDto(RestaurantChain restaurantChain);
