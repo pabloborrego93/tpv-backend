@@ -33,9 +33,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User create(UserPostDto userPostDto) throws UserAlreadyExistsException {
 		User user = userDao.findByUsername(userPostDto.getUsername());
-		if(user != null) throw new UserAlreadyExistsException();
-		else user = userMapping.toEntity(userPostDto);
-		user.setEnabled(true);
+		if(user != null) 
+			throw new UserAlreadyExistsException();
+		else 
+			user = userMapping.toEntity(userPostDto);
+		user.setEnabled(Boolean.TRUE);
 		user.setPassword(bcrypt.encode(userPostDto.getPassword()));
 		user.setLastPasswordResetDate(new Date());
 		user.setRoles(Arrays.asList(roleDao.findByName(RoleName.ROLE_RESTAURANT_CHAIN_ADMIN)));
