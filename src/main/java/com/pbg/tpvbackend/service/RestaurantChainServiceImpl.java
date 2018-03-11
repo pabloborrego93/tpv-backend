@@ -29,8 +29,7 @@ public class RestaurantChainServiceImpl implements RestaurantChainService {
 
 	@Override
 	public Page<RestaurantChainDto> findByName(String name, Integer page, Integer max) {
-		final PageRequest pageRequest = new PageRequest(page, max);
-		Page<RestaurantChain> resultsPage = restaurantChainDao.findByNameStartsWithIgnoreCase(name, pageRequest);
+		Page<RestaurantChain> resultsPage = restaurantChainDao.findByNameStartsWithIgnoreCase(name, PageRequest.of(page, max));
 		return resultsPage.map(restChain -> restaurantChainMapper.asRestaurantChainDto(restChain));
 	}
 

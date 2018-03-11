@@ -16,23 +16,23 @@ public class ExceptionMappingDto implements Serializable {
 	 */
 	private static final long serialVersionUID = -4423668874093829847L;
 	
-	
+	@Getter @Setter
+	private HttpStatus status;
 	@Getter @Setter
 	private Integer code;
 	@Getter @Setter
 	private String message;
-	@Getter @Setter
-	private HttpStatus status;
+	
 	
 	public ExceptionMappingDto() {
 		super();
 	}
 	
-	public ExceptionMappingDto(Integer code, String message, HttpStatus status) {
+	public ExceptionMappingDto(HttpStatus status, Integer code, String message) {
 		super();
+		this.status = status;
 		this.code = code;
 		this.message = message;
-		this.status = status;
 	}
 	
 }

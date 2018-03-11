@@ -2,6 +2,7 @@ package com.pbg.tpvbackend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,9 +31,10 @@ public class RestaurantChainController {
 	public Page<RestaurantChainDto> findByName(
 		@RequestParam(required=true) String name,
 		@RequestParam(required=false, defaultValue = "0") Integer page,
-		@RequestParam(required=false, defaultValue = "10") Integer max_per_page) throws BadRequestException {
+		@RequestParam(required=false, defaultValue = "10") Integer max_per_page,
+		Model model) throws BadRequestException {
 		
-		if(!PaginationUtils.isValidPageAndMaxPerPage(page, max_per_page))
+		if(!PaginationUtils.isValidPageAndMaxPerPage(page, max_per_page) || name.length() > 32)
 			throw new BadRequestException();
 		
 		return restaurantChainService.findByName(name, page, max_per_page);

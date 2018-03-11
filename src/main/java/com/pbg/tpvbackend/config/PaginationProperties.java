@@ -10,7 +10,7 @@ import lombok.Setter;
 @Component
 @ConfigurationProperties
 @PropertySource("classpath:properties/pagination.properties")
-public class GlobalProperties {
+public class PaginationProperties {
 
 	@Getter @Setter
 	private static Integer max_elements_per_page;

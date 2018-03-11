@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pbg.tpvbackend.config.GlobalProperties;
 import com.pbg.tpvbackend.dto.user.UserPostDto;
 import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
 import com.pbg.tpvbackend.model.security.User;

@@ -1,4 +1,5 @@
 C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\exception\UserAlreadyExistsException.java
+C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\config\PaginationProperties.java
 C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\dao\security\RoleDao.java
 C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\model\security\RoleName.java
 C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\config\SecurityConfig.java
@@ -14,6 +15,8 @@ C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\mappe
 C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\service\RestaurantChainService.java
 C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\service\RestaurantChainServiceImpl.java
 C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\dto\restaurant\RestaurantDto.java
+C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\utils\PaginationUtils.java
+C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\exception\BadRequestException.java
 C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\dto\restaurantChain\RestaurantChainPostDto.java
 C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\mapper\UserMapper.java
 C:\Users\Borreguito\Documents\tpv-backend\src\main\java\com\pbg\tpvbackend\model\RestaurantChain.java
