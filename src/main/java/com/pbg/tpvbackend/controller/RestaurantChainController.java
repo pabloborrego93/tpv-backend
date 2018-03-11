@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pbg.tpvbackend.dto.restaurantChain.RestaurantChainDto;
 import com.pbg.tpvbackend.dto.restaurantChain.RestaurantChainPostDto;
+import com.pbg.tpvbackend.exception.BadRequestException;
 import com.pbg.tpvbackend.service.RestaurantChainService;
+import com.pbg.tpvbackend.utils.PaginationUtils;
 
 @RestController
 @RequestMapping(value = "/restaurantChain")
@@ -26,10 +28,14 @@ public class RestaurantChainController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public Page<RestaurantChainDto> findByName(
-			@RequestParam(required=true) String name,
-			@RequestParam(required=false, defaultValue = "0") Integer page,
-			@RequestParam(required=false, defaultValue = "10") Integer max) {
-		return restaurantChainService.findByName(name, page, max);
+		@RequestParam(required=true) String name,
+		@RequestParam(required=false, defaultValue = "0") Integer page,
+		@RequestParam(required=false, defaultValue = "10") Integer max_per_page) throws BadRequestException {
+		
+		if(!PaginationUtils.isValidPageAndMaxPerPage(page, max_per_page))
+			throw new BadRequestException();
+		
+		return restaurantChainService.findByName(name, page, max_per_page);
 	}
 	
 }

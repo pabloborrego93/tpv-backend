@@ -14,7 +14,12 @@ import com.pbg.tpvbackend.dto.ExceptionMappingDto;
 
 public abstract class BaseExceptionHandler {
 	
-	private static final ExceptionMappingDto DEFAULT_ERROR = new ExceptionMappingDto(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
+	private static final ExceptionMappingDto DEFAULT_ERROR = ExceptionMappingDto
+		.builder()
+		.code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+		.message("Internal server error")
+		.status(HttpStatus.INTERNAL_SERVER_ERROR)
+		.build();
 
 	private final Map<Class<?>, ExceptionMappingDto> exceptionMappingDtos = new HashMap<>();
 
