@@ -15,7 +15,9 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 	public ExceptionHandlers() {
 		
 		registerMapping(
-			UserAlreadyExistsException.class, HttpStatus.CONFLICT, "USER_ALREADY_EXISTS"
+			Lists.newArrayList(
+				UserAlreadyExistsException.class
+			),  HttpStatus.CONFLICT, "USER_ALREADY_EXISTS"
 		);
         
 		registerMapping(
@@ -23,9 +25,9 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 				BadRequestException.class, 
 				IllegalArgumentException.class, 
 				MethodArgumentTypeMismatchException.class
-			), HttpStatus.BAD_REQUEST, "BAD_REQUEST"
+			), HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.toString()
 		);
-		
+	
     }
 	
 }

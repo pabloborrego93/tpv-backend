@@ -17,15 +17,10 @@ import javax.persistence.TemporalType;
 
 import com.pbg.tpvbackend.model.Restaurant;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@RequiredArgsConstructor
-@EqualsAndHashCode(of="id")
 public class User implements Serializable {
 
 	/**
@@ -37,31 +32,31 @@ public class User implements Serializable {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@Getter @Setter @NonNull
-	@Column(length = 16, unique = true)
+	@Getter @Setter
+	@Column(length = 16, unique = true, nullable = false)
 	private String username;
 
-	@Getter @Setter @NonNull
-	@Column(length = 128)
+	@Getter @Setter
+	@Column(length = 128, nullable = false)
 	private String password;
 
-	@Getter @Setter @NonNull
+	@Getter @Setter
 	@Column(length = 16)
 	private String firstname;
 
-	@Getter @Setter @NonNull
+	@Getter @Setter
 	@Column(length = 32)
 	private String lastname;
 
-	@Getter @Setter @NonNull
+	@Getter @Setter
 	@Column(length = 32)
 	private String email;
 	
-	@Getter @Setter @NonNull
+	@Getter @Setter
     private Boolean enabled;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Getter @Setter @NonNull
+    @Getter @Setter
     private Date lastPasswordResetDate;
 	
 	@Getter @Setter
@@ -75,7 +70,7 @@ public class User implements Serializable {
 	public User() {
 		super();
 	}
-
+	
 	@Override
 	public String toString() {
 		return String.format("%s, %s", this.firstname, this.lastname);

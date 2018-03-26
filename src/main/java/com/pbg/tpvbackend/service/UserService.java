@@ -1,11 +1,15 @@
 package com.pbg.tpvbackend.service;
 
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import com.pbg.tpvbackend.dto.user.UserBasicInfoDto;
 import com.pbg.tpvbackend.dto.user.UserPostDto;
 import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
-import com.pbg.tpvbackend.model.security.User;
 
 public interface UserService {
 
-	public User create(UserPostDto userPostDto) throws UserAlreadyExistsException;
+	public Optional<UserBasicInfoDto> create(@Valid UserPostDto userPostDto) throws UserAlreadyExistsException;
 	
 }
