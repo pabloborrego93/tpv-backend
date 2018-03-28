@@ -66,14 +66,30 @@ public class User implements Serializable {
 	
 	@Getter @Setter
 	@ManyToMany
-	private List<Restaurant> worksIn = new ArrayList<Restaurant>();
+	private List<Restaurant> worksIn;
 
 	@Getter @Setter
 	@ManyToMany
-	private List<Role> roles = new ArrayList<Role>();
+	private List<Role> roles;
 	
 	public User() {
 		super();
+		this.worksIn = new ArrayList<Restaurant>();
+		this.roles = new ArrayList<Role>();
+	}
+	
+	public User(User user) {
+		super();
+		this.id = user.getId();
+		this.username = user.getUsername();
+		this.password = user.getPassword();
+		this.firstname = user.getFirstname();
+		this.lastname = user.getLastname();
+		this.email = user.getEmail();
+		this.enabled = user.getEnabled();
+		this.lastPasswordResetDate = user.getLastPasswordResetDate();
+		this.worksIn = user.getWorksIn();
+		this.roles = user.getRoles();
 	}
 	
 	@Override
