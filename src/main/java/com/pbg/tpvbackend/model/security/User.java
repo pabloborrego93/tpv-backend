@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,6 +23,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@NamedEntityGraph(
+	name = "graph.User.roles", 
+	attributeNodes = @NamedAttributeNode(value = "roles"))
 public class User implements Serializable {
 
 	/**

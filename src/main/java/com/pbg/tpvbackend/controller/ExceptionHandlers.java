@@ -1,6 +1,9 @@
 package com.pbg.tpvbackend.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
@@ -14,6 +17,22 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 	
 	public ExceptionHandlers() {
 		
+		/**
+		 * Error 403
+		 */
+		registerMapping(
+			Lists.newArrayList(
+				UsernameNotFoundException.class,
+				AuthenticationException.class
+			),  HttpStatus.FORBIDDEN, HttpStatus.FORBIDDEN.name()
+		);
+		
+		/**
+		 * Error 405
+		 */
+		registerMapping(HttpRequestMethodNotSupportedException.class, HttpStatus.METHOD_NOT_ALLOWED, HttpStatus.METHOD_NOT_ALLOWED.name());
+		
+		
 		registerMapping(
 			Lists.newArrayList(
 				UserAlreadyExistsException.class
@@ -25,8 +44,9 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 				BadRequestException.class, 
 				IllegalArgumentException.class, 
 				MethodArgumentTypeMismatchException.class
-			), HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.toString()
+			), HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.name()
 		);
+		
 	
     }
 	

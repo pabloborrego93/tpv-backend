@@ -1,6 +1,6 @@
 package com.pbg.tpvbackend.utils;
 
-import com.pbg.tpvbackend.config.PaginationProperties;
+import com.pbg.tpvbackend.config.ConfigProperties;
 
 public class PaginationUtils {
 
@@ -9,8 +9,8 @@ public class PaginationUtils {
 			&& max_per_page instanceof Integer
 			&& (page >= 0) 
 			&& (max_per_page > 0) 
-			&& (max_per_page <= PaginationProperties.getMax_elements_per_page())
-			&& (max_per_page >= PaginationProperties.getMinimum_elements_per_page());
+			&& (max_per_page <= ConfigProperties.getMax_elements_per_page())
+			&& (max_per_page >= ConfigProperties.getMinimum_elements_per_page());
 	}
 	
 }

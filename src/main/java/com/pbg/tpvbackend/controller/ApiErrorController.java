@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pbg.tpvbackend.dto.ErrorMSGApiDto;
 
-@RestController
-@RequestMapping(value = "/error")
+//@RestController
+//@RequestMapping(value = "/error")
 public class ApiErrorController implements ErrorController {
 
 	private final static String ERROR_PATH = "/error";

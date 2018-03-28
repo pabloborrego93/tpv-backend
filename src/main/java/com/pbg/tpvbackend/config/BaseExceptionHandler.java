@@ -34,13 +34,16 @@ public abstract class BaseExceptionHandler {
 	@ExceptionHandler(Throwable.class)
 	public ResponseEntity<?> handleThrowable(final Throwable ex, final HttpServletResponse response) {
 		
-		/* If the excepcion occurs while validating 
-		 * dto's we call the function to handle this 
+		/* If the excepcion occurs while validating dto's 
+		 * in controllers we call the function to handle this 
 		 */
 		if(ex instanceof MethodArgumentNotValidException) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(handleFieldValidationFailFromController(ex));
 		}
 		
+		/* If the excepcion occurs while validating dto's
+		 * in services we call the function to handle this 
+		 */
 		if(ex instanceof ConstraintViolationException) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(handleFieldValidationFailFromService(ex));
 		}
@@ -69,7 +72,7 @@ public abstract class BaseExceptionHandler {
 			.collect(Collectors.toList());
 	}
 
-	private void registerMapping(final Class<?> clazz, final HttpStatus status, final String message) {
+	protected void registerMapping(final Class<?> clazz, final HttpStatus status, final String message) {
 		exceptionMappingDtos.put(clazz, new ExceptionMappingDto(status, status.value(), message));
 	}
 	

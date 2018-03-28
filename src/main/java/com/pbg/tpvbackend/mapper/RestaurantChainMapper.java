@@ -9,7 +9,8 @@ import com.pbg.tpvbackend.model.RestaurantChain;
 @Mapper(uses = { RestaurantMapper.class }, componentModel = "spring")
 public interface RestaurantChainMapper {
 
-    RestaurantChainDto asRestaurantChainDto(RestaurantChain restaurantChain);
-    RestaurantChain asRestaurantChain(RestaurantChainPostDto restaurantChainPostDto);
+    public RestaurantChainDto asRestaurantChainDto(RestaurantChain restaurantChain);
+    public RestaurantChain asRestaurantChain(RestaurantChainPostDto restaurantChainPostDto);
 
 }
+

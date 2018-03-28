@@ -16,7 +16,7 @@ import com.pbg.tpvbackend.service.RestaurantChainService;
 import com.pbg.tpvbackend.utils.PaginationUtils;
 
 @RestController
-@RequestMapping(value = "/restaurantChain")
+@RequestMapping(value = "/api/restaurantChain")
 public class RestaurantChainController {
 
 	@Autowired

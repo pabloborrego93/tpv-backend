@@ -8,6 +8,6 @@ import com.pbg.tpvbackend.model.Restaurant;
 @Mapper(componentModel = "spring")
 public interface RestaurantMapper {
 
-    RestaurantDto asRestaurantDto(Restaurant restaurant);
+    public RestaurantDto asRestaurantDto(Restaurant restaurant);
 
 }
