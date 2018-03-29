@@ -1,6 +1,7 @@
 package com.pbg.tpvbackend.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -18,12 +19,21 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 	public ExceptionHandlers() {
 		
 		/**
+		 * Error 401
+		 */
+		registerMapping(
+			Lists.newArrayList(
+				AuthenticationException.class,
+				InsufficientAuthenticationException.class
+			),  HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.name()
+		);
+		
+		/**
 		 * Error 403
 		 */
 		registerMapping(
 			Lists.newArrayList(
-				UsernameNotFoundException.class,
-				AuthenticationException.class
+				UsernameNotFoundException.class
 			),  HttpStatus.FORBIDDEN, HttpStatus.FORBIDDEN.name()
 		);
 		

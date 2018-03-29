@@ -8,8 +8,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -29,18 +31,20 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
 		if (header == null || !header.startsWith(ConfigProperties.getTOKEN_PREFIX())) {
 			chain.doFilter(req, res);
+			return;
 		}
 
-		UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		Object authentication = getAuthentication(req);
+		SecurityContextHolder.getContext().setAuthentication((Authentication) authentication);
 		
 		chain.doFilter(req, res);
 	}
 
-	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
+	private Object getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(ConfigProperties.getHEADER_STRING());
+		
 		if (token != null) {
-			// parse the token.
+			
 			String user = Jwts
 				.parser()
 				.setSigningKey(ConfigProperties.getSecret().getBytes())
@@ -51,9 +55,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			if (user != null) {
 				return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
 			}
-			return null;
+			return new AnonymousAuthenticationToken(null, null, null);
 		}
-		return null;
+		return new AnonymousAuthenticationToken(null, null, null);
 	}
 
 }
