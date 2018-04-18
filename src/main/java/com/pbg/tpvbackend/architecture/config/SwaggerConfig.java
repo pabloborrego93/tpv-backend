@@ -1,4 +1,4 @@
-package com.pbg.tpvbackend.config;
+package com.pbg.tpvbackend.architecture.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

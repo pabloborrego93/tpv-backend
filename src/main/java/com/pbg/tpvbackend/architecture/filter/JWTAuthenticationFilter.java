@@ -1,4 +1,4 @@
-package com.pbg.tpvbackend.filter;
+package com.pbg.tpvbackend.architecture.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pbg.tpvbackend.config.ConfigProperties;
+import com.pbg.tpvbackend.architecture.config.ConfigProperties;
 import com.pbg.tpvbackend.dto.user.UserLoginDto;
 import com.pbg.tpvbackend.model.security.CustomUserDetails;
 import com.pbg.tpvbackend.utils.JwtUtils;

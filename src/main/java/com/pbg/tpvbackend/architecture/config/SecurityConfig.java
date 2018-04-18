@@ -1,10 +1,9 @@
-package com.pbg.tpvbackend.config;
+package com.pbg.tpvbackend.architecture.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,8 +17,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.pbg.tpvbackend.filter.JWTAuthenticationFilter;
-import com.pbg.tpvbackend.filter.JWTAuthorizationFilter;
+import com.pbg.tpvbackend.architecture.filter.JWTAuthenticationFilter;
+import com.pbg.tpvbackend.architecture.filter.JWTAuthorizationFilter;
 
 @Configuration
 @EnableWebSecurity

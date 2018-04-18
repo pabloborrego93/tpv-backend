@@ -1,6 +1,6 @@
 package com.pbg.tpvbackend.utils;
 
-import com.pbg.tpvbackend.config.ConfigProperties;
+import com.pbg.tpvbackend.architecture.config.ConfigProperties;
 
 public class PaginationUtils {
 

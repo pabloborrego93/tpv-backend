@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import com.pbg.tpvbackend.architecture.annotation.Loggable;
 import com.pbg.tpvbackend.dao.security.RoleDao;
 import com.pbg.tpvbackend.dao.security.UserDao;
 import com.pbg.tpvbackend.dto.user.UserBasicInfoDto;
@@ -21,8 +22,8 @@ import com.pbg.tpvbackend.mapper.UserMapper;
 import com.pbg.tpvbackend.model.security.RoleName;
 import com.pbg.tpvbackend.model.security.User;
 
-@Service
 @Validated
+@Service
 public class UserServiceImpl implements UserService {
 	
 	@Autowired
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
 	
+	@Loggable
 	@Override
 	public Optional<UserBasicInfoDto> create(@Valid UserPostDto userPostDto) throws UserAlreadyExistsException {
 		Optional<User> optionalUser = userDao.findByUsername(userPostDto.getUsername());
@@ -53,6 +55,7 @@ public class UserServiceImpl implements UserService {
 		return Optional.ofNullable(userMapper.asUserBasicInfoDto(userDao.save(user)));
 	}
 
+	@Loggable
 	@Override
 	public Optional<UserExtendedInfoDto> get(Integer id) {
 		Optional<User> optionalUser = userDao.findById(id);
@@ -63,3 +66,4 @@ public class UserServiceImpl implements UserService {
 	}
 	
 }
+

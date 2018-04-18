@@ -3,7 +3,7 @@ package com.pbg.tpvbackend.utils;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.pbg.tpvbackend.config.ConfigProperties;
+import com.pbg.tpvbackend.architecture.config.ConfigProperties;
 
 public class JwtUtils {
 

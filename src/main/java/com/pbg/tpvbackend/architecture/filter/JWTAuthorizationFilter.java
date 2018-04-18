@@ -1,4 +1,4 @@
-package com.pbg.tpvbackend.filter;
+package com.pbg.tpvbackend.architecture.filter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.pbg.tpvbackend.config.ConfigProperties;
+import com.pbg.tpvbackend.architecture.config.ConfigProperties;
 
 import io.jsonwebtoken.Jwts;
 

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.google.common.collect.Lists;
-import com.pbg.tpvbackend.config.BaseExceptionHandler;
+import com.pbg.tpvbackend.architecture.config.BaseExceptionHandler;
 import com.pbg.tpvbackend.exception.BadRequestException;
 import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
 
