@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pbg.tpvbackend.architecture.config.ConfigProperties;
 import com.pbg.tpvbackend.dto.user.UserLoginDto;
 import com.pbg.tpvbackend.model.security.CustomUserDetails;
-import com.pbg.tpvbackend.utils.JwtUtils;
+import com.pbg.tpvbackend.utils.AuthUtils;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -50,7 +50,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		String token = Jwts.builder()
 			.setSubject(userDetails.getUsername())
-			.setExpiration(JwtUtils.getExpTime())
+			.setExpiration(AuthUtils.getExpTime())
 			.setIssuedAt(Calendar.getInstance().getTime())
 			.signWith(SignatureAlgorithm.HS512, ConfigProperties.getSecret().getBytes()).compact();
 		res.addHeader(ConfigProperties.getHEADER_STRING(), ConfigProperties.getTOKEN_PREFIX() + token);

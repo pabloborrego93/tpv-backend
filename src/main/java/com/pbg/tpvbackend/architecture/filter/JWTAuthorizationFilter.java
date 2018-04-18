@@ -8,15 +8,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import com.mysql.jdbc.StringUtils;
 import com.pbg.tpvbackend.architecture.config.ConfigProperties;
+import com.pbg.tpvbackend.utils.AuthUtils;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
@@ -43,21 +45,26 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	private Object getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(ConfigProperties.getHEADER_STRING());
 		
-		if (token != null) {
+		if (StringUtils.isNullOrEmpty(token)) {
+			String user = new String();
 			
-			String user = Jwts
-				.parser()
-				.setSigningKey(ConfigProperties.getSecret().getBytes())
-				.parseClaimsJws(token.replace(ConfigProperties.getTOKEN_PREFIX(), ""))
-				.getBody()
-				.getSubject();
+			try {
+				user = Jwts
+					.parser()
+					.setSigningKey(ConfigProperties.getSecret().getBytes())
+					.parseClaimsJws(token.replace(ConfigProperties.getTOKEN_PREFIX(), ""))
+					.getBody()
+					.getSubject();
+				
+			} catch (ExpiredJwtException e) {
+				e.printStackTrace();
+			}
 
-			if (user != null) {
+			if (!StringUtils.isNullOrEmpty(user)) {
 				return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
 			}
-			return new AnonymousAuthenticationToken(null, null, null);
 		}
-		return new AnonymousAuthenticationToken(null, null, null);
+		return AuthUtils.createAuthenticationForAnonymousUser();
 	}
-
+	
 }

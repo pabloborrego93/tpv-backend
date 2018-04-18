@@ -13,6 +13,8 @@ import com.pbg.tpvbackend.architecture.config.BaseExceptionHandler;
 import com.pbg.tpvbackend.exception.BadRequestException;
 import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
 
+import io.jsonwebtoken.ExpiredJwtException;
+
 @ControllerAdvice
 public class ExceptionHandlers extends BaseExceptionHandler {
 	
@@ -24,7 +26,8 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 		registerMapping(
 			Lists.newArrayList(
 				AuthenticationException.class,
-				InsufficientAuthenticationException.class
+				InsufficientAuthenticationException.class,
+				ExpiredJwtException.class
 			),  HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.name()
 		);
 		
