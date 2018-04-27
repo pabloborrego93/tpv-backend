@@ -16,6 +16,7 @@ import com.pbg.tpvbackend.dto.user.UserBasicInfoDto;
 import com.pbg.tpvbackend.dto.user.UserExtendedInfoDto;
 import com.pbg.tpvbackend.dto.user.UserPostDto;
 import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
+import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
@@ -40,16 +41,16 @@ public class UserController {
 	})
 	@ApiOperation("Create User operation")
 	@PostMapping
-    public ResponseEntity<?> create(
+    public ResponseEntity<?> registerUser(
     	@ApiParam(required = true) @RequestBody(required = true) UserPostDto userPostDto) throws UserAlreadyExistsException {
-		Optional<UserBasicInfoDto> user = userService.create(userPostDto);
+		Optional<UserBasicInfoDto> user = userService.registerUser(userPostDto);
 		if(user.isPresent());
 			return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 	
 	@GetMapping(value = "/{id}")
-    public ResponseEntity<?> get(@PathVariable("id") Integer id) {
-		Optional<UserExtendedInfoDto> user = userService.get(id);
+    public ResponseEntity<?> getUserBasicData(@PathVariable("id") Integer id) throws UserNotFoundException {
+		Optional<UserExtendedInfoDto> user = userService.getUserBasicData(id);
 		if(user.isPresent());
 			return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }

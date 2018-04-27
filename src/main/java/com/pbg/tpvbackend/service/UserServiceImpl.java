@@ -18,6 +18,7 @@ import com.pbg.tpvbackend.dto.user.UserBasicInfoDto;
 import com.pbg.tpvbackend.dto.user.UserExtendedInfoDto;
 import com.pbg.tpvbackend.dto.user.UserPostDto;
 import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
+import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.mapper.UserMapper;
 import com.pbg.tpvbackend.model.security.RoleName;
 import com.pbg.tpvbackend.model.security.User;
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Loggable
 	@Override
-	public Optional<UserBasicInfoDto> create(@Valid UserPostDto userPostDto) throws UserAlreadyExistsException {
+	public Optional<UserBasicInfoDto> registerUser(@Valid UserPostDto userPostDto) throws UserAlreadyExistsException {
 		Optional<User> optionalUser = userDao.findByUsername(userPostDto.getUsername());
 		
 		if(optionalUser.isPresent()) 
@@ -57,12 +58,12 @@ public class UserServiceImpl implements UserService {
 
 	@Loggable
 	@Override
-	public Optional<UserExtendedInfoDto> get(Integer id) {
+	public Optional<UserExtendedInfoDto> getUserBasicData(Integer id) throws UserNotFoundException {
 		Optional<User> optionalUser = userDao.findById(id);
 		if(optionalUser.isPresent()) 
 			return Optional.ofNullable(userMapper.asUserExtendedInfoDto(optionalUser.get()));
 		else 
-			return Optional.empty();
+			throw new UserNotFoundException();
 	}
 	
 }

@@ -19,7 +19,7 @@ public class LoggableAspect {
 	    Object proceed = joinPoint.proceed();
 	 
 	    long executionTime = System.currentTimeMillis() - start;
-	    log.debug(joinPoint.getSignature() + " executed in " + executionTime + "ms");
+	    log.info(joinPoint.getSignature() + " executed in " + executionTime + "ms");
 	    
 	    return proceed;
 	}
