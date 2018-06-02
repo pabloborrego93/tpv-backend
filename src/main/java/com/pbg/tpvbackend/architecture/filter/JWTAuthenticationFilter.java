@@ -1,6 +1,7 @@
 package com.pbg.tpvbackend.architecture.filter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -54,7 +55,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			.setIssuedAt(Calendar.getInstance().getTime())
 			.signWith(SignatureAlgorithm.HS512, ConfigProperties.getSecret().getBytes()).compact();
 		res.addHeader(ConfigProperties.getHEADER_STRING(), ConfigProperties.getTOKEN_PREFIX() + token);
+		res.setContentType("application/json");
+		PrintWriter out = res.getWriter();
+		out.println("{");
+        out.println("\"access_token\": \""+token+"\"");
+        out.println("}");
+        out.close();
 		
 	}
-
+	
 }
