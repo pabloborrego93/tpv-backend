@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConf
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = { ErrorMvcAutoConfiguration.class })
 public class TpvBackendApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(TpvBackendApplication.class, args);
 	}

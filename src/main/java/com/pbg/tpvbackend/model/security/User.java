@@ -2,9 +2,9 @@ package com.pbg.tpvbackend.model.security;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,8 +24,11 @@ import lombok.Setter;
 
 @Entity
 @NamedEntityGraph(
-	name = "graph.User.roles", 
-	attributeNodes = @NamedAttributeNode(value = "roles"))
+	name = "graph.User.basicInfo", 
+	attributeNodes = {
+		@NamedAttributeNode(value = "roles"),
+		@NamedAttributeNode(value = "worksIn")
+	})
 public class User implements Serializable {
 
 	/**
@@ -66,16 +69,16 @@ public class User implements Serializable {
 	
 	@Getter @Setter
 	@ManyToMany
-	private List<Restaurant> worksIn;
+	private Set<Restaurant> worksIn;
 
 	@Getter @Setter
 	@ManyToMany
-	private List<Role> roles;
+	private Set<Role> roles;
 	
 	public User() {
 		super();
-		this.worksIn = new ArrayList<Restaurant>();
-		this.roles = new ArrayList<Role>();
+		this.worksIn = new HashSet<Restaurant>();
+		this.roles = new HashSet<Role>();
 	}
 	
 	public User(User user) {

@@ -13,6 +13,6 @@ import com.pbg.tpvbackend.exception.UserNotFoundException;
 public interface UserService {
 
 	public Optional<UserBasicInfoDto> registerUser(@Valid UserPostDto userPostDto) throws UserAlreadyExistsException;
-	public Optional<UserExtendedInfoDto> getUserBasicData(Integer id) throws UserNotFoundException;
+	public Optional<UserExtendedInfoDto> getUserBasicData() throws UserNotFoundException;
 	
 }

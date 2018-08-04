@@ -11,7 +11,7 @@ import com.pbg.tpvbackend.model.security.User;
 @Repository
 public interface UserDao extends CrudRepository<User, Integer> {
 	
-	@EntityGraph(value = "graph.User.roles")
+	@EntityGraph(value = "graph.User.basicInfo")
 	Optional<User> findByUsername(String username);
 	
 }

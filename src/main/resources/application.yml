@@ -1,0 +1,33 @@
+spring:
+   profiles:
+      active: local
+   banner:
+      location: 'classpath:/static/banner.txt'
+   datasource:
+      url: 'jdbc:mysql://localhost:3306/tpvBD?&useSSL=false'
+      username: root
+      password: borrego
+   jpa:
+      show-sql: false
+      properties:
+         dialect: org.hibernate.dialect.MySQL5Dialect
+      hibernate:
+         ddl-auto: update
+   mvc:
+      throw-exception-if-no-handler-found: true 
+logging:
+   level:
+      org:
+         springframework:
+            web: DEBUG
+server:
+   servlet:
+      context-path: '/tpvBackend'
+application:
+   signUpUrl: '/api/user'
+   pagination:
+      minElementsPerPage: 1
+      maxElementsPerPage: 100
+   jwt:
+      secret: 'SecretKeyToGenJWTs'
+      expirationTime: 864000

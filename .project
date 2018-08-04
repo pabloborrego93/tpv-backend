@@ -37,4 +37,11 @@
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>mapper</name>
+			<type>2</type>
+			<location>C:/Users/Borreguito/Documents/tpv-backend/target/generated-sources/annotations/com/pbg/tpvbackend/mapper</location>
+		</link>
+	</linkedResources>
 </projectDescription>
