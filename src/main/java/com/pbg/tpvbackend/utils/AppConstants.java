@@ -23,4 +23,14 @@ public class AppConstants {
 	private static final String JWT_WORKSIN = "worksIn";
 	@Getter
 	private static final String JWT_EMAIL = "email";
+	
+	/*
+	 * ERROR CONSTANTES
+	 */
+	@Getter
+	private static final String ERR_JWT_EXPIRED = "JWT token is expired!";
+	@Getter
+	private static final String ERR_JWT_INVALID = "JWT token is invalid!";
+	@Getter
+	private static final String ERR_JWT_EMPTY = "JWT token is empty!";
 }

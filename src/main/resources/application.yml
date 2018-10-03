@@ -4,11 +4,11 @@ spring:
    banner:
       location: 'classpath:/static/banner.txt'
    datasource:
-      url: 'jdbc:mysql://localhost:3306/tpvBD?&useSSL=false'
+      url: 'jdbc:mysql://localhost:3306/tpvBD?&useSSL=false&allowPublicKeyRetrieval=true'
       username: root
       password: borrego
    jpa:
-      show-sql: false
+      show-sql: true
       properties:
          dialect: org.hibernate.dialect.MySQL5Dialect
       hibernate:
@@ -30,4 +30,4 @@ application:
       maxElementsPerPage: 100
    jwt:
       secret: 'SecretKeyToGenJWTs'
-      expirationTime: 864000
+      expirationTime: 1

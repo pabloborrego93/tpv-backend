@@ -11,10 +11,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import com.google.common.collect.Lists;
 import com.pbg.tpvbackend.architecture.config.BaseExceptionHandler;
 import com.pbg.tpvbackend.exception.BadRequestException;
+import com.pbg.tpvbackend.exception.InvalidJWTException;
 import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
-
-import io.jsonwebtoken.ExpiredJwtException;
 
 @ControllerAdvice
 public class ExceptionHandlers extends BaseExceptionHandler {
@@ -39,7 +38,7 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 			Lists.newArrayList(
 				AuthenticationException.class,
 				InsufficientAuthenticationException.class,
-				ExpiredJwtException.class
+				InvalidJWTException.class
 			),  HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.name()
 		);
 		

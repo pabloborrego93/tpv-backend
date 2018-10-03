@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,9 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Lists;
 import com.mysql.jdbc.StringUtils;
 import com.pbg.tpvbackend.architecture.config.AppProperties;
+import com.pbg.tpvbackend.exception.InvalidJWTException;
 import com.pbg.tpvbackend.model.security.CustomUserDetails;
-import com.pbg.tpvbackend.model.security.User;
 import com.pbg.tpvbackend.utils.AppConstants;
-import com.pbg.tpvbackend.utils.AuthUtils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -31,15 +32,17 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthUtilsServiceImpl implements AuthUtilsService {
 
-	private AppProperties appProperties;
+	private static final Logger logger = LogManager.getLogger(AuthUtilsServiceImpl.class);
 	
+	
+	private AppProperties appProperties;
 	public Date getExpTime() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.SECOND, appProperties.getJwt().getExpirationTime());
 		return calendar.getTime();
 	}
 	
-	public Object getAuthentication(HttpServletRequest request) {
+	public Object getAuthentication(HttpServletRequest request) throws InvalidJWTException {
 		String token = request.getHeader(AppConstants.getHEADER_STRING());
 		
 		if (!StringUtils.isNullOrEmpty(token)) {
@@ -61,7 +64,11 @@ public class AuthUtilsServiceImpl implements AuthUtilsService {
 				
 				
 			} catch (ExpiredJwtException e) {
-				e.printStackTrace();
+				String mensajeError = String.format(AppConstants.getERR_JWT_EXPIRED());
+				throw new InvalidJWTException(mensajeError);
+			} catch (Exception e) {
+				String mensajeError = String.format(AppConstants.getERR_JWT_INVALID());
+				throw new InvalidJWTException(mensajeError);
 			}
 
 			if (!StringUtils.isNullOrEmpty(claims.getSubject())) {
@@ -69,7 +76,8 @@ public class AuthUtilsServiceImpl implements AuthUtilsService {
 				return new UsernamePasswordAuthenticationToken(claims.getSubject(), customUserDetails, authorities);
 			}
 		}
-		return AuthUtils.createAuthenticationForAnonymousUser();
+		String mensajeError = String.format(AppConstants.getERR_JWT_INVALID());
+		throw new InvalidJWTException(mensajeError);
 	}
 	
 }

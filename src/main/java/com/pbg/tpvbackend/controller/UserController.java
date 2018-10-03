@@ -51,7 +51,7 @@ public class UserController {
     public ResponseEntity<?> getUserBasicData() throws UserNotFoundException {
 		Optional<UserExtendedInfoDto> user = userService.getUserBasicData();
 		if(user.isPresent());
-			return ResponseEntity.status(HttpStatus.CREATED).body(user);
+			return ResponseEntity.ok(user);
     }
 	
 }
