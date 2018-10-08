@@ -30,4 +30,4 @@ application:
       maxElementsPerPage: 100
    jwt:
       secret: 'SecretKeyToGenJWTs'
-      expirationTime: 1
+      expirationTime: 100000000
