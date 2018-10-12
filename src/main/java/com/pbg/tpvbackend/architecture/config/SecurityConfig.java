@@ -11,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -33,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public JWTAuthenticationFilter jwtAuthenticationFilter() throws Exception {
 		JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter();
 		jwtAuthenticationFilter.setAuthenticationManager(authenticationManager());
+		jwtAuthenticationFilter.setFilterProcessesUrl(appProperties.getSignInUrl());
 		return jwtAuthenticationFilter;
 	}
 	
@@ -64,23 +66,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.cors()
+		http.cors().and().csrf().disable().authorizeRequests()
+			.antMatchers(HttpMethod.POST, appProperties.getSignInUrl()).permitAll()
+			.antMatchers(HttpMethod.POST, appProperties.getSignUpUrl()).permitAll()
+			.anyRequest().authenticated()
+			.antMatchers("/api/**").authenticated()
 			.and()
-			.csrf().disable()
+			.formLogin()
+			.disable()
 			.addFilter(jwtAuthenticationFilter())
 			.addFilter(jwtAuthorizationFilter())
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
-			.authorizeRequests()
-			.anyRequest()
-			.permitAll()
-//			.authenticated()
-//			.antMatchers(HttpMethod.POST, appProperties.getSignUpUrl()).permitAll()
-//			.antMatchers("/api/**").permitAll()
-			.and()
-			.formLogin()
-			.disable()
 			.exceptionHandling()
 			.authenticationEntryPoint(authEntryPoint);
 	}

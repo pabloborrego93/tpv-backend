@@ -7,6 +7,7 @@ import org.mapstruct.Mappings;
 import com.pbg.tpvbackend.dto.user.UserBasicInfoDto;
 import com.pbg.tpvbackend.dto.user.UserExtendedInfoDto;
 import com.pbg.tpvbackend.dto.user.UserPostDto;
+import com.pbg.tpvbackend.dto.user.UserUpdateDto;
 import com.pbg.tpvbackend.model.security.User;
 
 @Mapper(componentModel = "spring")

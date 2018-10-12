@@ -14,8 +14,9 @@ public class AppProperties {
 
 	public Pagination pagination = new Pagination();
 	public Jwt jwt = new Jwt();
+	public String signInUrl;
 	public String signUpUrl;
-
+	
 	public Pagination getPagination() {
 		return pagination;
 	}
@@ -30,6 +31,14 @@ public class AppProperties {
 
 	public void setJwt(Jwt jwt) {
 		this.jwt = jwt;
+	}
+
+	public String getSignInUrl() {
+		return signInUrl;
+	}
+
+	public void setSignInUrl(String signInUrl) {
+		this.signInUrl = signInUrl;
 	}
 
 	public String getSignUpUrl() {

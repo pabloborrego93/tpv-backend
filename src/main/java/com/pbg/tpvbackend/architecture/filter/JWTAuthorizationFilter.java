@@ -36,9 +36,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
 		String header = req.getHeader(AppConstants.getHEADER_STRING());
-
 		if (StringUtils.isNullOrEmpty(header) || !header.startsWith(AppConstants.getTOKEN_PREFIX())) {
-			onUnsuccessfulAuthentication(req, res, new InvalidJWTException(AppConstants.getERR_JWT_EMPTY()));
+			chain.doFilter(req, res);
 			return;
 		}
 

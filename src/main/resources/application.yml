@@ -25,6 +25,7 @@ server:
       context-path: '/tpvBackend'
 application:
    signUpUrl: '/api/user'
+   signInUrl: '/auth/login'
    pagination:
       minElementsPerPage: 1
       maxElementsPerPage: 100

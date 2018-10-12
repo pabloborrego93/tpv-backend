@@ -15,6 +15,7 @@ import com.pbg.tpvbackend.dao.security.UserDao;
 import com.pbg.tpvbackend.dto.user.UserBasicInfoDto;
 import com.pbg.tpvbackend.dto.user.UserExtendedInfoDto;
 import com.pbg.tpvbackend.dto.user.UserPostDto;
+import com.pbg.tpvbackend.dto.user.UserUpdateDto;
 import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.mapper.UserMapper;
@@ -59,6 +60,21 @@ public class UserServiceImpl implements UserService {
 		if(optionalUser.isPresent()) 
 			return Optional.ofNullable(userMapper.asUserExtendedInfoDto(optionalUser.get()));
 		else 
+			throw new UserNotFoundException();
+	}
+
+	@Loggable
+	@Override
+	public Optional<UserExtendedInfoDto> updateUser(@Valid UserUpdateDto userUpdateDto) throws UserNotFoundException {
+		Optional<User> optionalUser = userDao.findByUsername(userDataService.getUsername());
+		if(optionalUser.isPresent()) {
+			User user = optionalUser.get();
+			user.setEmail(userUpdateDto.getEmail());
+			user.setFirstname(userUpdateDto.getFirstname());
+			user.setLastname(userUpdateDto.getLastname());
+			user = userDao.save(user);
+			return Optional.ofNullable(userMapper.asUserExtendedInfoDto(user));
+		} else 
 			throw new UserNotFoundException();
 	}
 	
