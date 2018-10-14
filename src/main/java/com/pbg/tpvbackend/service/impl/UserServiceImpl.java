@@ -1,4 +1,4 @@
-package com.pbg.tpvbackend.service;
+package com.pbg.tpvbackend.service.impl;
 
 import java.util.Date;
 import java.util.Optional;
@@ -21,6 +21,7 @@ import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.mapper.UserMapper;
 import com.pbg.tpvbackend.model.security.RoleName;
 import com.pbg.tpvbackend.model.security.User;
+import com.pbg.tpvbackend.service.UserService;
 import com.pbg.tpvbackend.service.security.UserDataService;
 
 import lombok.AllArgsConstructor;
@@ -75,6 +76,16 @@ public class UserServiceImpl implements UserService {
 			user = userDao.save(user);
 			return Optional.ofNullable(userMapper.asUserExtendedInfoDto(user));
 		} else 
+			throw new UserNotFoundException();
+	}
+
+	@Loggable
+	@Override
+	public User findByUsername() throws UserNotFoundException {
+		Optional<User> optionalUser = userDao.findByUsername(userDataService.getUsername());
+		if(optionalUser.isPresent()) {
+			return optionalUser.get();
+		} else
 			throw new UserNotFoundException();
 	}
 	

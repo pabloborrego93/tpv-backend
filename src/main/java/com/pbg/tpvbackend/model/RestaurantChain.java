@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.pbg.tpvbackend.model.security.User;
 
@@ -43,6 +44,10 @@ public class RestaurantChain implements Serializable {
 	@Getter @Setter @NonNull
 	@Column(length = 32, unique = true)
 	private String name;
+	
+	@Getter @Setter
+	@OneToOne
+	private User owner;
 	
 	@Getter @Setter
 	@ManyToMany

@@ -1,5 +1,6 @@
 package com.pbg.tpvbackend.model.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +37,7 @@ public class CustomUserDetails implements UserDetails {
 	@Getter @Setter
 	private List<Restaurant> worksIn;
 	@Getter @Setter
-	private List<Role> roles;
+	private List<RoleName> roles = new ArrayList<RoleName>();
 	
 	public CustomUserDetails(User user) {
 		this.username = user.getUsername();
@@ -45,7 +46,12 @@ public class CustomUserDetails implements UserDetails {
 		this.lastname = user.getLastname();
 		this.email = user.getEmail();
 		this.worksIn = Lists.newArrayList(user.getWorksIn());
-		this.roles = Lists.newArrayList(user.getRoles());
+		this.roles = Lists.newArrayList(
+			user.getRoles()
+				.stream()
+				.map(role -> role.getName())
+				.collect(Collectors.toList())
+		);
 	}
 
 	public CustomUserDetails(Claims claims) {
@@ -54,14 +60,18 @@ public class CustomUserDetails implements UserDetails {
 		this.lastname = claims.get(AppConstants.getJWT_LASTNAME(), String.class);
 		this.email = claims.get(AppConstants.getJWT_EMAIL(), String.class);
 		this.worksIn = claims.get(AppConstants.getJWT_WORKSIN(), List.class);
-		this.roles = claims.get(AppConstants.getJWT_ROLES(), List.class);
+		List<String> rolesStr = claims.get(AppConstants.getJWT_ROLES(), List.class);
+		this.roles = rolesStr
+			.stream()
+			.map(role -> RoleName.valueOf(RoleName.class, role))
+			.collect(Collectors.toList());
 	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.roles
 	        .stream()
-	        .map(role -> new SimpleGrantedAuthority(role.getName().toString()))
+	        .map(role -> new SimpleGrantedAuthority(role.toString()))
 	        .collect(Collectors.toSet());
 	}
 

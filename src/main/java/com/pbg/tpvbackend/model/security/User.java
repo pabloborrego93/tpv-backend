@@ -14,10 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.pbg.tpvbackend.model.Restaurant;
+import com.pbg.tpvbackend.model.RestaurantChain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -75,6 +77,10 @@ public class User implements Serializable {
 	@ManyToMany
 	private Set<Role> roles;
 	
+	@Getter @Setter
+	@OneToOne
+	private RestaurantChain restaurantChain;
+	
 	public User() {
 		super();
 		this.worksIn = new HashSet<Restaurant>();
@@ -93,6 +99,7 @@ public class User implements Serializable {
 		this.lastPasswordResetDate = user.getLastPasswordResetDate();
 		this.worksIn = user.getWorksIn();
 		this.roles = user.getRoles();
+		this.restaurantChain = user.getRestaurantChain();
 	}
 	
 	@Override
