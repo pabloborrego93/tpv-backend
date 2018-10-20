@@ -35,7 +35,7 @@ public class Restaurant implements Serializable {
 	private Integer id;
 	
 	@Getter @Setter @NonNull
-	@Column(length = 32, unique = true)
+	@Column(length = 32, unique = false)
 	private String name;
 	
 	@Getter @Setter @NonNull
@@ -45,11 +45,7 @@ public class Restaurant implements Serializable {
 	@Getter @Setter @NonNull
 	@ManyToOne(optional = false)
 	private RestaurantChain restaurantChain;
-	
-	@Getter @Setter
-	@ManyToMany
-	private List<User> authorizedAdmins = new ArrayList<User>();
-	
+
 	@Getter @Setter
 	@ManyToMany
 	private List<User> workers = new ArrayList<User>();

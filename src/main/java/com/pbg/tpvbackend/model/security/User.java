@@ -78,8 +78,8 @@ public class User implements Serializable {
 	private Set<Role> roles;
 	
 	@Getter @Setter
-	@OneToOne
-	private RestaurantChain restaurantChain;
+	@OneToOne(mappedBy = "owner")
+	private RestaurantChain chain;
 	
 	public User() {
 		super();
@@ -99,7 +99,7 @@ public class User implements Serializable {
 		this.lastPasswordResetDate = user.getLastPasswordResetDate();
 		this.worksIn = user.getWorksIn();
 		this.roles = user.getRoles();
-		this.restaurantChain = user.getRestaurantChain();
+		this.chain = user.getChain();
 	}
 	
 	@Override

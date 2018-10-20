@@ -1,6 +1,6 @@
-package com.pbg.tpvbackend.exception;
+package com.pbg.tpvbackend.exception.user;
 
-public class UserWithoutRestaurantChain extends Exception {
+public class UserAlreadyWithRestaurantChain extends Exception {
 
 	/**
 	 * 
@@ -9,12 +9,12 @@ public class UserWithoutRestaurantChain extends Exception {
 
 	private String message;
 	
-	public UserWithoutRestaurantChain(String message) {
+	public UserAlreadyWithRestaurantChain(String message) {
 		super(message);
 		this.message = message;
 	}
 
-	public UserWithoutRestaurantChain() {
+	public UserAlreadyWithRestaurantChain() {
 		super();
 	}
 

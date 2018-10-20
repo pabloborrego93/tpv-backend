@@ -34,5 +34,7 @@ public class AppConstants {
 	@Getter
 	private static final String ERR_JWT_EMPTY = "JWT token is empty!";
 	@Getter
-	private static final String ERR_USER_WITHOUT_RESTAURANT_CHAIN = "User didnt configurated restaurant chain";
+	private static final String ERR_USER_WITHOUT_RESTAURANT_CHAIN = "User [%s] didnt configurated restaurant chain";
+	@Getter
+	private static final String ERR_USER_WITHOUT_RESTAURANTS = "User [%s] didnt configurated any restaurants";
 }

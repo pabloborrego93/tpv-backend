@@ -9,8 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
@@ -42,17 +41,13 @@ public class RestaurantChain implements Serializable {
 	private Integer id;
 	
 	@Getter @Setter @NonNull
-	@Column(length = 32, unique = true)
+	@Column(length = 16, unique = true)
 	private String name;
 	
 	@Getter @Setter
 	@OneToOne
+	@JoinColumn(name = "owner_id")
 	private User owner;
-	
-	@Getter @Setter
-	@ManyToMany
-	@JoinTable(name = "restaurant_chain_authorized_admins")
-	private List<User> chainAuthorizedAdmins = new ArrayList<User>();
 	
 	@Getter @Setter
 	@OneToMany(mappedBy = "restaurantChain")

@@ -15,4 +15,7 @@ public interface RestaurantChainDao extends PagingAndSortingRepository<Restauran
 	@EntityGraph(value = "graph.RestaurantChain.restaurants")
 	Page<RestaurantChain> findByNameStartsWithIgnoreCase(@Param(value = "name") String name, Pageable pageable);
 	
+	@EntityGraph(value = "graph.RestaurantChain.restaurants")
+	RestaurantChain findByNameStartsWithIgnoreCase(@Param(value = "name") String name);
+	
 }

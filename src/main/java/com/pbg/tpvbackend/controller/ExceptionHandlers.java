@@ -14,6 +14,9 @@ import com.pbg.tpvbackend.exception.BadRequestException;
 import com.pbg.tpvbackend.exception.InvalidJWTException;
 import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
+import com.pbg.tpvbackend.exception.chain.ChainAlreadyExists;
+import com.pbg.tpvbackend.exception.restaurant.RestaurantAlreadyExists;
+import com.pbg.tpvbackend.exception.user.UserAlreadyWithRestaurantChain;
 
 @ControllerAdvice
 public class ExceptionHandlers extends BaseExceptionHandler {
@@ -70,8 +73,11 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 		 */
 		registerMapping(
 			Lists.newArrayList(
-				UserAlreadyExistsException.class
-			),  HttpStatus.CONFLICT, "USER_ALREADY_EXISTS"
+				UserAlreadyExistsException.class,
+				UserAlreadyWithRestaurantChain.class,
+				ChainAlreadyExists.class,
+				RestaurantAlreadyExists.class
+			),  HttpStatus.CONFLICT, "DATA_ALREADY_EXISTS"
 		);
 	
     }
