@@ -9,6 +9,7 @@ import com.pbg.tpvbackend.dto.restaurant.RestaurantDto;
 import com.pbg.tpvbackend.dto.restaurant.RestaurantPostDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantAlreadyExists;
+import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
 import com.pbg.tpvbackend.mapper.RestaurantMapper;
 import com.pbg.tpvbackend.model.Restaurant;
@@ -45,6 +46,23 @@ public class RestaurantServiceImpl implements RestaurantService {
 		chain.getRestaurants().add(newRestaurant);
 		restaurantChainService.update(chain);
 		return restaurantMapper.asRestaurantDto(newRestaurant);
+	}
+
+	@Override
+	public RestaurantDto findOne(String name) throws UserNotFoundException, UserWithoutRestaurantChain, RestaurantNotFoundException {
+		RestaurantChain chain = restaurantChainService.findChainByUser();
+		
+		Optional<Restaurant> restaurant = chain
+			.getRestaurants()
+			.stream()
+			.filter(rest -> rest.getName().toUpperCase().equals(name.toUpperCase()))
+			.findFirst();
+		
+		if(!restaurant.isPresent()) {
+			throw new RestaurantNotFoundException(name);
+		}
+		
+		return restaurantMapper.asRestaurantDto(restaurant.get());
 	}
 
 }
