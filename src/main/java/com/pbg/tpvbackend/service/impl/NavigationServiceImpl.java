@@ -13,6 +13,7 @@ import com.pbg.tpvbackend.dto.navigation.NavigationDto;
 import com.pbg.tpvbackend.dto.navigation.NavigationType;
 import com.pbg.tpvbackend.dto.restaurant.RestaurantDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
+import com.pbg.tpvbackend.exception.chain.ChainWithoutProductFamiliesException;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurants;
 import com.pbg.tpvbackend.model.RestaurantChain;
@@ -52,16 +53,30 @@ public class NavigationServiceImpl implements NavigationService {
 		navigationList.add(homeDto);
 		
 		if(userDataService.hasRole(RoleName.ROLE_RESTAURANT_CHAIN_ADMIN)) {
+			// Has CHAIN_ADMIN role
 			try {
+				// 1: Adding chain to navigation
 				navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_ADMIN());
 				try {
+					// 1.1: Adding restaurants to navigation
 					navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_ADMIN_RESTAURANTS());
 				} catch(UserWithoutRestaurants e) {
+					// Catch 1.1: Dont have restaurants configured
 					String errorMsg = String.format(AppConstants.getERR_USER_WITHOUT_RESTAURANTS(), userDataService.getUsername());
 					logger.error(errorMsg);
 					navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_ADMIN_RESTAURANTS_NOT_CREATED());
 				}
+				try {
+					// 1.2: Adding product families to navigation
+					navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_PRODUCT_FAMILIES());
+				} catch(ChainWithoutProductFamiliesException e) {
+					// Catch 1.2: Dont have product families configured
+					String errorMsg = String.format(AppConstants.getERR_USER_WITHOUT_PRODUCT_FAMILIES(), userDataService.getUsername());
+					logger.error(errorMsg);
+					navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_PRODUCT_FAMILIES_NOT_CREATED());
+				}
 			} catch(UserWithoutRestaurantChain e) {
+				// Catch 1: Dont have chain configured
 				String errorMsg = String.format(AppConstants.getERR_USER_WITHOUT_RESTAURANT_CHAIN(), userDataService.getUsername());
 				logger.error(errorMsg);
 				navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_ADMIN_NOT_CREATED());
@@ -132,7 +147,7 @@ public class NavigationServiceImpl implements NavigationService {
 		NavigationDto navigationDto = NavigationDto
 			.builder()
 			.id("restaurant-create")
-			.title("Mis Restaurantes")
+			.title("Restaurantes")
 			.type(NavigationType.COLLAPSE.getValue())
 			.icon("announcement")
 			.badge(
@@ -154,7 +169,7 @@ public class NavigationServiceImpl implements NavigationService {
 		return NavigationDto
 				.builder()
 				.id("restaurant-create")
-				.title("Mis Restaurantes")
+				.title("Restaurantes")
 				.type(NavigationType.ITEM.getValue())
 				.icon("announcement")
 				.badge(
@@ -168,8 +183,51 @@ public class NavigationServiceImpl implements NavigationService {
 	}
 
 	@Override
-	public NavigationDto getNavigation_ROLE_RESTAURANT_ADMIN() {
-		// TODO Auto-generated method stub
+	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_PRODUCT_FAMILIES() throws UserNotFoundException, ChainWithoutProductFamiliesException {
+		User user = userService.findByUsername();
+		RestaurantChain restaurantChain = user.getChain();
+		if(restaurantChain.getFamilies().isEmpty()) {
+			throw new ChainWithoutProductFamiliesException();
+		}
+		Integer amountOfFamilies = restaurantChain.getFamilies().size();
+		return NavigationDto
+				.builder()
+				.id("productfamily-create")
+				.title("Familia Productos")
+				.type(NavigationType.ITEM.getValue())
+				.icon("announcement")
+				.badge(
+					BadgeDto
+					.builder()
+					.fg("red")
+					.bg("white")
+					.title(amountOfFamilies.toString())
+					.build()
+				).url("/admin/product-families")
+				.build();
+	}
+	
+	@Override
+	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_PRODUCT_FAMILIES_NOT_CREATED()
+			throws UserNotFoundException {
+		return NavigationDto
+				.builder()
+				.id("productfamily-create")
+				.title("Familia Productos")
+				.type(NavigationType.ITEM.getValue())
+				.icon("announcement")
+				.badge(
+					BadgeDto
+					.builder()
+					.fg("red")
+					.title("¡Nuevo!")
+					.build()
+				).url("/admin/product-families")
+				.build();
+	}
+	
+	@Override
+	public NavigationDto getNavigation_ROLE_RESTAURANT_ADMIN() throws UserNotFoundException {
 		return null;
 	}
 	

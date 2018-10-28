@@ -41,7 +41,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 			throw new RestaurantAlreadyExists(restaurant.get().getName());
 		}
 		Restaurant newRestaurant = restaurantMapper.restaurantPostDtoAsRestaurant(restaurantPostDto);
-		newRestaurant.setRestaurantChain(chain);
+		newRestaurant.setChainRestaurant(chain);
 		newRestaurant = restaurantDao.save(newRestaurant);
 		chain.getRestaurants().add(newRestaurant);
 		restaurantChainService.update(chain);

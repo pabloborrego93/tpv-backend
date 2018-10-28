@@ -2,8 +2,6 @@ package com.pbg.tpvbackend.service.impl;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.pbg.tpvbackend.dao.RestaurantChainDao;
@@ -37,8 +35,8 @@ public class RestaurantChainServiceImpl implements RestaurantChainService {
 		if(chain.isPresent()) {
 			throw new UserAlreadyWithRestaurantChain();
 		} else {
-			RestaurantChain chainCheck = restaurantChainDao.findByNameStartsWithIgnoreCase(restaurantChainPostDto.getName());
-			if(chainCheck != null) {
+			Optional<RestaurantChain> chainCheck = restaurantChainDao.findByNameStartsWithIgnoreCaseAndOwner(restaurantChainPostDto.getName(), userService.findByUsername());
+			if(chainCheck.isPresent()) {
 				throw new ChainAlreadyExists(restaurantChainPostDto.getName());
 			}
 			User user = userService.findByUsername();
@@ -48,12 +46,6 @@ public class RestaurantChainServiceImpl implements RestaurantChainService {
 			newChain = restaurantChainDao.save(newChain);
 			return restaurantChainMapper.asRestaurantChainDto(newChain);
 		}
-	}
-
-	@Override
-	public Page<RestaurantChainDto> findByName(String name, Integer page, Integer max) {
-		Page<RestaurantChain> resultsPage = restaurantChainDao.findByNameStartsWithIgnoreCase(name, PageRequest.of(page, max));
-		return resultsPage.map(restChain -> restaurantChainMapper.asRestaurantChainDto(restChain));
 	}
 
 	@Override

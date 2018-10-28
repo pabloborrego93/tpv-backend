@@ -37,4 +37,6 @@ public class AppConstants {
 	private static final String ERR_USER_WITHOUT_RESTAURANT_CHAIN = "User [%s] didnt configurated restaurant chain";
 	@Getter
 	private static final String ERR_USER_WITHOUT_RESTAURANTS = "User [%s] didnt configurated any restaurants";
+	@Getter
+	private static final String ERR_USER_WITHOUT_PRODUCT_FAMILIES = "User [%s] didnt configurated any product family";
 }

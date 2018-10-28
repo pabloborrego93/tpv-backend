@@ -1,10 +1,12 @@
 package com.pbg.tpvbackend.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
@@ -15,6 +17,7 @@ import com.pbg.tpvbackend.exception.InvalidJWTException;
 import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.chain.ChainAlreadyExists;
+import com.pbg.tpvbackend.exception.productFamily.ProductFamilyAlreadyExists;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantAlreadyExists;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
 import com.pbg.tpvbackend.exception.user.UserAlreadyWithRestaurantChain;
@@ -31,7 +34,9 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 			Lists.newArrayList(
 				BadRequestException.class, 
 				IllegalArgumentException.class, 
-				MethodArgumentTypeMismatchException.class
+				MethodArgumentTypeMismatchException.class,
+				HttpMessageNotReadableException.class,
+				MissingServletRequestParameterException.class
 			), HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.name()
 		);
 		
@@ -78,7 +83,8 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 				UserAlreadyExistsException.class,
 				UserAlreadyWithRestaurantChain.class,
 				ChainAlreadyExists.class,
-				RestaurantAlreadyExists.class
+				RestaurantAlreadyExists.class,
+				ProductFamilyAlreadyExists.class
 			),  HttpStatus.CONFLICT, "DATA_ALREADY_EXISTS"
 		);
 	

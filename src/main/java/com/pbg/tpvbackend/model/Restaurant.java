@@ -44,7 +44,7 @@ public class Restaurant implements Serializable {
 	
 	@Getter @Setter @NonNull
 	@ManyToOne(optional = false)
-	private RestaurantChain restaurantChain;
+	private RestaurantChain chainRestaurant;
 
 	@Getter @Setter
 	@ManyToMany
