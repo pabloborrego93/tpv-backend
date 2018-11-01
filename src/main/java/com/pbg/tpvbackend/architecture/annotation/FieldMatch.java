@@ -19,11 +19,12 @@ import com.pbg.tpvbackend.architecture.validator.FieldMatchValidator;
 @Documented
 public @interface FieldMatch {
 
-	String message() default "The fields must match";
+	String message() default "";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
     String first();
     String second();
+    boolean mustMatch();
 
     @Target({TYPE, ANNOTATION_TYPE})
     @Retention(RUNTIME)

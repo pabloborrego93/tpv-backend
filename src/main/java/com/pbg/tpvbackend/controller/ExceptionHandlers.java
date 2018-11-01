@@ -18,6 +18,7 @@ import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.chain.ChainAlreadyExists;
 import com.pbg.tpvbackend.exception.productFamily.ProductFamilyAlreadyExists;
+import com.pbg.tpvbackend.exception.productFamily.ProductFamilyNotExists;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantAlreadyExists;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
 import com.pbg.tpvbackend.exception.user.UserAlreadyWithRestaurantChain;
@@ -66,7 +67,8 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 		registerMapping(
 			Lists.newArrayList(
 				UserNotFoundException.class,
-				RestaurantNotFoundException.class
+				RestaurantNotFoundException.class,
+				ProductFamilyNotExists.class
 			),  HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.name()
 		);
 		

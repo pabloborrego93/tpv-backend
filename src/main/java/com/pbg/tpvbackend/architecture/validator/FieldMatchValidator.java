@@ -11,6 +11,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
 
     private String firstFieldName;
     private String secondFieldName;
+    private boolean mustMatch;
     private String message;
 
     @Override
@@ -18,6 +19,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
         firstFieldName = constraintAnnotation.first();
         secondFieldName = constraintAnnotation.second();
         message = constraintAnnotation.message();
+        mustMatch = constraintAnnotation.mustMatch();
     }
 
     @Override
@@ -41,7 +43,10 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
                     .addConstraintViolation()
                     .disableDefaultConstraintViolation();
         }
-
-        return valid;
+        
+        if(mustMatch)
+        	return valid;
+        else
+        	return !valid;
     }
 }

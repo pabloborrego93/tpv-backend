@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Builder
-@FieldMatch(first = "password", second = "confirmPassword", message = "The password fields must match")
+@FieldMatch(first = "password", second = "confirmPassword", message = "The password fields must match", mustMatch = true)
 public class UserPostDto {
 
 	@Getter @Setter
