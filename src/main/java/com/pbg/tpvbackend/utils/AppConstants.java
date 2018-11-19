@@ -41,4 +41,8 @@ public class AppConstants {
 	private static final String ERR_USER_WITHOUT_PRODUCT_FAMILIES = "User [%s] didnt configurated any product family";
 	@Getter
 	private static final String ERR_USER_WITHOUT_PRODUCTS = "User [%s] didnt configurated any product";
+	@Getter
+	private static final String ERR_PRODUCT_FAMILY_NOT_FOUND = "User [%s] hasnt got product family [%s]";
+	@Getter
+	private static final String ERR_INVALID_PRODUCT_TYPE = "ProductType [%s] doesnt exists";
 }

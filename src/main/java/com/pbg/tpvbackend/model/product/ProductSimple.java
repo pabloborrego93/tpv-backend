@@ -6,7 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("Simple")
+@DiscriminatorValue(ProductType.Values.SIMPLE)
 public class ProductSimple extends Product implements Serializable {
 
 	/**

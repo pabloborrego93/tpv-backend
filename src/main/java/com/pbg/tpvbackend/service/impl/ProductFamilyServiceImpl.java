@@ -1,10 +1,13 @@
 package com.pbg.tpvbackend.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,7 @@ import com.pbg.tpvbackend.service.ProductFamilyService;
 import com.pbg.tpvbackend.service.RestaurantChainService;
 import com.pbg.tpvbackend.service.UserService;
 import com.pbg.tpvbackend.service.security.UserDataService;
+import com.pbg.tpvbackend.utils.AppConstants;
 
 import lombok.AllArgsConstructor;
 
@@ -34,6 +38,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ProductFamilyServiceImpl implements ProductFamilyService {
 
+	private static final Logger logger = LogManager.getLogger(ProductFamilyServiceImpl.class);
+	
 	ProductFamilyDao pfDao;
 	RestaurantChainService restaurantChainService;
 	UserDataService userDataService;
@@ -124,6 +130,51 @@ public class ProductFamilyServiceImpl implements ProductFamilyService {
 		RestaurantChain chain = restaurantChainService.findChainByUser();
 		Page<ProductFamily> resultsPage = pfDao.findByNameStartsWithIgnoreCaseAndChainProductFamily(name, chain, PageRequest.of(page, max));
 		return resultsPage.map(pF -> productFamilyMapper.asProductFamilyDto(pF));
+	}
+
+	@Override
+	public ProductFamily findOne(ProductFamilyDto productFamilyDto) throws UserNotFoundException, UserWithoutRestaurantChain, ProductFamilyNotExists {
+		Optional<ProductFamily> optionalProductFamily = pfDao.findByNameAndChainProductFamily(
+			productFamilyDto.getName(), 
+			restaurantChainService.findChainByUser()
+		);
+		if(!optionalProductFamily.isPresent()) {
+			throw new ProductFamilyNotExists();
+		} else {
+			return optionalProductFamily.get();
+		}
+	}
+
+	@Override
+	public List<ProductFamily> findAll(List<ProductFamilyDto> productFamiliesDto) {
+		List<ProductFamily> productFamilies = new ArrayList<ProductFamily>();
+		for(ProductFamilyDto productFamilyDto: productFamiliesDto) {
+			try {
+				ProductFamily productFamily = this.findOne(productFamilyDto);
+				productFamilies.add(productFamily);
+			} catch(Exception e) {
+				String message = String.format(
+					AppConstants.getERR_PRODUCT_FAMILY_NOT_FOUND(), 
+					userDataService.getUsername(), 
+					productFamilyDto.getName());
+				logger.error(message);
+			}
+		}
+		return productFamilies;
+	}
+
+	@Override
+	public ProductFamilyDto toDto(ProductFamily productFamily) {
+		return productFamilyMapper.asProductFamilyDto(productFamily);
+	}
+
+	@Override
+	public List<ProductFamilyDto> listToDto(List<ProductFamily> productFamilies) {
+		List<ProductFamilyDto> productFamiliesDto = new ArrayList<ProductFamilyDto>();
+		for(ProductFamily productFamily: productFamilies) {
+			productFamiliesDto.add(this.toDto(productFamily));
+		}
+		return productFamiliesDto;
 	}
 	
 }

@@ -18,7 +18,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@DiscriminatorValue("Composite")
+@DiscriminatorValue(ProductType.Values.COMPOSITE)
 @NoArgsConstructor
 @ToString
 public class ProductComposite extends Product implements Serializable {

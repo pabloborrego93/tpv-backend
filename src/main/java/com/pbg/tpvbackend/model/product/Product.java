@@ -29,7 +29,7 @@ import lombok.ToString;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "ProductType")
+@DiscriminatorColumn(name = "PRODUCT_TYPE")
 @NoArgsConstructor
 @ToString
 public class Product implements Serializable {
@@ -45,11 +45,11 @@ public class Product implements Serializable {
 	@Column(length = 32)
 	@Getter @Setter private String name;
 	
-	@Getter @Setter private Double price;
-	
 	@Lob
 	@Basic(fetch=FetchType.LAZY)
-	@Getter @Setter private byte[] image;
+	@Getter @Setter private String image;
+	
+	@Getter @Setter private Boolean catalogable;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@Getter @Setter private Set<ProductFamily> families = new HashSet<ProductFamily>();
