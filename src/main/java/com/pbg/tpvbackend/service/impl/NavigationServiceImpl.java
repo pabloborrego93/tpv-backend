@@ -25,6 +25,7 @@ import com.pbg.tpvbackend.service.RestaurantChainService;
 import com.pbg.tpvbackend.service.UserService;
 import com.pbg.tpvbackend.service.security.UserDataService;
 import com.pbg.tpvbackend.utils.AppConstants;
+import com.pbg.tpvbackend.utils.NavigationUtils;
 
 import lombok.AllArgsConstructor;
 
@@ -163,8 +164,8 @@ public class NavigationServiceImpl implements NavigationService {
 			.badge(
 				BadgeDto
 				.builder()
-				.fg("black")
-				.bg("orange")
+				.fg(NavigationUtils.fg())
+				.bg(NavigationUtils.bg())
 				.title(amountOfRestaurants.toString())
 				.build()
 			).url("/admin/chain")
@@ -208,8 +209,8 @@ public class NavigationServiceImpl implements NavigationService {
 				.badge(
 					BadgeDto
 					.builder()
-					.fg("red")
-					.bg("white")
+					.fg(NavigationUtils.fg())
+					.bg(NavigationUtils.bg())
 					.title(amountOfFamilies.toString())
 					.build()
 				).url("/admin/product-families")
@@ -251,7 +252,8 @@ public class NavigationServiceImpl implements NavigationService {
 				.badge(
 					BadgeDto
 					.builder()
-					.fg("red")
+					.fg(NavigationUtils.fg())
+					.bg(NavigationUtils.bg())
 					.title(amountOfProducts.toString())
 					.build()
 				).url("/admin/products")

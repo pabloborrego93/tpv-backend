@@ -9,6 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -48,6 +50,10 @@ public class Product implements Serializable {
 	@Lob
 	@Basic(fetch=FetchType.LAZY)
 	@Getter @Setter private String image;
+	
+	@Column(name="product_type", insertable = false, updatable = false)
+	@Enumerated(EnumType.STRING)
+	@Getter @Setter private ProductType productType;
 	
 	@Getter @Setter private Boolean catalogable;
 	
