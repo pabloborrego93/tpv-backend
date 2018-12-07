@@ -20,12 +20,15 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductPostDto implements Serializable {
+public class ProductUpdateDto implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7272442327746147889L;
+	private static final long serialVersionUID = -3706656970172613766L;
+
+	@NotNull(message = "Name can not be null")
+	@Getter @Setter private Integer id;
 	
 	@NotNull(message = "Name can not be null")
     @NotBlank(message = "Name can not be blank")

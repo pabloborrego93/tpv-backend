@@ -45,4 +45,10 @@ public class AppConstants {
 	private static final String ERR_PRODUCT_FAMILY_NOT_FOUND = "User [%s] hasnt got product family [%s]";
 	@Getter
 	private static final String ERR_INVALID_PRODUCT_TYPE = "ProductType [%s] doesnt exists";
+	@Getter
+	private static final String ERR_PRODUCT_NOT_FOUND = "Product [%s] doesnt exists";
+	@Getter
+	private static final String PRODUCT_NOT_FOUND = "Product [%s] doesnt exists, lets create";
+	@Getter
+	private static final String PRODUCT_ALREADY_EXISTS = "Product [%s] already exists";
 }

@@ -8,12 +8,10 @@ import com.pbg.tpvbackend.dto.productFamily.ProductFamilyDto;
 import com.pbg.tpvbackend.model.product.ProductType;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDto implements Serializable {
@@ -23,6 +21,8 @@ public class ProductDto implements Serializable {
 	 */
 	private static final long serialVersionUID = -9030086020137676707L;
 
+	@Getter @Setter private Integer id;
+	
 	@Getter @Setter private String name;
 	
 	@Getter @Setter private String image;
@@ -31,7 +31,9 @@ public class ProductDto implements Serializable {
 	
 	@Getter @Setter private ProductType productType;
 	
-	@Builder.Default
+	@Getter @Setter private Set<ProductNameDto> products = new HashSet<ProductNameDto>();
+	
 	@Getter @Setter private Set<ProductFamilyDto> families = new HashSet<ProductFamilyDto>();
+	
 	
 }

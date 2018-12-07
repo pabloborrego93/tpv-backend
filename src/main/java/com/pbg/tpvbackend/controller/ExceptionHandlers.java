@@ -17,6 +17,7 @@ import com.pbg.tpvbackend.exception.InvalidJWTException;
 import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.chain.ChainAlreadyExists;
+import com.pbg.tpvbackend.exception.product.ProductAlreadyExistsException;
 import com.pbg.tpvbackend.exception.productFamily.ProductFamilyAlreadyExists;
 import com.pbg.tpvbackend.exception.productFamily.ProductFamilyNotExists;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantAlreadyExists;
@@ -86,7 +87,8 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 				UserAlreadyWithRestaurantChain.class,
 				ChainAlreadyExists.class,
 				RestaurantAlreadyExists.class,
-				ProductFamilyAlreadyExists.class
+				ProductFamilyAlreadyExists.class,
+				ProductAlreadyExistsException.class
 			),  HttpStatus.CONFLICT, "DATA_ALREADY_EXISTS"
 		);
 	
