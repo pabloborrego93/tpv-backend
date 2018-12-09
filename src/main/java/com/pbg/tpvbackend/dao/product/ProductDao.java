@@ -23,8 +23,8 @@ public interface ProductDao extends PagingAndSortingRepository<Product, Integer>
 	
 	@Query("SELECT DISTINCT p "
 		 + "FROM Product p "
-		 + "LEFT OUTER JOIN p.families fam "
-		 + "LEFT OUTER JOIN p.products ps "
+		 + "LEFT JOIN p.families fam "
+		 + "LEFT JOIN p.products ps "
 		 + "WHERE ((:name IS NULL) OR (LOWER(p.name) LIKE CONCAT('%',:name,'%'))) "
 		 + "AND ((:productFamilies IS NULL) OR (fam IN (:productFamilies))) "
 		 + "AND p.chainProduct = :restaurantChain")

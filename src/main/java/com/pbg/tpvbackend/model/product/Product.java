@@ -55,6 +55,7 @@ public class Product implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@Getter @Setter private ProductType productType;
 	
+	@Column(nullable = false, columnDefinition = "TINYINT(1)")
 	@Getter @Setter private Boolean catalogable;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)

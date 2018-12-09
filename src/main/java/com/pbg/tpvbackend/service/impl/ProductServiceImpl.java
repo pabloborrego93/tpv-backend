@@ -115,12 +115,21 @@ public class ProductServiceImpl implements ProductService {
 			RestaurantChain chain = user.getChain();
 			Product product = optProduct.get();
 			if (productUpdateDto.getProductType().equals(ProductType.SIMPLE)) {
-				ProductSimple productSimple = productSimpleDao.findOne(productUpdateDto.getId(), chain).get();
-				productSimple = productSimpleMapper.asProductSimple(productUpdateDto);
-				productSimple.setChainProduct(restaurantChainService.findChainByUser());
-				productSimple.setFamilies(Sets.newHashSet(productFamilyService.findAll(productUpdateDto.getProductFamilies())));
-				productSimple = productSimpleDao.save(productSimple);
-				return productMapper.asProductDto(productSimple);
+				if(product.getProductType().equals(ProductType.SIMPLE)) {
+					ProductSimple productSimple = productSimpleDao.findOne(productUpdateDto.getId(), chain).get();
+					productSimple = productSimpleMapper.asProductSimple(productUpdateDto);
+					productSimple.setChainProduct(restaurantChainService.findChainByUser());
+					productSimple.setFamilies(Sets.newHashSet(productFamilyService.findAll(productUpdateDto.getProductFamilies())));
+					productSimple = productSimpleDao.save(productSimple);
+					return productMapper.asProductDto(productSimple);
+				} else {
+					Product productComposite = productCompositeDao.findOne(productUpdateDto.getId(), chain).get();
+					productComposite = productCompositeMapper.asProductComposite(productUpdateDto);
+					productComposite.setChainProduct(restaurantChainService.findChainByUser());
+					productComposite.setFamilies(Sets.newHashSet(productFamilyService.findAll(productUpdateDto.getProductFamilies())));
+					productComposite = productDao.save((ProductSimple) productComposite);
+					return productMapper.asProductDto(productComposite);
+				}
 			} else {
 				if (product.getProductType().equals(ProductType.SIMPLE)) {
 					ProductComposite productComposite = productCompositeDao.findOne(productUpdateDto.getId(), chain)

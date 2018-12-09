@@ -27,7 +27,7 @@ public class ProductDto implements Serializable {
 	
 	@Getter @Setter private String image;
 	
-	@Getter @Setter private String catalogable;
+	@Getter @Setter private Boolean catalogable;
 	
 	@Getter @Setter private ProductType productType;
 	
