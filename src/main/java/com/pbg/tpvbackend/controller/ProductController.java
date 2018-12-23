@@ -2,6 +2,8 @@ package com.pbg.tpvbackend.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +22,7 @@ import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.product.InvalidProductTypeException;
 import com.pbg.tpvbackend.exception.product.ProductAlreadyExistsException;
 import com.pbg.tpvbackend.exception.product.ProductNotFoundException;
+import com.pbg.tpvbackend.exception.product.ProductUpdateException;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
 import com.pbg.tpvbackend.service.ProductService;
 
@@ -41,12 +44,12 @@ public class ProductController {
 	}
 	
 	@PostMapping
-	public ProductDto create(@RequestBody ProductPostDto productPostDto) throws InvalidProductTypeException, UserNotFoundException, UserWithoutRestaurantChain, ProductNotFoundException, ProductAlreadyExistsException {
+	public ProductDto create(@Valid @RequestBody ProductPostDto productPostDto) throws InvalidProductTypeException, UserNotFoundException, UserWithoutRestaurantChain, ProductNotFoundException, ProductAlreadyExistsException {
 		return productService.create(productPostDto);
 	}
 	
 	@PutMapping
-	public ProductDto update(@RequestBody ProductUpdateDto productUpdateDto) throws InvalidProductTypeException, UserNotFoundException, UserWithoutRestaurantChain, ProductNotFoundException, ProductAlreadyExistsException {
+	public ProductDto update(@Valid @RequestBody ProductUpdateDto productUpdateDto) throws InvalidProductTypeException, UserNotFoundException, UserWithoutRestaurantChain, ProductNotFoundException, ProductAlreadyExistsException, ProductUpdateException {
 		return productService.update(productUpdateDto);
 	}
 	

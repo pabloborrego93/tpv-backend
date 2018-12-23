@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -49,5 +50,13 @@ public interface ProductDao extends PagingAndSortingRepository<Product, Integer>
 		 + "WHERE p.chainProduct = :restaurantChain "
 		 + "AND p.id IN (:ids)")
 	List<Product> findMultiple(@Param("ids") List<Integer> ids, @Param("restaurantChain") RestaurantChain restaurantChain);
+	
+	@Modifying(clearAutomatically = true)
+	@Query("UPDATE Product p SET p.productType = 'COMPOSITE' WHERE p.id = :id")
+	void updateToComposite(@Param("id") Integer id);
+	
+	@Modifying(clearAutomatically = true)
+	@Query("UPDATE Product p SET p.productType = 'SIMPLE' WHERE p.id = :id")
+	void updateToSimple(@Param("id") Integer id);
 	
 }

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.pbg.tpvbackend.dto.productFamily.ProductFamilyDto;
+import com.pbg.tpvbackend.model.product.IVA;
 import com.pbg.tpvbackend.model.product.ProductType;
 
 import lombok.AllArgsConstructor;
@@ -24,6 +25,10 @@ public class ProductDto implements Serializable {
 	@Getter @Setter private Integer id;
 	
 	@Getter @Setter private String name;
+	
+	@Getter @Setter private Double price;
+	
+	@Getter @Setter private IVA iva;
 	
 	@Getter @Setter private String image;
 	

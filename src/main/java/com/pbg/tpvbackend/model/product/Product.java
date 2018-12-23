@@ -47,6 +47,12 @@ public class Product implements Serializable {
 	@Column(length = 32, unique = true)
 	@Getter @Setter private String name;
 	
+	@Column(length = 8)
+	@Getter @Setter private Double price;
+	
+	@Enumerated(EnumType.STRING)
+	@Getter @Setter private IVA iva;
+	
 	@Lob
 	@Basic(fetch=FetchType.LAZY)
 	@Getter @Setter private String image;

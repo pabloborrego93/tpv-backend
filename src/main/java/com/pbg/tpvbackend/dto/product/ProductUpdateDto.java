@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.pbg.tpvbackend.dto.productFamily.ProductFamilyDto;
+import com.pbg.tpvbackend.model.product.IVA;
 import com.pbg.tpvbackend.model.product.ProductType;
 
 import lombok.AllArgsConstructor;
@@ -34,6 +35,12 @@ public class ProductUpdateDto implements Serializable {
     @NotBlank(message = "Name can not be blank")
 	@Size(min = 2, max = 16, message = "Name length must be between 2 and 16 chars")
 	@Getter @Setter private String name;
+	
+	@NotNull(message = "Price can not be null")
+	@Getter @Setter private Double price;
+	
+	@NotNull(message = "IVA can not be null")
+	@Getter @Setter private IVA iva;
 	
 	@NotNull(message = "Image can not be null")
     @NotBlank(message = "Image can not be blank")

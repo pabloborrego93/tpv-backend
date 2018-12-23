@@ -51,4 +51,6 @@ public class AppConstants {
 	private static final String PRODUCT_NOT_FOUND = "Product [%s] doesnt exists, lets create";
 	@Getter
 	private static final String PRODUCT_ALREADY_EXISTS = "Product [%s] already exists";
+	@Getter
+	private static final String ERR_PRODUCT_UPDATE = "Cant update product [%s]";
 }

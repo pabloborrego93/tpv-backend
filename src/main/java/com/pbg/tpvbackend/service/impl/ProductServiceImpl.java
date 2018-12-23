@@ -12,6 +12,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import com.google.common.collect.Sets;
@@ -27,6 +30,7 @@ import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.product.InvalidProductTypeException;
 import com.pbg.tpvbackend.exception.product.ProductAlreadyExistsException;
 import com.pbg.tpvbackend.exception.product.ProductNotFoundException;
+import com.pbg.tpvbackend.exception.product.ProductUpdateException;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
 import com.pbg.tpvbackend.mapper.ProductCompositeMapper;
 import com.pbg.tpvbackend.mapper.ProductMapper;
@@ -105,7 +109,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductDto update(@Valid ProductUpdateDto productUpdateDto) throws UserNotFoundException, UserWithoutRestaurantChain, ProductNotFoundException {
+	@Transactional(readOnly = false, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
+	public ProductDto update(@Valid ProductUpdateDto productUpdateDto) throws UserNotFoundException, UserWithoutRestaurantChain, ProductNotFoundException, ProductUpdateException {
 		Optional<Product> optProduct = this.findOne(productUpdateDto.getId());
 		if (!optProduct.isPresent()) {
 			throw new ProductNotFoundException(
@@ -115,7 +120,9 @@ public class ProductServiceImpl implements ProductService {
 			RestaurantChain chain = user.getChain();
 			Product product = optProduct.get();
 			if (productUpdateDto.getProductType().equals(ProductType.SIMPLE)) {
+				// Se quiere actualizar a simple
 				if(product.getProductType().equals(ProductType.SIMPLE)) {
+					// Y el producto en BD es simple
 					ProductSimple productSimple = productSimpleDao.findOne(productUpdateDto.getId(), chain).get();
 					productSimple = productSimpleMapper.asProductSimple(productUpdateDto);
 					productSimple.setChainProduct(restaurantChainService.findChainByUser());
@@ -123,25 +130,39 @@ public class ProductServiceImpl implements ProductService {
 					productSimple = productSimpleDao.save(productSimple);
 					return productMapper.asProductDto(productSimple);
 				} else {
-					Product productComposite = productCompositeDao.findOne(productUpdateDto.getId(), chain).get();
+					// Y el producto en BD es compuesto
+					ProductComposite productComposite = productCompositeDao.findOne(productUpdateDto.getId(), chain).get();
 					productComposite = productCompositeMapper.asProductComposite(productUpdateDto);
 					productComposite.setChainProduct(restaurantChainService.findChainByUser());
 					productComposite.setFamilies(Sets.newHashSet(productFamilyService.findAll(productUpdateDto.getProductFamilies())));
-					productComposite = productDao.save((ProductSimple) productComposite);
-					return productMapper.asProductDto(productComposite);
-				}
-			} else {
-				if (product.getProductType().equals(ProductType.SIMPLE)) {
-					ProductComposite productComposite = productCompositeDao.findOne(productUpdateDto.getId(), chain)
-							.get();
-					productComposite = productCompositeMapper.asProductComposite(productUpdateDto);
-					productComposite.setChainProduct(restaurantChainService.findChainByUser());
-					productComposite.setFamilies(
-							Sets.newHashSet(productFamilyService.findAll(productUpdateDto.getProductFamilies())));
 					productComposite.setProducts(Sets.newHashSet());
 					productComposite = productCompositeDao.save(productComposite);
-					return productCompositeMapper.asProductDto(productComposite);
+					productDao.updateToSimple(productComposite.getId());
+					ProductSimple productSimple = productSimpleDao.findOne(productUpdateDto.getId(), chain).get();
+					return productSimpleMapper.asProductDto(productSimple);
+				}
+			} else {
+				// Se quiere actualizar a compuesto
+				if (product.getProductType().equals(ProductType.SIMPLE)) {
+					// Y el producto en BD es simple
+					ProductSimple productSimple = productSimpleDao.findOne(productUpdateDto.getId(), chain).get();
+					productSimple = productSimpleMapper.asProductSimple(productUpdateDto);
+					productSimple.setChainProduct(restaurantChainService.findChainByUser());
+					productSimple.setFamilies(Sets.newHashSet(productFamilyService.findAll(productUpdateDto.getProductFamilies())));
+					productSimple = productSimpleDao.save(productSimple);
+					productDao.updateToComposite(productSimple.getId());
+					Optional<ProductComposite> productCompositeOpt = productCompositeDao.findById(productSimple.getId());
+					if(productCompositeOpt.isPresent()) {
+						ProductComposite productComposite = productCompositeOpt.get();
+						List<Integer> ids = productUpdateDto.getProducts().stream().map(p -> p.getId())
+								.collect(Collectors.toList());
+						productComposite.setProducts(Sets.newHashSet(this.findAll(ids)));
+						return productCompositeMapper.asProductDto(productComposite);
+					} else {
+						throw new ProductUpdateException(String.format(AppConstants.getERR_PRODUCT_UPDATE(), productSimple.getName()));
+					}
 				} else {
+					// Y el producto en BD es compuesto
 					ProductComposite productComposite = productCompositeDao.findOne(productUpdateDto.getId(), chain)
 							.get();
 					productComposite = productCompositeMapper.asProductComposite(productUpdateDto);
