@@ -3,6 +3,7 @@ package com.pbg.tpvbackend.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pbg.tpvbackend.dto.user.UserBasicInfoDto;
@@ -48,7 +50,7 @@ public class UserController {
 		if(user.isPresent());
 			return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
-	
+
 	@PutMapping
 	public ResponseEntity<?> updateUser(@ApiParam(required = true) @RequestBody(required = true) UserUpdateDto userUpdateDto) throws UserNotFoundException {
 		Optional<UserExtendedInfoDto> user = userService.updateUser(userUpdateDto);
@@ -62,5 +64,12 @@ public class UserController {
 		if(user.isPresent());
 			return ResponseEntity.ok(user);
     }
+	
+	@GetMapping("/search")
+	public Page<UserBasicInfoDto> search(
+		@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, 
+		@RequestParam(value = "max_per_page", required = false, defaultValue = "10") Integer max_per_page) throws UserNotFoundException {
+		return userService.findByChainPaged(page, max_per_page);
+	}
 	
 }

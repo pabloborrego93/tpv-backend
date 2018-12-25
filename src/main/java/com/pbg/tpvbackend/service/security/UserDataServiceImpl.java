@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 import com.pbg.tpvbackend.model.security.CustomUserDetails;
 import com.pbg.tpvbackend.model.security.RoleName;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class UserDataServiceImpl implements UserDataService {
 
 	private CustomUserDetails getAuthentication() {
@@ -41,5 +44,15 @@ public class UserDataServiceImpl implements UserDataService {
 			}
 		return Boolean.FALSE;
 	}
+
+//	@Override
+//	public RestaurantChainDto getRestaurantChainDto() {
+//		return getAuthentication().getRestaurantChainDto();
+//	}
+
+//	@Override
+//	public RestaurantDto getRestaurantDto() {
+//		return getAuthentication().getRestaurantDto();
+//	}
 	
 }

@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedEntityGraphs;
@@ -54,8 +53,10 @@ public class RestaurantChain implements Serializable {
 	@Getter @Setter @NonNull private String name;
 	
 	@OneToOne
-	@JoinColumn(name = "owner")
 	@Getter @Setter private User owner;
+	
+	@OneToMany(mappedBy = "chain")
+	@Getter @Setter private List<User> users;
 	
 	@OneToMany(mappedBy = "chainRestaurant")
 	@Getter @Setter private List<Restaurant> restaurants = new ArrayList<Restaurant>();
@@ -65,10 +66,10 @@ public class RestaurantChain implements Serializable {
 	
 	@OneToMany(mappedBy = "chainProduct")
 	@Getter @Setter private Set<Product> products = new HashSet<Product>();
-	
+
 	@Override
 	public String toString() {
-		return "RestaurantChain name" + name + "]";
+		return "RestaurantChain [id=" + id + ", name=" + name + "]";
 	}
-
+	
 }

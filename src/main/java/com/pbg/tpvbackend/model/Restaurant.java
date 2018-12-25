@@ -11,9 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
-import com.pbg.tpvbackend.model.product.Product;
 import com.pbg.tpvbackend.model.security.User;
 
 import lombok.EqualsAndHashCode;
@@ -49,12 +47,8 @@ public class Restaurant implements Serializable {
 	private RestaurantChain chainRestaurant;
 
 	@Getter @Setter
-	@ManyToMany
+	@ManyToMany(mappedBy = "worksIn")
 	private Set<User> workers = new HashSet<User>();
-	
-	@Getter @Setter
-	@OneToMany
-	private Set<Product> productsMenu = new HashSet<Product>();
 	
 	public Restaurant() {
 		super();

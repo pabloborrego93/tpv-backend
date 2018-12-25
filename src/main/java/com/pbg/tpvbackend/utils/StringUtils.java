@@ -10,4 +10,8 @@ public class StringUtils {
 			throw new IllegalArgumentException();
 	}
 	
+	public static String generateUserPrefix(Integer id, String username) {
+		return String.format("%s-%s", id, username);
+	}
+	
 }

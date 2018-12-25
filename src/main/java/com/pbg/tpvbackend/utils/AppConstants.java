@@ -20,7 +20,9 @@ public class AppConstants {
 	@Getter
 	private static final String JWT_LASTNAME = "lastname";
 	@Getter
-	private static final String JWT_WORKSIN = "worksIn";
+	private static final String JWT_RESTAURANT_DTO = "restaurantDto";
+	@Getter
+	private static final String JWT_RESTAURANT_CHAIN_DTO = "restaurantChainDto";
 	@Getter
 	private static final String JWT_EMAIL = "email";
 	

@@ -10,7 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.google.common.collect.Lists;
-import com.pbg.tpvbackend.model.Restaurant;
+import com.pbg.tpvbackend.dto.restaurant.RestaurantDto;
+import com.pbg.tpvbackend.dto.restaurantChain.RestaurantChainDto;
 import com.pbg.tpvbackend.utils.AppConstants;
 
 import io.jsonwebtoken.Claims;
@@ -28,30 +29,48 @@ public class CustomUserDetails implements UserDetails {
 	private String username;
 	@Setter
 	private String password;
-	@Getter @Setter
+	@Getter
+	@Setter
 	private String firstname;
-	@Getter @Setter
+	@Getter
+	@Setter
 	private String lastname;
-	@Getter @Setter
+	@Getter
+	@Setter
 	private String email;
-	@Getter @Setter
-	private List<Restaurant> worksIn;
-	@Getter @Setter
+	@Getter
+	@Setter
+	private RestaurantChainDto restaurantChainDto;
+	@Getter
+	@Setter
+	private RestaurantDto restaurantDto;
+	@Getter
+	@Setter
 	private List<RoleName> roles = new ArrayList<RoleName>();
-	
+
 	public CustomUserDetails(User user) {
 		this.username = user.getUsername();
 		this.password = user.getPassword();
 		this.firstname = user.getFirstname();
 		this.lastname = user.getLastname();
 		this.email = user.getEmail();
-		this.worksIn = Lists.newArrayList(user.getWorksIn());
-		this.roles = Lists.newArrayList(
-			user.getRoles()
-				.stream()
-				.map(role -> role.getName())
-				.collect(Collectors.toList())
-		);
+
+//		if (user.getWorksIn() != null) {
+//			RestaurantDto restaurantDao = new RestaurantDto();
+//			restaurantDao.setId(user.getWorksIn().getId());
+//			restaurantDao.setName(user.getWorksIn().getName());
+//			this.restaurantDto = restaurantDao;
+//		}
+		
+//		if (user.getChain() != null) {
+//			RestaurantChainDto restaurantChainDto = new RestaurantChainDto();
+//			restaurantChainDto.setId(user.getChain().getId());
+//			restaurantChainDto.setName(user.getChain().getName());
+//			this.restaurantChainDto = restaurantChainDto;
+//		}
+
+		this.roles = Lists
+				.newArrayList(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
 	}
 
 	public CustomUserDetails(Claims claims) {
@@ -59,32 +78,27 @@ public class CustomUserDetails implements UserDetails {
 		this.firstname = claims.get(AppConstants.getJWT_FIRSTNAME(), String.class);
 		this.lastname = claims.get(AppConstants.getJWT_LASTNAME(), String.class);
 		this.email = claims.get(AppConstants.getJWT_EMAIL(), String.class);
-		this.worksIn = claims.get(AppConstants.getJWT_WORKSIN(), List.class);
+//		this.restaurantDto = claims.get(AppConstants.getJWT_RESTAURANT_DTO(), RestaurantDto.class);
+//		this.restaurantChainDto = claims.get(AppConstants.getJWT_RESTAURANT_CHAIN_DTO(), RestaurantChainDto.class);
 		List<String> rolesStr = claims.get(AppConstants.getJWT_ROLES(), List.class);
-		this.roles = rolesStr
-			.stream()
-			.map(role -> RoleName.valueOf(RoleName.class, role))
-			.collect(Collectors.toList());
+		this.roles = rolesStr.stream().map(role -> RoleName.valueOf(RoleName.class, role)).collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.roles
-	        .stream()
-	        .map(role -> new SimpleGrantedAuthority(role.toString()))
-	        .collect(Collectors.toSet());
+		return this.roles.stream().map(role -> new SimpleGrantedAuthority(role.toString())).collect(Collectors.toSet());
 	}
 
 	@Override
 	public String getUsername() {
 		return this.username;
 	}
-	
+
 	@Override
 	public String getPassword() {
 		return this.password;
 	}
-	
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -104,7 +118,7 @@ public class CustomUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.format("%s, %s", this.getUsername(), this.getFirstname());

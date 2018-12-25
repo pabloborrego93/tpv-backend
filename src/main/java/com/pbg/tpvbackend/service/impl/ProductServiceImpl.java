@@ -117,7 +117,7 @@ public class ProductServiceImpl implements ProductService {
 					String.format(AppConstants.getERR_PRODUCT_NOT_FOUND(), productUpdateDto.getName()));
 		} else {
 			User user = userService.findByUsername();
-			RestaurantChain chain = user.getChain();
+			RestaurantChain chain = user.getChainOwned();
 			Product product = optProduct.get();
 			if (productUpdateDto.getProductType().equals(ProductType.SIMPLE)) {
 				// Se quiere actualizar a simple
@@ -211,14 +211,14 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductNameDto> findNames() throws UserNotFoundException {
 		User user = userService.findByUsername();
-		RestaurantChain chain = user.getChain();
+		RestaurantChain chain = user.getChainOwned();
 		return productDao.findNames(chain);
 	}
 
 	@Override
 	public Optional<Product> findOne(Integer id) throws UserNotFoundException {
 		User user = userService.findByUsername();
-		RestaurantChain chain = user.getChain();
+		RestaurantChain chain = user.getChainOwned();
 		Optional<Product> optProduct = productDao.findOne(id, chain);
 		if (optProduct.isPresent()) {
 			return optProduct;
@@ -242,7 +242,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Optional<ProductSimple> findOneSimple(Integer id) throws UserNotFoundException {
 		User user = userService.findByUsername();
-		RestaurantChain chain = user.getChain();
+		RestaurantChain chain = user.getChainOwned();
 		Optional<ProductSimple> optProduct = productSimpleDao.findOne(id, chain);
 		if (optProduct.isPresent()) {
 			return optProduct;
@@ -254,7 +254,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Optional<ProductComposite> findOneComposite(Integer id) throws UserNotFoundException {
 		User user = userService.findByUsername();
-		RestaurantChain chain = user.getChain();
+		RestaurantChain chain = user.getChainOwned();
 		Optional<ProductComposite> optProduct = productCompositeDao.findOne(id, chain);
 		if (optProduct.isPresent()) {
 			return optProduct;

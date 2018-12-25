@@ -64,8 +64,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		claims.put(AppConstants.getJWT_LASTNAME(), userDetails.getLastname());
 		// Email
 		claims.put(AppConstants.getJWT_EMAIL(), userDetails.getEmail());
-		// WorksIn
-		claims.put(AppConstants.getJWT_WORKSIN(), userDetails.getWorksIn());
+		// RestaurantDto
+//		claims.put(AppConstants.getJWT_RESTAURANT_DTO(), userDetails.getRestaurantDto());
+		// RestaurantChainDto
+//		claims.put(AppConstants.getJWT_RESTAURANT_CHAIN_DTO(), userDetails.getRestaurantChainDto());
 		
 		String token = Jwts.builder()
 			.setSubject(userDetails.getUsername())

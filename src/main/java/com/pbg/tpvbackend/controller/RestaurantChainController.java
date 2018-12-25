@@ -25,8 +25,11 @@ public class RestaurantChainController {
 	private RestaurantChainService restaurantChainService;
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public RestaurantChainDto create(@RequestBody RestaurantChainPostDto restaurantChainPostDto) throws UserNotFoundException, UserAlreadyWithRestaurantChain, ChainAlreadyExists {
-		return restaurantChainService.create(restaurantChainPostDto);
+	public ResponseEntity<?> create(@RequestBody RestaurantChainPostDto restaurantChainPostDto) throws UserNotFoundException, UserAlreadyWithRestaurantChain, ChainAlreadyExists {
+		RestaurantChainDto chain = restaurantChainService.create(restaurantChainPostDto);
+		return ResponseEntity
+			.ok()
+			.body(chain);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)

@@ -94,9 +94,9 @@ public class NavigationServiceImpl implements NavigationService {
 			}
 			return navigationList;
 		}
-		if(userDataService.hasRole(RoleName.ROLE_RESTAURANT_ADMIN)) {
-			navigationList.add(getNavigation_ROLE_RESTAURANT_ADMIN());
-		}
+//		if(userDataService.hasRole(RoleName.ROLE_RESTAURANT_ADMIN)) {
+//			navigationList.add(getNavigation_ROLE_RESTAURANT_ADMIN());
+//		}
 		
 		return navigationList;
 	}
@@ -104,7 +104,7 @@ public class NavigationServiceImpl implements NavigationService {
 	@Override
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_ADMIN() throws UserNotFoundException, UserWithoutRestaurantChain {
 		User user = userService.findByUsername();
-		RestaurantChain restaurantChain = user.getChain();
+		RestaurantChain restaurantChain = user.getChainOwned();
 		if(restaurantChain != null) {
 			return NavigationDto
 				.builder()
@@ -195,7 +195,7 @@ public class NavigationServiceImpl implements NavigationService {
 	@Override
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_PRODUCT_FAMILIES() throws UserNotFoundException, ChainWithoutProductFamiliesException {
 		User user = userService.findByUsername();
-		RestaurantChain restaurantChain = user.getChain();
+		RestaurantChain restaurantChain = user.getChainOwned();
 		if(restaurantChain.getFamilies().isEmpty()) {
 			throw new ChainWithoutProductFamiliesException();
 		}
@@ -238,7 +238,7 @@ public class NavigationServiceImpl implements NavigationService {
 	@Override
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_PRODUCTS() throws UserNotFoundException, ChainWithoutProductsException {
 		User user = userService.findByUsername();
-		RestaurantChain restaurantChain = user.getChain();
+		RestaurantChain restaurantChain = user.getChainOwned();
 		if(restaurantChain.getProducts().isEmpty()) {
 			throw new ChainWithoutProductsException();
 		}

@@ -16,6 +16,9 @@ public class RestaurantDto implements Serializable {
 	private static final long serialVersionUID = 6968017180624688884L;
 	
 	@Getter @Setter @NonNull
+	private Integer id;
+	
+	@Getter @Setter @NonNull
 	private String name;
 	
 	@Getter @Setter @NonNull
