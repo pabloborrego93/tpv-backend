@@ -66,7 +66,7 @@ public class UserController {
     }
 	
 	@GetMapping("/search")
-	public Page<UserBasicInfoDto> search(
+	public Page<UserExtendedInfoDto> search(
 		@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, 
 		@RequestParam(value = "max_per_page", required = false, defaultValue = "10") Integer max_per_page) throws UserNotFoundException {
 		return userService.findByChainPaged(page, max_per_page);

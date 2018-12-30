@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pbg.tpvbackend.dto.user.RestaurantChainUserPostDto;
+import com.pbg.tpvbackend.dto.user.RestaurantChainUserUpdateDto;
 import com.pbg.tpvbackend.dto.user.UserBasicInfoDto;
 import com.pbg.tpvbackend.exception.UserAlreadyExistsException;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
@@ -46,6 +48,14 @@ public class RestaurantChainUserController {
 		Optional<UserBasicInfoDto> user = userService.registerRestaurantChainUser(restaurantChainUserPostDto);
 		if(user.isPresent());
 			return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+	
+	@PutMapping
+    public ResponseEntity<?> updateUser(
+    	@ApiParam(required = true) @RequestBody(required = true) RestaurantChainUserUpdateDto restaurantChainUserupdateDto) throws UserAlreadyExistsException, UserNotFoundException, UserWithoutRestaurantChain {
+		Optional<UserBasicInfoDto> user = userService.updateRestaurantChainUser(restaurantChainUserupdateDto);
+		if(user.isPresent());
+			return ResponseEntity.ok().body(user);
     }
 	
 }

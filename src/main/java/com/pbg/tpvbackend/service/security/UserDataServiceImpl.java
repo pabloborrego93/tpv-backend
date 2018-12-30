@@ -44,15 +44,5 @@ public class UserDataServiceImpl implements UserDataService {
 			}
 		return Boolean.FALSE;
 	}
-
-//	@Override
-//	public RestaurantChainDto getRestaurantChainDto() {
-//		return getAuthentication().getRestaurantChainDto();
-//	}
-
-//	@Override
-//	public RestaurantDto getRestaurantDto() {
-//		return getAuthentication().getRestaurantDto();
-//	}
 	
 }

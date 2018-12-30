@@ -18,6 +18,6 @@ public interface UserDao extends CrudRepository<User, Integer> {
 	Optional<User> findByUsername(String username);
 
 	@EntityGraph(value = "graph.User.basicInfo")
-	Page<User> findByChain(RestaurantChain chain, Pageable pageable);
+	Page<User> findByChainAndUsernameNot(RestaurantChain chain, String username, Pageable pageable);
 	
 }

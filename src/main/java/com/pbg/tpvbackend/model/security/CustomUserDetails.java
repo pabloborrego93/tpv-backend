@@ -10,8 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.google.common.collect.Lists;
-import com.pbg.tpvbackend.dto.restaurant.RestaurantDto;
-import com.pbg.tpvbackend.dto.restaurantChain.RestaurantChainDto;
 import com.pbg.tpvbackend.utils.AppConstants;
 
 import io.jsonwebtoken.Claims;
@@ -40,12 +38,6 @@ public class CustomUserDetails implements UserDetails {
 	private String email;
 	@Getter
 	@Setter
-	private RestaurantChainDto restaurantChainDto;
-	@Getter
-	@Setter
-	private RestaurantDto restaurantDto;
-	@Getter
-	@Setter
 	private List<RoleName> roles = new ArrayList<RoleName>();
 
 	public CustomUserDetails(User user) {
@@ -54,23 +46,7 @@ public class CustomUserDetails implements UserDetails {
 		this.firstname = user.getFirstname();
 		this.lastname = user.getLastname();
 		this.email = user.getEmail();
-
-//		if (user.getWorksIn() != null) {
-//			RestaurantDto restaurantDao = new RestaurantDto();
-//			restaurantDao.setId(user.getWorksIn().getId());
-//			restaurantDao.setName(user.getWorksIn().getName());
-//			this.restaurantDto = restaurantDao;
-//		}
-		
-//		if (user.getChain() != null) {
-//			RestaurantChainDto restaurantChainDto = new RestaurantChainDto();
-//			restaurantChainDto.setId(user.getChain().getId());
-//			restaurantChainDto.setName(user.getChain().getName());
-//			this.restaurantChainDto = restaurantChainDto;
-//		}
-
-		this.roles = Lists
-				.newArrayList(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
+		this.roles = Lists.newArrayList(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
 	}
 
 	public CustomUserDetails(Claims claims) {
@@ -78,8 +54,6 @@ public class CustomUserDetails implements UserDetails {
 		this.firstname = claims.get(AppConstants.getJWT_FIRSTNAME(), String.class);
 		this.lastname = claims.get(AppConstants.getJWT_LASTNAME(), String.class);
 		this.email = claims.get(AppConstants.getJWT_EMAIL(), String.class);
-//		this.restaurantDto = claims.get(AppConstants.getJWT_RESTAURANT_DTO(), RestaurantDto.class);
-//		this.restaurantChainDto = claims.get(AppConstants.getJWT_RESTAURANT_CHAIN_DTO(), RestaurantChainDto.class);
 		List<String> rolesStr = claims.get(AppConstants.getJWT_ROLES(), List.class);
 		this.roles = rolesStr.stream().map(role -> RoleName.valueOf(RoleName.class, role)).collect(Collectors.toList());
 	}

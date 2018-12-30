@@ -183,7 +183,7 @@ public class ProductServiceImpl implements ProductService {
 	public Page<ProductDto> searchByNameAndProductFamilies(ProductFilterDto productFilterDto, Integer page,
 			Integer max_per_page) throws UserNotFoundException {
 		User user = userService.findByUsername();
-		RestaurantChain chain = user.getChain();
+		RestaurantChain chain = user.getChainOwned();
 		List<ProductFamily> productFamilies = productFamilyService.findAll(productFilterDto.getFamilies());
 		if (productFamilies.isEmpty()) {
 			productFamilies = null;

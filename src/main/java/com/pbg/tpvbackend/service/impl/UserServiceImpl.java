@@ -17,6 +17,7 @@ import com.pbg.tpvbackend.architecture.annotation.Loggable;
 import com.pbg.tpvbackend.dao.security.RoleDao;
 import com.pbg.tpvbackend.dao.security.UserDao;
 import com.pbg.tpvbackend.dto.user.RestaurantChainUserPostDto;
+import com.pbg.tpvbackend.dto.user.RestaurantChainUserUpdateDto;
 import com.pbg.tpvbackend.dto.user.UserBasicInfoDto;
 import com.pbg.tpvbackend.dto.user.UserExtendedInfoDto;
 import com.pbg.tpvbackend.dto.user.UserPostDto;
@@ -111,7 +112,6 @@ public class UserServiceImpl implements UserService {
 		else {
 			User user = userMapper.asEntity(restaurantChainUserPostDto);
 			user.setUsername(userPrefix);
-			user.setChain(chain);
 			user.setEnabled(Boolean.TRUE);
 			user.setPassword(bcrypt.encode(restaurantChainUserPostDto.getPassword()));
 			user.setLastPasswordResetDate(new Date());
@@ -124,20 +124,25 @@ public class UserServiceImpl implements UserService {
 			return Optional.of(userMapper.asUserBasicInfoDto(user));
 		}
 	}
+	
+	@Override
+	public Optional<UserBasicInfoDto> updateRestaurantChainUser(RestaurantChainUserUpdateDto restaurantChainUserupdateDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
-	public Page<UserBasicInfoDto> findByChainPaged(Integer page, Integer max_per_page) throws UserNotFoundException {
+	public Page<UserExtendedInfoDto> findByChainPaged(Integer page, Integer max_per_page) throws UserNotFoundException {
 		User user = this.findByUsername();
-		RestaurantChain chain = user.getChain();
-		Page<User> users = userDao.findByChain(chain, PageRequest.of(page, max_per_page));
-		return users.map((u) -> userMapper.asUserBasicInfoDto(u));
+		RestaurantChain chain = user.getChainOwned();
+		Page<User> users = userDao.findByChainAndUsernameNot(chain, user.getUsername(), PageRequest.of(page, max_per_page));
+		return users.map((u) -> userMapper.asUserExtendedInfoDto(u));
 	}
 
 	@Override
 	public User save(User user) {
 		return userDao.save(user);
 	}
-	
 	
 }
 

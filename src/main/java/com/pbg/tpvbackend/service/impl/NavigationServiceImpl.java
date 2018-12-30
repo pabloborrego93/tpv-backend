@@ -15,6 +15,7 @@ import com.pbg.tpvbackend.dto.restaurant.RestaurantDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.chain.ChainWithoutProductFamiliesException;
 import com.pbg.tpvbackend.exception.chain.ChainWithoutProductsException;
+import com.pbg.tpvbackend.exception.chain.ChainWithoutUsersException;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurants;
 import com.pbg.tpvbackend.model.RestaurantChain;
@@ -85,6 +86,15 @@ public class NavigationServiceImpl implements NavigationService {
 					String errorMsg = String.format(AppConstants.getERR_USER_WITHOUT_PRODUCTS(), userDataService.getUsername());
 					logger.error(errorMsg);
 					navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_PRODUCTS_NOT_CREATED());
+				}
+				try {
+					// 1.4: Adding users to navigation
+					navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_USERS());
+				} catch(ChainWithoutUsersException e) {
+					// Catch 1.4: Dont have users configured
+					String errorMsg = String.format(AppConstants.getERR_USER_WITHOUT_USERS(), userDataService.getUsername());
+					logger.error(errorMsg);
+					navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_USERS_NOT_CREATED());
 				}
 			} catch(UserWithoutRestaurantChain e) {
 				// Catch 1: Dont have chain configured
@@ -275,6 +285,50 @@ public class NavigationServiceImpl implements NavigationService {
 					.title("¡Nuevo!")
 					.build()
 				).url("/admin/products")
+				.build();
+	}
+	
+	@Override
+	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_USERS() throws UserNotFoundException, ChainWithoutUsersException {
+		User user = userService.findByUsername();
+		RestaurantChain restaurantChain = user.getChainOwned();
+		if(restaurantChain.getUsers().size() == 1) {
+			throw new ChainWithoutUsersException();
+		}
+		Integer amountOfUsers = restaurantChain.getUsers().size() - 1;
+		return NavigationDto
+				.builder()
+				.id("users")
+				.title("Usuarios")
+				.type(NavigationType.ITEM.getValue())
+				.icon("announcement")
+				.badge(
+					BadgeDto
+					.builder()
+					.fg(NavigationUtils.fg())
+					.bg(NavigationUtils.bg())
+					.title(amountOfUsers.toString())
+					.build()
+				).url("/admin/users")
+				.build();
+		
+	}
+	
+	@Override
+	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_USERS_NOT_CREATED() throws UserNotFoundException {
+		return NavigationDto
+				.builder()
+				.id("users")
+				.title("Usuarios")
+				.type(NavigationType.ITEM.getValue())
+				.icon("announcement")
+				.badge(
+					BadgeDto
+					.builder()
+					.fg("red")
+					.title("¡Nuevo!")
+					.build()
+				).url("/admin/users")
 				.build();
 	}
 	

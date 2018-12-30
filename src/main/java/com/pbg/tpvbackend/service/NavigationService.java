@@ -6,6 +6,7 @@ import com.pbg.tpvbackend.dto.navigation.NavigationDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.chain.ChainWithoutProductFamiliesException;
 import com.pbg.tpvbackend.exception.chain.ChainWithoutProductsException;
+import com.pbg.tpvbackend.exception.chain.ChainWithoutUsersException;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurants;
 
@@ -24,6 +25,8 @@ public interface NavigationService {
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_PRODUCT_FAMILIES_NOT_CREATED();
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_PRODUCTS() throws UserNotFoundException, ChainWithoutProductsException;
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_PRODUCTS_NOT_CREATED();
+	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_USERS() throws UserNotFoundException, ChainWithoutUsersException;
+	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_USERS_NOT_CREATED() throws UserNotFoundException;
 	/*
 	 * FIN ROLE_RESTAURANT_CHAIN_ADMIN
 	 */

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 
 import com.pbg.tpvbackend.dto.user.RestaurantChainUserPostDto;
+import com.pbg.tpvbackend.dto.user.RestaurantChainUserUpdateDto;
 import com.pbg.tpvbackend.dto.user.UserBasicInfoDto;
 import com.pbg.tpvbackend.dto.user.UserExtendedInfoDto;
 import com.pbg.tpvbackend.dto.user.UserPostDto;
@@ -26,6 +27,9 @@ public interface UserService {
 	public User findByUsername() throws UserNotFoundException;
 	
 	public Optional<UserBasicInfoDto> registerRestaurantChainUser(@Valid RestaurantChainUserPostDto restaurantChainUserPostDto) throws UserNotFoundException, UserWithoutRestaurantChain, UserAlreadyExistsException;
-	public Page<UserBasicInfoDto> findByChainPaged(Integer page, Integer max_per_page) throws UserNotFoundException;
+	public Page<UserExtendedInfoDto> findByChainPaged(Integer page, Integer max_per_page) throws UserNotFoundException;
+
+	public Optional<UserBasicInfoDto> updateRestaurantChainUser(
+			RestaurantChainUserUpdateDto restaurantChainUserupdateDto);
 	
 }
