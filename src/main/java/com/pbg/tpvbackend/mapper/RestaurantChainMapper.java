@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import com.pbg.tpvbackend.dto.restaurantChain.RestaurantChainDto;
+import com.pbg.tpvbackend.dto.restaurantChain.RestaurantChainNameDto;
 import com.pbg.tpvbackend.dto.restaurantChain.RestaurantChainPostDto;
 import com.pbg.tpvbackend.model.RestaurantChain;
 
@@ -18,6 +19,7 @@ public interface RestaurantChainMapper {
     })
     public RestaurantChainDto asRestaurantChainDto(RestaurantChain restaurantChain);
     public RestaurantChain asRestaurantChain(RestaurantChainPostDto restaurantChainPostDto);
-
+    public RestaurantChainNameDto asRestaurantChainNameDto(RestaurantChain restaurantChain);
+    
 }
 

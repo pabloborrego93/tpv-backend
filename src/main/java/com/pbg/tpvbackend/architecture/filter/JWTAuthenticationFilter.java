@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -41,7 +42,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
 		try {
 			UserLoginDto creds = new ObjectMapper().readValue(req.getInputStream(), UserLoginDto.class);
-			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(creds.getUsername(), creds.getPassword(), new ArrayList<>());
+			String username = null;
+			if(!StringUtils.isBlank(creds.getChainId())) {
+				username = com.pbg.tpvbackend.utils.StringUtils.generateUserPrefix(Integer.parseInt(creds.getChainId()), creds.getUsername());
+			} else {
+				username = creds.getUsername();
+			}
+			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(username, creds.getPassword(), new ArrayList<>());
 			return getAuthenticationManager().authenticate(auth);
 		} catch (IOException e) {
 			throw new RuntimeException();

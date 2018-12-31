@@ -17,15 +17,19 @@ public class UserLoginDto implements Serializable {
 	
 	@Getter @Setter
 	private String password;
-
+	
+	@Getter @Setter
+	private String chainId;
+	
 	public UserLoginDto() {
 		super();
 	}
 
-	public UserLoginDto(String username, String password) {
+	public UserLoginDto(String username, String password, String chainId) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.chainId = chainId;
 	}
-	
+
 }

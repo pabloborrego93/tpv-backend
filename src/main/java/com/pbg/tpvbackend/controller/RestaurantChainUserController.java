@@ -5,10 +5,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pbg.tpvbackend.dto.user.RestaurantChainUserPostDto;
@@ -56,6 +58,13 @@ public class RestaurantChainUserController {
 		Optional<UserBasicInfoDto> user = userService.updateRestaurantChainUser(restaurantChainUserupdateDto);
 		if(user.isPresent());
 			return ResponseEntity.ok().body(user);
+    }
+	
+	@DeleteMapping
+    public ResponseEntity<?> deleteUser(
+    	@ApiParam(required = true) @RequestParam("id") Integer id) {
+		userService.deleteRestaurantChainUser(id);
+		return ResponseEntity.ok().build();
     }
 	
 }

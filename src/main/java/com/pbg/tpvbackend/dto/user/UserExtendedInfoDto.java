@@ -17,6 +17,9 @@ public class UserExtendedInfoDto implements Serializable {
 	private static final long serialVersionUID = -6833894654168357358L;
 
 	@Getter @Setter
+	private String id;
+	
+	@Getter @Setter
 	private String username;
 	
 	@Getter @Setter
@@ -36,8 +39,10 @@ public class UserExtendedInfoDto implements Serializable {
 		roles = new ArrayList<RoleDto>();
 	}
 
-	public UserExtendedInfoDto(String username, String email, String firstname, String lastname, List<RoleDto> roles) {
+	public UserExtendedInfoDto(String id, String username, String email, String firstname, String lastname,
+			List<RoleDto> roles) {
 		super();
+		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.firstname = firstname;

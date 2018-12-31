@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import com.pbg.tpvbackend.dto.user.RestaurantChainUserPostDto;
+import com.pbg.tpvbackend.dto.user.RestaurantChainUserUpdateDto;
 import com.pbg.tpvbackend.dto.user.UserBasicInfoDto;
 import com.pbg.tpvbackend.dto.user.UserExtendedInfoDto;
 import com.pbg.tpvbackend.dto.user.UserPostDto;
@@ -22,6 +23,8 @@ public interface UserMapper {
 	public User asEntity(UserPostDto UserPostDto);
 	
 	public User asEntity(RestaurantChainUserPostDto restaurantChainUserPostDto);
+	
+	public User asEntity(RestaurantChainUserUpdateDto restaurantChainUserUpdateDto);
 	
 	@Mappings({ 
         @Mapping(source = "username", target = "username"),

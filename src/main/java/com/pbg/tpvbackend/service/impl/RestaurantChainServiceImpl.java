@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import com.pbg.tpvbackend.dao.RestaurantChainDao;
 import com.pbg.tpvbackend.dao.security.UserDao;
 import com.pbg.tpvbackend.dto.restaurantChain.RestaurantChainDto;
+import com.pbg.tpvbackend.dto.restaurantChain.RestaurantChainNameDto;
 import com.pbg.tpvbackend.dto.restaurantChain.RestaurantChainPostDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.chain.ChainAlreadyExists;
+import com.pbg.tpvbackend.exception.chain.ChainWithoutUsersException;
 import com.pbg.tpvbackend.exception.user.UserAlreadyWithRestaurantChain;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
 import com.pbg.tpvbackend.mapper.RestaurantChainMapper;
@@ -83,6 +85,16 @@ public class RestaurantChainServiceImpl implements RestaurantChainService {
 	@Override
 	public RestaurantChain update(RestaurantChain chain) {
 		return restaurantChainDao.save(chain);
+	}
+
+	@Override
+	public RestaurantChainNameDto getNameById(Integer id) throws ChainWithoutUsersException {
+		Optional<RestaurantChain> restaurantChain = restaurantChainDao.findById(id);
+		if(restaurantChain.isPresent()) {
+			return restaurantChainMapper.asRestaurantChainNameDto(restaurantChain.get());
+		} else {
+			throw new ChainWithoutUsersException();
+		}
 	}
 
 }

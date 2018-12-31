@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import com.pbg.tpvbackend.architecture.annotation.Loggable;
 import com.pbg.tpvbackend.dao.security.RoleDao;
 import com.pbg.tpvbackend.dao.security.UserDao;
+import com.pbg.tpvbackend.dto.role.RoleDto;
 import com.pbg.tpvbackend.dto.user.RestaurantChainUserPostDto;
 import com.pbg.tpvbackend.dto.user.RestaurantChainUserUpdateDto;
 import com.pbg.tpvbackend.dto.user.UserBasicInfoDto;
@@ -115,6 +116,7 @@ public class UserServiceImpl implements UserService {
 			user.setEnabled(Boolean.TRUE);
 			user.setPassword(bcrypt.encode(restaurantChainUserPostDto.getPassword()));
 			user.setLastPasswordResetDate(new Date());
+			user.setChain(chain);
 			Set<Role> roles = new HashSet<>();
 			for(RoleName roleName: restaurantChainUserPostDto.getRoles()) {
 				roles.add(roleDao.findByName(roleName));
@@ -126,9 +128,23 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public Optional<UserBasicInfoDto> updateRestaurantChainUser(RestaurantChainUserUpdateDto restaurantChainUserupdateDto) {
-		// TODO Auto-generated method stub
-		return null;
+	public Optional<UserBasicInfoDto> updateRestaurantChainUser(RestaurantChainUserUpdateDto restaurantChainUserUpdateDto) throws UserNotFoundException {
+		Optional<User> optionalUser = userDao.findByUsername(restaurantChainUserUpdateDto.getUsername());
+		if(!optionalUser.isPresent()) {
+			throw new UserNotFoundException();
+		} else {
+			User user = optionalUser.get();
+			user.setEmail(restaurantChainUserUpdateDto.getEmail());
+			user.setFirstname(restaurantChainUserUpdateDto.getFirstname());
+			user.setLastname(restaurantChainUserUpdateDto.getLastname());
+			Set<Role> roles = new HashSet<>();
+			for(RoleDto roleName: restaurantChainUserUpdateDto.getRoles()) {
+				roles.add(roleDao.findByName(roleName.getName()));
+			}
+			user.setRoles(roles);
+			user = userDao.save(user);
+			return Optional.of(userMapper.asUserBasicInfoDto(user));
+		}
 	}
 
 	@Override
@@ -142,6 +158,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User save(User user) {
 		return userDao.save(user);
+	}
+
+	@Override
+	public void deleteRestaurantChainUser(Integer id) {
+		userDao.deleteById(id);
 	}
 	
 }

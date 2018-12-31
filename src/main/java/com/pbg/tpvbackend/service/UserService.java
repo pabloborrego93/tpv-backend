@@ -30,6 +30,8 @@ public interface UserService {
 	public Page<UserExtendedInfoDto> findByChainPaged(Integer page, Integer max_per_page) throws UserNotFoundException;
 
 	public Optional<UserBasicInfoDto> updateRestaurantChainUser(
-			RestaurantChainUserUpdateDto restaurantChainUserupdateDto);
+			RestaurantChainUserUpdateDto restaurantChainUserUpdateDto) throws UserNotFoundException;
+
+	public void deleteRestaurantChainUser(Integer id);
 	
 }
