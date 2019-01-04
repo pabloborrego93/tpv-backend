@@ -1,5 +1,6 @@
 package com.pbg.tpvbackend.dao.security;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -19,5 +20,8 @@ public interface UserDao extends CrudRepository<User, Integer> {
 
 	@EntityGraph(value = "graph.User.basicInfo")
 	Page<User> findByChainAndUsernameNot(RestaurantChain chain, String username, Pageable pageable);
+	
+	@EntityGraph(value = "graph.User.basicInfo")
+	List<User> findByChainAndUsernameNot(RestaurantChain chain, String username);
 	
 }

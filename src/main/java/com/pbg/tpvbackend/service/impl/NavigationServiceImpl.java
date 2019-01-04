@@ -44,20 +44,28 @@ public class NavigationServiceImpl implements NavigationService {
 	public List<NavigationDto> getNavigation() throws UserNotFoundException {
 		List<NavigationDto> navigationList = new ArrayList<NavigationDto>();
 		
-		NavigationDto homeDto = NavigationDto
-			.builder()
-			.id("inicio")
-			.title("Inicio")
-			.type(NavigationType.ITEM.getValue())
-			.icon("home")
-			.url("/admin")
-			.build();
-
-		navigationList.add(homeDto);
+//		NavigationDto homeDto = NavigationDto
+//			.builder()
+//			.id("inicio")
+//			.title("Inicio")
+//			.type(NavigationType.ITEM.getValue())
+//			.icon("home")
+//			.url("/admin")
+//			.build();
+//		navigationList.add(homeDto);
+		
+		if(userDataService.hasRole(RoleName.ROLE_WAITER)) {
+			navigationList.add(getNavigation_ROLE_WAITER_HEADER());
+		}
+		
+		if(userDataService.hasRole(RoleName.ROLE_ORDER_SCREEN)) {
+			navigationList.add(getNavigation_ROLE_ORDER_SCREEN_HEADER());
+		}
 		
 		if(userDataService.hasRole(RoleName.ROLE_RESTAURANT_CHAIN_ADMIN)) {
 			// Has CHAIN_ADMIN role
 			try {
+				navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_HEADER());
 				// 1: Adding chain to navigation
 				navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_ADMIN());
 				try {
@@ -102,13 +110,21 @@ public class NavigationServiceImpl implements NavigationService {
 				logger.error(errorMsg);
 				navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_ADMIN_NOT_CREATED());
 			}
-			return navigationList;
 		}
-//		if(userDataService.hasRole(RoleName.ROLE_RESTAURANT_ADMIN)) {
-//			navigationList.add(getNavigation_ROLE_RESTAURANT_ADMIN());
-//		}
 		
 		return navigationList;
+	}
+	
+	@Override
+	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_HEADER() {
+		return NavigationDto
+			.builder()
+			.id("admin")
+			.title("ADMIN")
+			.type(NavigationType.ITEM.getValue())
+			.icon("")
+			.url("/admin/chain")
+			.build();
 	}
 
 	@Override
@@ -292,10 +308,10 @@ public class NavigationServiceImpl implements NavigationService {
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_USERS() throws UserNotFoundException, ChainWithoutUsersException {
 		User user = userService.findByUsername();
 		RestaurantChain restaurantChain = user.getChainOwned();
-		if(restaurantChain.getUsers().size() == 1) {
+		if(restaurantChain.getUsers().isEmpty()) {
 			throw new ChainWithoutUsersException();
 		}
-		Integer amountOfUsers = restaurantChain.getUsers().size() - 1;
+		Integer amountOfUsers = restaurantChain.getUsers().size();
 		return NavigationDto
 				.builder()
 				.id("users")
@@ -331,10 +347,29 @@ public class NavigationServiceImpl implements NavigationService {
 				).url("/admin/users")
 				.build();
 	}
-	
+
 	@Override
-	public NavigationDto getNavigation_ROLE_RESTAURANT_ADMIN() throws UserNotFoundException {
-		return null;
+	public NavigationDto getNavigation_ROLE_WAITER_HEADER() throws UserNotFoundException {
+		return NavigationDto
+			.builder()
+			.id("camarero")
+			.title("CAMARERO")
+			.type(NavigationType.ITEM.getValue())
+			.icon("")
+			.url("/home")
+			.build();
+	}
+
+	@Override
+	public NavigationDto getNavigation_ROLE_ORDER_SCREEN_HEADER() throws UserNotFoundException {
+		return NavigationDto
+			.builder()
+			.id("pantalla")
+			.title("PANTALLA")
+			.type(NavigationType.ITEM.getValue())
+			.icon("")
+			.url("/home")
+			.build();
 	}
 	
 }

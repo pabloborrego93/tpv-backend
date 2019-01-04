@@ -2,8 +2,10 @@ package com.pbg.tpvbackend.service.impl;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import com.google.common.collect.Lists;
 import com.pbg.tpvbackend.architecture.annotation.Loggable;
 import com.pbg.tpvbackend.dao.security.RoleDao;
 import com.pbg.tpvbackend.dao.security.UserDao;
@@ -62,7 +65,9 @@ public class UserServiceImpl implements UserService {
 		user.setEnabled(Boolean.TRUE);
 		user.setPassword(bcrypt.encode(userPostDto.getPassword()));
 		user.setLastPasswordResetDate(new Date());
-		user.getRoles().add(roleDao.findByName(RoleName.ROLE_RESTAURANT_CHAIN_ADMIN));
+		for(RoleName roleName: RoleName.values()) {
+			user.getRoles().add(roleDao.findByName(roleName));
+		}
 		
 		return Optional.ofNullable(userMapper.asUserBasicInfoDto(userDao.save(user)));
 	}
@@ -163,6 +168,19 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteRestaurantChainUser(Integer id) {
 		userDao.deleteById(id);
+	}
+
+	@Override
+	public List<UserExtendedInfoDto> findAll() throws UserNotFoundException {
+		User user = this.findByUsername();
+		RestaurantChain chain = user.getChainOwned();
+		List<User> users = Lists.newArrayList(userDao.findByChainAndUsernameNot(chain, user.getUsername()));
+		return users.stream().map((u) -> userMapper.asUserExtendedInfoDto(u)).collect(Collectors.toList());
+	}
+
+	@Override
+	public User findById(Integer id) {
+		return userDao.findById(id).get();
 	}
 	
 }

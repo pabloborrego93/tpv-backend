@@ -17,6 +17,7 @@ public interface NavigationService {
 	/*
 	 * ROLE_RESTAURANT_CHAIN_ADMIN
 	 */
+	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_HEADER();
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_ADMIN() throws UserNotFoundException, UserWithoutRestaurantChain;
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_ADMIN_NOT_CREATED();
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_ADMIN_RESTAURANTS() throws UserNotFoundException, UserWithoutRestaurants;
@@ -31,6 +32,20 @@ public interface NavigationService {
 	 * FIN ROLE_RESTAURANT_CHAIN_ADMIN
 	 */
 	
-	public NavigationDto getNavigation_ROLE_RESTAURANT_ADMIN() throws UserNotFoundException;
+	/*
+	 * ROLE_WAITER
+	 */
+	public NavigationDto getNavigation_ROLE_WAITER_HEADER() throws UserNotFoundException;
+	/*
+	 * FIN ROLE_WAITER
+	 */
+	
+	/*
+	 * ROLE_ORDER_SCREEN
+	 */
+	public NavigationDto getNavigation_ROLE_ORDER_SCREEN_HEADER() throws UserNotFoundException;
+	/*
+	 * FIN ROLE_ORDER_SCREEN
+	 */
 	
 }

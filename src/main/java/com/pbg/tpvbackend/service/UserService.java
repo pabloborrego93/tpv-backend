@@ -1,5 +1,6 @@
 package com.pbg.tpvbackend.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ public interface UserService {
 	public Optional<UserExtendedInfoDto> updateUser(@Valid UserUpdateDto userUpdateDto) throws UserNotFoundException;
 	public Optional<UserExtendedInfoDto> getUserBasicData() throws UserNotFoundException;
 	public User findByUsername() throws UserNotFoundException;
+	public User findById(Integer id);
 	
 	public Optional<UserBasicInfoDto> registerRestaurantChainUser(@Valid RestaurantChainUserPostDto restaurantChainUserPostDto) throws UserNotFoundException, UserWithoutRestaurantChain, UserAlreadyExistsException;
 	public Page<UserExtendedInfoDto> findByChainPaged(Integer page, Integer max_per_page) throws UserNotFoundException;
@@ -33,5 +35,7 @@ public interface UserService {
 			RestaurantChainUserUpdateDto restaurantChainUserUpdateDto) throws UserNotFoundException;
 
 	public void deleteRestaurantChainUser(Integer id);
+
+	public List<UserExtendedInfoDto> findAll() throws UserNotFoundException;
 	
 }

@@ -8,6 +8,4 @@ import com.pbg.tpvbackend.model.Restaurant;
 @Repository
 public interface RestaurantDao extends CrudRepository<Restaurant, Integer> {
 
-	
-	
 }

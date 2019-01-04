@@ -6,13 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedAttributeNode;
@@ -81,14 +80,9 @@ public class User implements Serializable {
 	@Setter
 	private Date lastPasswordResetDate;
 
-	@ManyToMany
 	@Getter
 	@Setter
-	@JoinTable(
-		name = "user_works_in", 
-		joinColumns = @JoinColumn(name = "user_id"), 
-		inverseJoinColumns = @JoinColumn(name = "restaurant_id")
-	)
+	@ManyToMany(mappedBy = "workers", cascade = { CascadeType.MERGE })
 	private List<Restaurant> worksIn;
 
 	@Getter

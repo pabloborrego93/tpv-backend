@@ -6,11 +6,15 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.pbg.tpvbackend.model.security.User;
 
@@ -47,8 +51,16 @@ public class Restaurant implements Serializable {
 	private RestaurantChain chainRestaurant;
 
 	@Getter @Setter
-	@ManyToMany(mappedBy = "worksIn")
+	@ManyToMany
+	@JoinTable(
+		name = "restaurant_workers",
+        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
 	private Set<User> workers = new HashSet<User>();
+	
+	@Getter @Setter
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+	private Set<Zone> zones = new HashSet<Zone>();
 	
 	public Restaurant() {
 		super();
