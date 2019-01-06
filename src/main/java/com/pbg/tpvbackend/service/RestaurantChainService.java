@@ -19,5 +19,6 @@ public interface RestaurantChainService {
 	public RestaurantChain findChainByUser() throws UserNotFoundException, UserWithoutRestaurantChain;
 	public RestaurantChain update(RestaurantChain chain);
 	public RestaurantChainNameDto getNameById(Integer id) throws ChainWithoutUsersException;
+	public RestaurantChain findById(Integer id);
 	
 }

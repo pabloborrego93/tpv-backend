@@ -108,4 +108,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return restaurantDao.findById(id).get();
 	}
 
+	@Override
+	public List<Restaurant> findRestaurantsByWorkerOrderByName(User user) {
+		return restaurantDao.findByWorkersInOrderByName(user);
+	}
+
 }

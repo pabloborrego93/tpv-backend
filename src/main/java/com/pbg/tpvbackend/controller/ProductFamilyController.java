@@ -2,6 +2,7 @@ package com.pbg.tpvbackend.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,16 +27,19 @@ public class ProductFamilyController {
 
 	private ProductFamilyService pfService;
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	public ProductFamilyDto create(@RequestBody ProductFamilyPostDto productFamilyPostDto) throws UserNotFoundException, UserWithoutRestaurantChain, ProductFamilyAlreadyExists {
 		return pfService.create(productFamilyPostDto);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@RequestMapping(method = RequestMethod.PUT)
 	public ProductFamilyDto update(@RequestBody ProductFamilyUpdateDto productFamilyUpdateDto) throws UserNotFoundException, UserWithoutRestaurantChain, ProductFamilyAlreadyExists, ProductFamilyNotExists {
 		return pfService.update(productFamilyUpdateDto);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@RequestMapping(method = RequestMethod.DELETE)
 	public ResponseEntity<?> delete(@RequestParam("name") String name) throws UserNotFoundException, UserWithoutRestaurantChain, ProductFamilyNotExists {
 		pfService.delete(name);

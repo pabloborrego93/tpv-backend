@@ -39,6 +39,9 @@ public class CustomUserDetails implements UserDetails {
 	@Getter
 	@Setter
 	private List<RoleName> roles = new ArrayList<RoleName>();
+	@Getter
+	@Setter
+	private Integer chainId;
 
 	public CustomUserDetails(User user) {
 		this.username = user.getUsername();
@@ -46,6 +49,7 @@ public class CustomUserDetails implements UserDetails {
 		this.firstname = user.getFirstname();
 		this.lastname = user.getLastname();
 		this.email = user.getEmail();
+		this.chainId = user.getChain().getId();
 		this.roles = Lists.newArrayList(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
 	}
 
@@ -56,6 +60,7 @@ public class CustomUserDetails implements UserDetails {
 		this.email = claims.get(AppConstants.getJWT_EMAIL(), String.class);
 		List<String> rolesStr = claims.get(AppConstants.getJWT_ROLES(), List.class);
 		this.roles = rolesStr.stream().map(role -> RoleName.valueOf(RoleName.class, role)).collect(Collectors.toList());
+		this.chainId = (Integer) claims.get(AppConstants.getJWT_CHAIN_ID());
 	}
 
 	@Override

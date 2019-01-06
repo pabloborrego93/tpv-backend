@@ -18,11 +18,13 @@ import com.pbg.tpvbackend.exception.chain.ChainWithoutProductsException;
 import com.pbg.tpvbackend.exception.chain.ChainWithoutUsersException;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurants;
+import com.pbg.tpvbackend.model.Restaurant;
 import com.pbg.tpvbackend.model.RestaurantChain;
 import com.pbg.tpvbackend.model.security.RoleName;
 import com.pbg.tpvbackend.model.security.User;
 import com.pbg.tpvbackend.service.NavigationService;
 import com.pbg.tpvbackend.service.RestaurantChainService;
+import com.pbg.tpvbackend.service.RestaurantService;
 import com.pbg.tpvbackend.service.UserService;
 import com.pbg.tpvbackend.service.security.UserDataService;
 import com.pbg.tpvbackend.utils.AppConstants;
@@ -39,27 +41,33 @@ public class NavigationServiceImpl implements NavigationService {
 	UserDataService userDataService;
 	UserService userService;
 	RestaurantChainService chainService;
+	RestaurantService restaurantService;
 	
 	@Override
 	public List<NavigationDto> getNavigation() throws UserNotFoundException {
 		List<NavigationDto> navigationList = new ArrayList<NavigationDto>();
 		
-//		NavigationDto homeDto = NavigationDto
-//			.builder()
-//			.id("inicio")
-//			.title("Inicio")
-//			.type(NavigationType.ITEM.getValue())
-//			.icon("home")
-//			.url("/admin")
-//			.build();
-//		navigationList.add(homeDto);
-		
-		if(userDataService.hasRole(RoleName.ROLE_WAITER)) {
-			navigationList.add(getNavigation_ROLE_WAITER_HEADER());
-		}
+		NavigationDto homeDto = NavigationDto
+			.builder()
+			.id("inicio")
+			.title("Inicio")
+			.type(NavigationType.ITEM.getValue())
+			.icon("home")
+			.url("/admin")
+			.build();
+		navigationList.add(homeDto);
 		
 		if(userDataService.hasRole(RoleName.ROLE_ORDER_SCREEN)) {
 			navigationList.add(getNavigation_ROLE_ORDER_SCREEN_HEADER());
+		}
+		
+		if(userDataService.hasRole(RoleName.ROLE_WAITER)) {
+			navigationList.add(getNavigation_ROLE_WAITER_HEADER());
+			User user = userService.findByUsername();
+			List<Restaurant> restaurants = restaurantService.findRestaurantsByWorkerOrderByName(user);
+			for(Restaurant restaurant: restaurants) {
+				navigationList.add(getNavigation_ROLE_WAITER_RESTAURANTS(restaurant));
+			}
 		}
 		
 		if(userDataService.hasRole(RoleName.ROLE_RESTAURANT_CHAIN_ADMIN)) {
@@ -120,10 +128,10 @@ public class NavigationServiceImpl implements NavigationService {
 		return NavigationDto
 			.builder()
 			.id("admin")
-			.title("ADMIN")
+			.title("Menú Administración")
 			.type(NavigationType.ITEM.getValue())
 			.icon("")
-			.url("/admin/chain")
+			.url("/admin")
 			.build();
 	}
 
@@ -353,22 +361,35 @@ public class NavigationServiceImpl implements NavigationService {
 		return NavigationDto
 			.builder()
 			.id("camarero")
-			.title("CAMARERO")
+			.title("Menú Restaurantes")
 			.type(NavigationType.ITEM.getValue())
 			.icon("")
-			.url("/home")
+			.url("/admin")
 			.build();
 	}
 
+
+	@Override
+	public NavigationDto getNavigation_ROLE_WAITER_RESTAURANTS(Restaurant restaurant) throws UserNotFoundException {
+		return NavigationDto
+			.builder()
+				.id(String.format("restaurant-%s", restaurant.getName()))
+				.title(restaurant.getName())
+				.type(NavigationType.ITEM.getValue())
+				.icon("announcement")
+				.url(String.format("/admin/orders/%s", restaurant.getId()))
+				.build();
+	}
+	
 	@Override
 	public NavigationDto getNavigation_ROLE_ORDER_SCREEN_HEADER() throws UserNotFoundException {
 		return NavigationDto
 			.builder()
 			.id("pantalla")
-			.title("PANTALLA")
+			.title("Menú Pantallas")
 			.type(NavigationType.ITEM.getValue())
 			.icon("")
-			.url("/home")
+			.url("/admin")
 			.build();
 	}
 	

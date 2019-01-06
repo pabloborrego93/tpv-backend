@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,7 @@ public class RestaurantController {
 	RestaurantService restaurantService;
 	ZoneService zoneService;
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	public RestaurantDto create(@RequestBody RestaurantPostDto restaurantPostDto) throws UserNotFoundException, RestaurantAlreadyExists, UserWithoutRestaurantChain {
 		return restaurantService.create(restaurantPostDto);
@@ -46,11 +48,13 @@ public class RestaurantController {
 		return restaurantService.findOne(name);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@GetMapping("/{id}/workers")
 	public ResponseEntity<?> getWorkers(@PathVariable("id") Integer id) throws RestaurantNotFoundException {
 		return ResponseEntity.ok(restaurantService.getWorkers(id));
 	}
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@PostMapping("/{id}/workers")
 	public ResponseEntity<?> postWorkers(@PathVariable("id") Integer id, @RequestBody ArrayList<UserExtendedInfoDto> workers) throws RestaurantNotFoundException {
 		return ResponseEntity.ok(restaurantService.setWorkers(id, workers));
@@ -64,6 +68,7 @@ public class RestaurantController {
 		return zoneService.findByRestaurant(id, page, max_per_page);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@PostMapping("/{id}/zone")
 	public ZoneDto postZone(
 		@PathVariable("id") Integer id,
@@ -71,6 +76,7 @@ public class RestaurantController {
 		return zoneService.postZoneByRestaurant(id, zoneDto);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@PutMapping("/{id}/zone")
 	public ZoneDto putZone(
 		@PathVariable("id") Integer id,
@@ -78,6 +84,7 @@ public class RestaurantController {
 		return zoneService.putZoneByRestaurant(id, zoneDto);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@DeleteMapping("/{idRestaurant}/zone/{idZone}")
 	public void deleteZone(@PathVariable("idRestaurant") Integer idRestaurant, @PathVariable("idZone") Integer idZone) {
 		zoneService.deleteZoneByRestaurant(idRestaurant, idZone);

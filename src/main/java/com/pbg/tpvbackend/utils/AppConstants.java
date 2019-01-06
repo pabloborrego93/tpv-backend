@@ -25,6 +25,8 @@ public class AppConstants {
 	private static final String JWT_RESTAURANT_CHAIN_DTO = "restaurantChainDto";
 	@Getter
 	private static final String JWT_EMAIL = "email";
+	@Getter
+	private static final String JWT_CHAIN_ID = "chainId";
 	
 	/*
 	 * ERROR CONSTANTES

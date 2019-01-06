@@ -32,7 +32,7 @@ public class RestaurantChainServiceImpl implements RestaurantChainService {
 	UserDao userDao;
 	
 	public RestaurantChainServiceImpl(RestaurantChainDao restaurantChainDao,
-			RestaurantChainMapper restaurantChainMapper, UserDataService userDataService, @Lazy UserService userService) {
+			RestaurantChainMapper restaurantChainMapper, @Lazy UserDataService userDataService, @Lazy UserService userService) {
 		super();
 		this.restaurantChainDao = restaurantChainDao;
 		this.restaurantChainMapper = restaurantChainMapper;
@@ -95,6 +95,11 @@ public class RestaurantChainServiceImpl implements RestaurantChainService {
 		} else {
 			throw new ChainWithoutUsersException();
 		}
+	}
+
+	@Override
+	public RestaurantChain findById(Integer id) {
+		return restaurantChainDao.findById(id).get();
 	}
 
 }

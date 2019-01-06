@@ -11,6 +11,7 @@ import com.pbg.tpvbackend.exception.restaurant.RestaurantAlreadyExists;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
 import com.pbg.tpvbackend.model.Restaurant;
+import com.pbg.tpvbackend.model.security.User;
 
 public interface RestaurantService {
 
@@ -19,5 +20,7 @@ public interface RestaurantService {
 	public List<UserExtendedInfoDto> getWorkers(Integer id) throws RestaurantNotFoundException;
 	public List<UserExtendedInfoDto> setWorkers(Integer id, ArrayList<UserExtendedInfoDto> workers) throws RestaurantNotFoundException;
 	public Restaurant findById(Integer id);
+	
+	public List<Restaurant> findRestaurantsByWorkerOrderByName(User user);
 	
 }

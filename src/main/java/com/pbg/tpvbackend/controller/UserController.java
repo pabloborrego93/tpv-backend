@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -52,6 +53,7 @@ public class UserController {
     }
 
 	@PutMapping
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	public ResponseEntity<?> updateUser(@ApiParam(required = true) @RequestBody(required = true) UserUpdateDto userUpdateDto) throws UserNotFoundException {
 		Optional<UserExtendedInfoDto> user = userService.updateUser(userUpdateDto);
 		if(user.isPresent());

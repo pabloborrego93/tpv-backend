@@ -3,6 +3,7 @@ package com.pbg.tpvbackend.controller;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ public class RestaurantChainController {
 
 	private RestaurantChainService restaurantChainService;
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> create(@RequestBody RestaurantChainPostDto restaurantChainPostDto) throws UserNotFoundException, UserAlreadyWithRestaurantChain, ChainAlreadyExists {
 		RestaurantChainDto chain = restaurantChainService.create(restaurantChainPostDto);

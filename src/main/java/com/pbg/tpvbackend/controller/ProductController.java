@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -43,11 +44,13 @@ public class ProductController {
 		return productService.searchByNameAndProductFamilies(productFilterDto, page, max_per_page);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@PostMapping
 	public ProductDto create(@Valid @RequestBody ProductPostDto productPostDto) throws InvalidProductTypeException, UserNotFoundException, UserWithoutRestaurantChain, ProductNotFoundException, ProductAlreadyExistsException {
 		return productService.create(productPostDto);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@PutMapping
 	public ProductDto update(@Valid @RequestBody ProductUpdateDto productUpdateDto) throws InvalidProductTypeException, UserNotFoundException, UserWithoutRestaurantChain, ProductNotFoundException, ProductAlreadyExistsException, ProductUpdateException {
 		return productService.update(productUpdateDto);

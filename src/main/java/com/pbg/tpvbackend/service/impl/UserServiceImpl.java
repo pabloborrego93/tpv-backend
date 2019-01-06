@@ -174,7 +174,7 @@ public class UserServiceImpl implements UserService {
 	public List<UserExtendedInfoDto> findAll() throws UserNotFoundException {
 		User user = this.findByUsername();
 		RestaurantChain chain = user.getChainOwned();
-		List<User> users = Lists.newArrayList(userDao.findByChainAndUsernameNot(chain, user.getUsername()));
+		List<User> users = Lists.newArrayList(userDao.findByChain(chain));
 		return users.stream().map((u) -> userMapper.asUserExtendedInfoDto(u)).collect(Collectors.toList());
 	}
 

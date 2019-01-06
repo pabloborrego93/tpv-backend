@@ -7,14 +7,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.pbg.tpvbackend.model.RestaurantChain;
 import com.pbg.tpvbackend.model.security.CustomUserDetails;
 import com.pbg.tpvbackend.model.security.RoleName;
-
-import lombok.AllArgsConstructor;
+import com.pbg.tpvbackend.service.RestaurantChainService;
 
 @Service
-@AllArgsConstructor
 public class UserDataServiceImpl implements UserDataService {
+
+	RestaurantChainService restaurantChainService;
+	
+	public UserDataServiceImpl(RestaurantChainService restaurantChainService) {
+		super();
+		this.restaurantChainService = restaurantChainService;
+	}
 
 	private CustomUserDetails getAuthentication() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -43,6 +49,11 @@ public class UserDataServiceImpl implements UserDataService {
 				return Boolean.TRUE;
 			}
 		return Boolean.FALSE;
+	}
+
+	@Override
+	public RestaurantChain chain() {
+		return restaurantChainService.findById(getAuthentication().getChainId());
 	}
 	
 }

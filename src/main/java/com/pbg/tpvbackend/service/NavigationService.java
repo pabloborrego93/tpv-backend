@@ -9,6 +9,7 @@ import com.pbg.tpvbackend.exception.chain.ChainWithoutProductsException;
 import com.pbg.tpvbackend.exception.chain.ChainWithoutUsersException;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurants;
+import com.pbg.tpvbackend.model.Restaurant;
 
 public interface NavigationService {
 
@@ -36,6 +37,7 @@ public interface NavigationService {
 	 * ROLE_WAITER
 	 */
 	public NavigationDto getNavigation_ROLE_WAITER_HEADER() throws UserNotFoundException;
+	public NavigationDto getNavigation_ROLE_WAITER_RESTAURANTS(Restaurant restaurant) throws UserNotFoundException;
 	/*
 	 * FIN ROLE_WAITER
 	 */

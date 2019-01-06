@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,6 +47,7 @@ public class RestaurantChainUserController {
 	})
 	@ApiOperation("Create User for a restaurant chain")
 	@PostMapping
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
     public ResponseEntity<?> registerUser(
     	@ApiParam(required = true) @RequestBody(required = true) RestaurantChainUserPostDto restaurantChainUserPostDto) throws UserAlreadyExistsException, UserNotFoundException, UserWithoutRestaurantChain {
 		Optional<UserBasicInfoDto> user = userService.registerRestaurantChainUser(restaurantChainUserPostDto);
@@ -54,6 +56,7 @@ public class RestaurantChainUserController {
     }
 	
 	@PutMapping
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
     public ResponseEntity<?> updateUser(
     	@ApiParam(required = true) @RequestBody(required = true) RestaurantChainUserUpdateDto restaurantChainUserupdateDto) throws UserAlreadyExistsException, UserNotFoundException, UserWithoutRestaurantChain {
 		Optional<UserBasicInfoDto> user = userService.updateRestaurantChainUser(restaurantChainUserupdateDto);
@@ -67,6 +70,7 @@ public class RestaurantChainUserController {
     }
 	
 	@DeleteMapping
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
     public ResponseEntity<?> deleteUser(
     	@ApiParam(required = true) @RequestParam("id") Integer id) {
 		userService.deleteRestaurantChainUser(id);

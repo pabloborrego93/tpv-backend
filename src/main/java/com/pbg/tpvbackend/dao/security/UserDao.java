@@ -23,5 +23,8 @@ public interface UserDao extends CrudRepository<User, Integer> {
 	
 	@EntityGraph(value = "graph.User.basicInfo")
 	List<User> findByChainAndUsernameNot(RestaurantChain chain, String username);
+
+	@EntityGraph(value = "graph.User.basicInfo")
+	List<User> findByChain(RestaurantChain chain);
 	
 }
