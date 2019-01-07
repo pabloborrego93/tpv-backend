@@ -29,6 +29,11 @@ public class UserDataServiceImpl implements UserDataService {
 	}
 	
 	@Override
+	public Integer getId() {
+		return Integer.parseInt(getAuthentication().getId());
+	}
+	
+	@Override
 	public String getUsername() {
 		return getAuthentication().getUsername();
 	}
@@ -55,5 +60,5 @@ public class UserDataServiceImpl implements UserDataService {
 	public RestaurantChain chain() {
 		return restaurantChainService.findById(getAuthentication().getChainId());
 	}
-	
+
 }

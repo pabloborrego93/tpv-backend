@@ -73,6 +73,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		claims.put(AppConstants.getJWT_EMAIL(), userDetails.getEmail());
 		// ChainId
 		claims.put(AppConstants.getJWT_CHAIN_ID(), userDetails.getChainId());
+		// UserId
+		claims.put(AppConstants.getJWT_USER_ID(), userDetails.getId());
 		
 		String token = Jwts.builder()
 			.setSubject(userDetails.getUsername())

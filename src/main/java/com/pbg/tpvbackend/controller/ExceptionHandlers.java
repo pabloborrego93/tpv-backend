@@ -23,6 +23,7 @@ import com.pbg.tpvbackend.exception.productFamily.ProductFamilyNotExists;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantAlreadyExists;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
 import com.pbg.tpvbackend.exception.user.UserAlreadyWithRestaurantChain;
+import com.pbg.tpvbackend.exception.user.UserDoesntWorkInRestaurantException;
 
 @ControllerAdvice
 public class ExceptionHandlers extends BaseExceptionHandler {
@@ -58,7 +59,8 @@ public class ExceptionHandlers extends BaseExceptionHandler {
 		 */
 		registerMapping(
 			Lists.newArrayList(
-				UsernameNotFoundException.class
+				UsernameNotFoundException.class,
+				UserDoesntWorkInRestaurantException.class
 			),  HttpStatus.FORBIDDEN, HttpStatus.FORBIDDEN.name()
 		);
 		

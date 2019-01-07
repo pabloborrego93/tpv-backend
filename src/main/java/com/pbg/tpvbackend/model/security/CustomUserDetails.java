@@ -23,6 +23,9 @@ public class CustomUserDetails implements UserDetails {
 	 */
 	private static final long serialVersionUID = -6218933552528570431L;
 
+	@Getter
+	@Setter
+	private String id;
 	@Setter
 	private String username;
 	@Setter
@@ -44,6 +47,7 @@ public class CustomUserDetails implements UserDetails {
 	private Integer chainId;
 
 	public CustomUserDetails(User user) {
+		this.id = user.getId().toString();
 		this.username = user.getUsername();
 		this.password = user.getPassword();
 		this.firstname = user.getFirstname();
@@ -54,6 +58,7 @@ public class CustomUserDetails implements UserDetails {
 	}
 
 	public CustomUserDetails(Claims claims) {
+		this.id = claims.get(AppConstants.getJWT_USER_ID(), String.class);
 		this.username = claims.getSubject();
 		this.firstname = claims.get(AppConstants.getJWT_FIRSTNAME(), String.class);
 		this.lastname = claims.get(AppConstants.getJWT_LASTNAME(), String.class);

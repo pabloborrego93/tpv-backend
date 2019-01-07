@@ -7,6 +7,8 @@ import com.pbg.tpvbackend.model.security.RoleName;
 
 public interface UserDataService {
 
+	public Integer getId();
+	
 	public String getUsername();
 	
 	public List<RoleName> getRoles();

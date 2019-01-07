@@ -11,6 +11,8 @@ import org.springframework.validation.annotation.Validated;
 import com.google.common.collect.Lists;
 import com.pbg.tpvbackend.dao.ZoneDao;
 import com.pbg.tpvbackend.dto.zone.ZoneDto;
+import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
+import com.pbg.tpvbackend.exception.zone.ZoneNotFoundException;
 import com.pbg.tpvbackend.mapper.ZoneMapper;
 import com.pbg.tpvbackend.model.Restaurant;
 import com.pbg.tpvbackend.model.Zone;
@@ -28,8 +30,13 @@ public class ZoneServiceImpl implements ZoneService {
 	ZoneMapper zoneMapper;
 	RestaurantService restaurantService;
 	
-	public Optional<Zone> findById(Integer id) {
-		return zoneDao.findById(id);
+	public Zone findById(Integer id) throws ZoneNotFoundException {
+		Optional<Zone> zone = zoneDao.findById(id);
+		if(zone.isPresent()) {
+			return zone.get();
+		} else {
+			throw new ZoneNotFoundException();
+		}
 	}
 	
 	public List<Zone> findAllById(List<Integer> ids) {
@@ -48,13 +55,13 @@ public class ZoneServiceImpl implements ZoneService {
 		zoneDao.deleteById(id);
 	}
 	
-	public Page<ZoneDto> findByRestaurant(Integer idRestaurant, Integer page, Integer max_per_page) {
+	public Page<ZoneDto> findByRestaurant(Integer idRestaurant, Integer page, Integer max_per_page) throws RestaurantNotFoundException {
 		Restaurant restaurant = restaurantService.findById(idRestaurant);
 		return zoneDao.findByRestaurant(restaurant, PageRequest.of(page, max_per_page)).map((z) -> zoneMapper.asZoneDto(z));
 	}
 
 	@Override
-	public ZoneDto postZoneByRestaurant(Integer id, ZoneDto zoneDto) {
+	public ZoneDto postZoneByRestaurant(Integer id, ZoneDto zoneDto) throws RestaurantNotFoundException {
 		Restaurant restaurant = restaurantService.findById(id);
 		Zone zone = new Zone();
 		zone.setRestaurant(restaurant);
@@ -65,8 +72,8 @@ public class ZoneServiceImpl implements ZoneService {
 	}
 
 	@Override
-	public ZoneDto putZoneByRestaurant(Integer id, ZoneDto zoneDto) {
-		Zone zone = zoneDao.findById(Integer.parseInt(zoneDto.getId())).get();
+	public ZoneDto putZoneByRestaurant(Integer id, ZoneDto zoneDto) throws NumberFormatException, ZoneNotFoundException {
+		Zone zone = this.findById(Integer.parseInt(zoneDto.getId()));
 		zone.setZoneType(zoneDto.getZoneType());
 		zone.setDescription(zoneDto.getDescription());
 		zone = zoneDao.save(zone);

@@ -18,8 +18,9 @@ public interface RestaurantService {
 	public RestaurantDto create(RestaurantPostDto restaurantPostDto) throws UserNotFoundException, RestaurantAlreadyExists, UserWithoutRestaurantChain;
 	public RestaurantDto findOne(String name) throws UserNotFoundException, UserWithoutRestaurantChain, RestaurantNotFoundException;
 	public List<UserExtendedInfoDto> getWorkers(Integer id) throws RestaurantNotFoundException;
-	public List<UserExtendedInfoDto> setWorkers(Integer id, ArrayList<UserExtendedInfoDto> workers) throws RestaurantNotFoundException;
-	public Restaurant findById(Integer id);
+	public List<UserExtendedInfoDto> setWorkers(Integer id, ArrayList<UserExtendedInfoDto> workers) throws RestaurantNotFoundException, NumberFormatException, UserNotFoundException;
+	public Restaurant findById(Integer id) throws RestaurantNotFoundException;
+	public Boolean worksIn(Integer idRestaurant, Integer IdUser) throws RestaurantNotFoundException, UserNotFoundException;
 	
 	public List<Restaurant> findRestaurantsByWorkerOrderByName(User user);
 	

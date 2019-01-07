@@ -27,6 +27,8 @@ public class AppConstants {
 	private static final String JWT_EMAIL = "email";
 	@Getter
 	private static final String JWT_CHAIN_ID = "chainId";
+	@Getter
+	private static final String JWT_USER_ID = "userId";
 	
 	/*
 	 * ERROR CONSTANTES

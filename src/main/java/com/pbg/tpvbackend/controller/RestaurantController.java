@@ -24,6 +24,7 @@ import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantAlreadyExists;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
+import com.pbg.tpvbackend.exception.zone.ZoneNotFoundException;
 import com.pbg.tpvbackend.service.RestaurantService;
 import com.pbg.tpvbackend.service.ZoneService;
 
@@ -56,7 +57,7 @@ public class RestaurantController {
 	
 	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@PostMapping("/{id}/workers")
-	public ResponseEntity<?> postWorkers(@PathVariable("id") Integer id, @RequestBody ArrayList<UserExtendedInfoDto> workers) throws RestaurantNotFoundException {
+	public ResponseEntity<?> postWorkers(@PathVariable("id") Integer id, @RequestBody ArrayList<UserExtendedInfoDto> workers) throws RestaurantNotFoundException, NumberFormatException, UserNotFoundException {
 		return ResponseEntity.ok(restaurantService.setWorkers(id, workers));
 	}
 	
@@ -64,7 +65,7 @@ public class RestaurantController {
 	public Page<ZoneDto> search(
 		@PathVariable("id") Integer id,
 		@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, 
-		@RequestParam(value = "max_per_page", required = false, defaultValue = "10") Integer max_per_page) {
+		@RequestParam(value = "max_per_page", required = false, defaultValue = "10") Integer max_per_page) throws RestaurantNotFoundException {
 		return zoneService.findByRestaurant(id, page, max_per_page);
 	}
 	
@@ -72,7 +73,7 @@ public class RestaurantController {
 	@PostMapping("/{id}/zone")
 	public ZoneDto postZone(
 		@PathVariable("id") Integer id,
-		@RequestBody ZoneDto zoneDto) {
+		@RequestBody ZoneDto zoneDto) throws RestaurantNotFoundException {
 		return zoneService.postZoneByRestaurant(id, zoneDto);
 	}
 	
@@ -80,7 +81,7 @@ public class RestaurantController {
 	@PutMapping("/{id}/zone")
 	public ZoneDto putZone(
 		@PathVariable("id") Integer id,
-		@RequestBody ZoneDto zoneDto) {
+		@RequestBody ZoneDto zoneDto) throws NumberFormatException, ZoneNotFoundException {
 		return zoneService.putZoneByRestaurant(id, zoneDto);
 	}
 	

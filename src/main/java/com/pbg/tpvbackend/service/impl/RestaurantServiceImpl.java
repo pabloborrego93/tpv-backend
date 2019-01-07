@@ -87,7 +87,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public List<UserExtendedInfoDto> setWorkers(Integer id, ArrayList<UserExtendedInfoDto> workers) throws RestaurantNotFoundException {
+	public List<UserExtendedInfoDto> setWorkers(Integer id, ArrayList<UserExtendedInfoDto> workers) throws RestaurantNotFoundException, NumberFormatException, UserNotFoundException {
 		Optional<Restaurant> restaurant = restaurantDao.findById(id);
 		if(restaurant.isPresent()) {
 			Set<User> users = new HashSet<>();
@@ -104,13 +104,25 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public Restaurant findById(Integer id) {
-		return restaurantDao.findById(id).get();
+	public Restaurant findById(Integer id) throws RestaurantNotFoundException {
+		Optional<Restaurant> restaurant = restaurantDao.findById(id);
+		if(restaurant.isPresent()) {
+			return restaurant.get();
+		} else {
+			throw new RestaurantNotFoundException();
+		}
 	}
 
 	@Override
 	public List<Restaurant> findRestaurantsByWorkerOrderByName(User user) {
 		return restaurantDao.findByWorkersInOrderByName(user);
+	}
+
+	@Override
+	public Boolean worksIn(Integer idRestaurant, Integer IdUser) throws RestaurantNotFoundException, UserNotFoundException {
+		Restaurant restaurant = this.findById(idRestaurant);
+		User user = userService.findById(IdUser);
+		return restaurant.getWorkers().stream().anyMatch((u) -> u.getId().equals(user.getId()));
 	}
 
 }

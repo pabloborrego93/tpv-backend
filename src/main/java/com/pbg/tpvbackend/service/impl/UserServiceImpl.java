@@ -179,8 +179,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findById(Integer id) {
-		return userDao.findById(id).get();
+	public User findById(Integer id) throws UserNotFoundException {
+		Optional<User> user = userDao.findById(id);
+		if(user.isPresent()) {
+			return user.get();
+		} else {
+			throw new UserNotFoundException();
+		}
 	}
 	
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pbg.tpvbackend.dto.order.OrderDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
+import com.pbg.tpvbackend.exception.user.UserDoesntWorkInRestaurantException;
 import com.pbg.tpvbackend.service.OrderService;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class OrderController {
 	public Page<OrderDto> search(
 		@PathVariable("idRestaurant") Integer idRestaurant, 
 		@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, 
-		@RequestParam(value = "max_per_page", required = false, defaultValue = "10") Integer max_per_page) throws UserNotFoundException, RestaurantNotFoundException {
+		@RequestParam(value = "max_per_page", required = false, defaultValue = "10") Integer max_per_page) throws UserNotFoundException, RestaurantNotFoundException, UserDoesntWorkInRestaurantException {
 		return orderService.findByRestaurantPaged(idRestaurant, page, max_per_page);
 	}
 	
