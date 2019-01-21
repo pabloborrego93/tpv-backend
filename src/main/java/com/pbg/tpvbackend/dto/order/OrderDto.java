@@ -28,6 +28,6 @@ public class OrderDto implements Serializable {
 	
 	@Getter @Setter private OrderStatus status;
 	
-	@Getter @Setter private ZoneDto zoneDto;
+	@Getter @Setter private ZoneDto zone;
 	
 }

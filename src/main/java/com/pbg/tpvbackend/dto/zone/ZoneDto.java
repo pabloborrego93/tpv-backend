@@ -25,6 +25,6 @@ public class ZoneDto implements Serializable {
 	private String description;
 	
 	@Getter @Setter
-	private RestaurantDto restaurantDto;
+	private RestaurantDto restaurant;
 	
 }
