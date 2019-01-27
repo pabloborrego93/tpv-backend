@@ -12,6 +12,7 @@ import com.pbg.tpvbackend.dto.product.ProductFilterDto;
 import com.pbg.tpvbackend.dto.product.ProductNameDto;
 import com.pbg.tpvbackend.dto.product.ProductPostDto;
 import com.pbg.tpvbackend.dto.product.ProductUpdateDto;
+import com.pbg.tpvbackend.dto.product.ProductsForOrderingDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.product.InvalidProductTypeException;
 import com.pbg.tpvbackend.exception.product.ProductAlreadyExistsException;
@@ -29,6 +30,7 @@ public interface ProductService {
 	public Page<ProductDto> searchByNameAndProductFamilies(ProductFilterDto productFilterDto, Integer page, Integer max_per_page) throws UserNotFoundException;
 	public Product findByName(String name) throws ProductNotFoundException;
 	public List<ProductNameDto> findNames() throws UserNotFoundException;
+	public List<ProductsForOrderingDto> findByProductFamiliesCatalogables() throws UserNotFoundException;
 	
 	public Optional<Product> findOne(Integer id) throws UserNotFoundException;
 	public Optional<ProductSimple> findOneSimple(Integer id) throws UserNotFoundException;

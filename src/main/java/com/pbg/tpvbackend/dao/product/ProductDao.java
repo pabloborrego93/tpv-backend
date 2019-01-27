@@ -36,6 +36,16 @@ public interface ProductDao extends PagingAndSortingRepository<Product, Integer>
 		Pageable pageable
 	);
 	
+	@Query("SELECT DISTINCT p "
+		 + "FROM Product p "
+		 + "INNER JOIN FETCH p.families fam "
+		 + "WHERE p.chainProduct = :restaurantChain "
+		 + "AND fam.catalogable = 1 "
+		 + "AND p.catalogable = 1")
+	List<Product> findByProductFamiliesCatalogables(
+		@Param("restaurantChain") RestaurantChain restaurantChain
+	);
+	
 	@Query("SELECT new com.pbg.tpvbackend.dto.product.ProductNameDto(p.id, p.name) FROM Product as p WHERE p.chainProduct = :restaurantChain")
 	List<ProductNameDto> findNames(@Param("restaurantChain") RestaurantChain restaurantChain);
 	

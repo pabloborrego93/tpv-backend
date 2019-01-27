@@ -27,4 +27,7 @@ public class ProductFamilyPostDto implements Serializable {
 	@Size(min = 2, max = 32, message = "Name length must be between 2 and 32 chars")
 	@Getter @Setter private String name;
 	
+	@NotNull(message = "Catalogable can not be null")
+	@Getter @Setter private Boolean catalogable;
+	
 }

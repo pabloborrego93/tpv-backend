@@ -35,4 +35,6 @@ public class ProductFamilyUpdateDto implements Serializable {
 	@Size(min = 2, max = 32, message = "Name length must be between 2 and 32 chars")
 	@Getter @Setter private String newName;
 	
+	@Getter @Setter private Boolean catalogable;
+	
 }

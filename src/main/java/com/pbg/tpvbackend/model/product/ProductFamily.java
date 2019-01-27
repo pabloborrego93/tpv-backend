@@ -2,6 +2,7 @@ package com.pbg.tpvbackend.model.product;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +31,9 @@ public class ProductFamily implements Serializable {
 	@Getter @Setter private Integer id;
 	
 	@Getter @Setter private String name;
+	
+	@Column(nullable = false, columnDefinition = "TINYINT(1)")
+	@Getter @Setter private Boolean catalogable;
 	
 	@Getter @Setter @NonNull
 	@ManyToOne(optional = false)

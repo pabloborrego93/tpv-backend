@@ -19,6 +19,7 @@ import com.pbg.tpvbackend.dto.product.ProductFilterDto;
 import com.pbg.tpvbackend.dto.product.ProductNameDto;
 import com.pbg.tpvbackend.dto.product.ProductPostDto;
 import com.pbg.tpvbackend.dto.product.ProductUpdateDto;
+import com.pbg.tpvbackend.dto.product.ProductsForOrderingDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.product.InvalidProductTypeException;
 import com.pbg.tpvbackend.exception.product.ProductAlreadyExistsException;
@@ -59,6 +60,11 @@ public class ProductController {
 	@GetMapping("/names")
 	public List<ProductNameDto> findNames() throws UserNotFoundException {
 		return productService.findNames();
+	}
+	
+	@GetMapping("/catalogablesProductFamilies")
+	public List<ProductsForOrderingDto> findByProductFamiliesCatalogables() throws UserNotFoundException {
+		return productService.findByProductFamiliesCatalogables();
 	}
 	
 }

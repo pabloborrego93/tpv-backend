@@ -26,6 +26,7 @@ import com.pbg.tpvbackend.dto.product.ProductFilterDto;
 import com.pbg.tpvbackend.dto.product.ProductNameDto;
 import com.pbg.tpvbackend.dto.product.ProductPostDto;
 import com.pbg.tpvbackend.dto.product.ProductUpdateDto;
+import com.pbg.tpvbackend.dto.product.ProductsForOrderingDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.product.InvalidProductTypeException;
 import com.pbg.tpvbackend.exception.product.ProductAlreadyExistsException;
@@ -261,6 +262,21 @@ public class ProductServiceImpl implements ProductService {
 		} else {
 			return Optional.empty();
 		}
+	}
+
+	@Override
+	public List<ProductsForOrderingDto> findByProductFamiliesCatalogables() throws UserNotFoundException {
+		User user = userService.findByUsername();
+		RestaurantChain chain = user.getChain();
+		List<Product> products = productDao.findByProductFamiliesCatalogables(chain);
+		return products.stream()
+			.peek(p -> p.getFamilies()
+				.stream()
+				.filter(pf -> !pf.getCatalogable())
+				.collect(Collectors.toList())
+			)
+			.map(p -> productMapper.asProductsForOrderingDto(p))
+			.collect(Collectors.toList());
 	}
 
 }
