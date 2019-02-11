@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
 import com.pbg.tpvbackend.dto.productFamily.ProductFamilyDto;
 import com.pbg.tpvbackend.model.product.IVA;
 
@@ -29,10 +27,10 @@ public class ProductsForOrderingDto implements Serializable {
 	
 	@Getter @Setter private String name;
 	
-	@NotNull(message = "Price can not be null")
+	@Getter @Setter private String image;
+	
 	@Getter @Setter private Double price;
 	
-	@NotNull(message = "IVA can not be null")
 	@Getter @Setter private IVA iva;
 	
 	@Builder.Default

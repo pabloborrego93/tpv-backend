@@ -15,5 +15,6 @@ public interface ProductFamilyDao extends PagingAndSortingRepository<ProductFami
 	
 	Page<ProductFamily> findByNameStartsWithIgnoreCaseAndChainProductFamily(String name, RestaurantChain chain, Pageable pageable);
 	Optional<ProductFamily> findByNameAndChainProductFamily(String name, RestaurantChain chain);
+	Optional<ProductFamily> findByIdAndChainProductFamily(Integer id, RestaurantChain chain);
 	
 }

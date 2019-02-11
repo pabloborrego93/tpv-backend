@@ -62,6 +62,7 @@ public class ProductFamilyServiceImpl implements ProductFamilyService {
 			} else {
 				ProductFamily newProductFamily = new ProductFamily();
 				newProductFamily.setName(productFamilyPostDto.getName());
+				newProductFamily.setCatalogable(productFamilyPostDto.getCatalogable());
 				newProductFamily.setChainProductFamily(restaurantChainService.findChainByUser());
 				newProductFamily = pfDao.save(newProductFamily);
 				return productFamilyMapper.asProductFamilyDto(newProductFamily);
@@ -76,30 +77,16 @@ public class ProductFamilyServiceImpl implements ProductFamilyService {
 		if(!chain.isPresent()) {
 			throw new UserWithoutRestaurantChain();
 		} else {
-			List<ProductFamilyDto> families = chain.get().getFamilies();
-			Optional<ProductFamilyDto> oldProductFamily = families
-				.stream()
-				.filter(pF -> pF.getName().toLowerCase().equals(productFamilyUpdateDto.getOldName().toLowerCase()))
-				.findFirst();
-			if(!oldProductFamily.isPresent()) {
-				throw new ProductFamilyNotExists();
-			}
-			Optional<ProductFamilyDto> newProductFamily = families
-				.stream()
-				.filter(pF -> pF.getName().toLowerCase().equals(productFamilyUpdateDto.getNewName().toLowerCase()))
-				.findFirst();
-			if(newProductFamily.isPresent()) {
-				throw new ProductFamilyAlreadyExists();
-			}
-			Optional<ProductFamily> optionalProductFamily = pfDao.findByNameAndChainProductFamily(
-				oldProductFamily.get().getName(), 
+			Optional<ProductFamily> optionalProductFamily = pfDao.findByIdAndChainProductFamily(
+				productFamilyUpdateDto.getId(), 
 				restaurantChainService.findChainByUser()
 			);
 			if(!optionalProductFamily.isPresent()) {
 				throw new ProductFamilyNotExists();
 			} else {
 				ProductFamily productFamily = optionalProductFamily.get();
-				productFamily.setName(productFamilyUpdateDto.getNewName());
+				productFamily.setName(productFamilyUpdateDto.getName());
+				productFamily.setCatalogable(productFamilyUpdateDto.getCatalogable());
 				productFamily = pfDao.save(productFamily);
 				return productFamilyMapper.asProductFamilyDto(productFamily);
 			}
