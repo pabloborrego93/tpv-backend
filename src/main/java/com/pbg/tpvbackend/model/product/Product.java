@@ -64,6 +64,9 @@ public class Product implements Serializable {
 	@Column(nullable = false, columnDefinition = "TINYINT(1)")
 	@Getter @Setter private Boolean catalogable;
 	
+	@Column(nullable = false, columnDefinition = "TINYINT(1)")
+	@Getter @Setter private Boolean forKitchen;
+	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@Getter @Setter private Set<ProductFamily> families = new HashSet<ProductFamily>();
 	

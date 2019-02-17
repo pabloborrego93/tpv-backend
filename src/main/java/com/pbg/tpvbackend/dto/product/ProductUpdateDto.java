@@ -49,6 +49,9 @@ public class ProductUpdateDto implements Serializable {
 	@NotNull(message = "Catalogable can not be null")
 	@Getter @Setter private Boolean catalogable;
 	
+	@NotNull(message = "Can not be null")
+	@Getter @Setter private Boolean forKitchen;
+	
 	@Builder.Default
 	@Getter @Setter List<ProductFamilyDto> productFamilies = new ArrayList<ProductFamilyDto>();
 	

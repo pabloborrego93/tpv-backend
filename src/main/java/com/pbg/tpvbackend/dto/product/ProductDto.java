@@ -34,6 +34,8 @@ public class ProductDto implements Serializable {
 	
 	@Getter @Setter private Boolean catalogable;
 	
+	@Getter @Setter private Boolean forKitchen;
+	
 	@Getter @Setter private ProductType productType;
 	
 	@Getter @Setter private Set<ProductNameDto> products = new HashSet<ProductNameDto>();
