@@ -53,6 +53,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 		}
 		Restaurant newRestaurant = restaurantMapper.restaurantPostDtoAsRestaurant(restaurantPostDto);
 		newRestaurant.setChainRestaurant(chain);
+		newRestaurant.getWorkers().add(userService.findByUsername());
 		newRestaurant = restaurantDao.save(newRestaurant);
 		chain.getRestaurants().add(newRestaurant);
 		restaurantChainService.update(chain);

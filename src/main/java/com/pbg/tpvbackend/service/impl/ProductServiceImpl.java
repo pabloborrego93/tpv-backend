@@ -1,7 +1,9 @@
 package com.pbg.tpvbackend.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,7 @@ import com.pbg.tpvbackend.dao.product.ProductDao;
 import com.pbg.tpvbackend.dao.product.ProductSimpleDao;
 import com.pbg.tpvbackend.dto.product.ProductDto;
 import com.pbg.tpvbackend.dto.product.ProductFilterDto;
+import com.pbg.tpvbackend.dto.product.ProductNameAmountDto;
 import com.pbg.tpvbackend.dto.product.ProductNameDto;
 import com.pbg.tpvbackend.dto.product.ProductPostDto;
 import com.pbg.tpvbackend.dto.product.ProductUpdateDto;
@@ -80,7 +83,6 @@ public class ProductServiceImpl implements ProductService {
 		} catch (Exception e) {
 			throw new InvalidProductTypeException(AppConstants.getERR_INVALID_PRODUCT_TYPE());
 		}
-		;
 		try {
 			Product product = this.findByName(productPostDto.getName());
 			if (product != null) {
@@ -93,17 +95,22 @@ public class ProductServiceImpl implements ProductService {
 		if (productType.equals(ProductType.SIMPLE)) {
 			ProductSimple productSimple = productSimpleMapper.asProductSimple(productPostDto);
 			productSimple.setChainProduct(restaurantChainService.findChainByUser());
-			productSimple
-					.setFamilies(Sets.newHashSet(productFamilyService.findAll(productPostDto.getProductFamilies())));
+			productSimple.setFamilies(Sets.newHashSet(productFamilyService.findAll(productPostDto.getProductFamilies())));
 			productSimple = productDao.save(productSimple);
 			return productSimpleMapper.asProductDto(productSimple);
 		} else {
 			ProductComposite productComposite = productCompositeMapper.asProductComposite(productPostDto);
 			productComposite.setChainProduct(restaurantChainService.findChainByUser());
-			productComposite
-					.setFamilies(Sets.newHashSet(productFamilyService.findAll(productPostDto.getProductFamilies())));
-			List<Integer> ids = productPostDto.getProducts().stream().map(p -> p.getId()).collect(Collectors.toList());
-			productComposite.setProducts(Sets.newHashSet(this.findAll(ids)));
+			productComposite.setFamilies(Sets.newHashSet(productFamilyService.findAll(productPostDto.getProductFamilies())));
+			Map<Product, Integer> products = new HashMap<>();
+			for(ProductNameAmountDto productDto: productPostDto.getProducts()) {
+				Optional<Product> product = this.findOne(productDto.getId());
+				if(product.isPresent()) {
+					products.put(product.get(), productDto.getAmount());
+				}
+			}
+			productComposite.setProducts(products);
+			productComposite.setProducts(this.productAmountDtoToAmountMap(productPostDto.getProducts()));
 			productComposite = productDao.save(productComposite);
 			return productCompositeMapper.asProductDto(productComposite);
 		}
@@ -136,7 +143,7 @@ public class ProductServiceImpl implements ProductService {
 					productComposite = productCompositeMapper.asProductComposite(productUpdateDto);
 					productComposite.setChainProduct(restaurantChainService.findChainByUser());
 					productComposite.setFamilies(Sets.newHashSet(productFamilyService.findAll(productUpdateDto.getProductFamilies())));
-					productComposite.setProducts(Sets.newHashSet());
+					productComposite.setProducts(this.productAmountDtoToAmountMap(productUpdateDto.getProducts()));
 					productComposite = productCompositeDao.save(productComposite);
 					productDao.updateToSimple(productComposite.getId());
 					ProductSimple productSimple = productSimpleDao.findOne(productUpdateDto.getId(), chain).get();
@@ -155,9 +162,7 @@ public class ProductServiceImpl implements ProductService {
 					Optional<ProductComposite> productCompositeOpt = productCompositeDao.findById(productSimple.getId());
 					if(productCompositeOpt.isPresent()) {
 						ProductComposite productComposite = productCompositeOpt.get();
-						List<Integer> ids = productUpdateDto.getProducts().stream().map(p -> p.getId())
-								.collect(Collectors.toList());
-						productComposite.setProducts(Sets.newHashSet(this.findAll(ids)));
+						productComposite.setProducts(this.productAmountDtoToAmountMap(productUpdateDto.getProducts()));
 						return productCompositeMapper.asProductDto(productComposite);
 					} else {
 						throw new ProductUpdateException(String.format(AppConstants.getERR_PRODUCT_UPDATE(), productSimple.getName()));
@@ -170,9 +175,7 @@ public class ProductServiceImpl implements ProductService {
 					productComposite.setChainProduct(restaurantChainService.findChainByUser());
 					productComposite.setFamilies(
 							Sets.newHashSet(productFamilyService.findAll(productUpdateDto.getProductFamilies())));
-					List<Integer> ids = productUpdateDto.getProducts().stream().map(p -> p.getId())
-							.collect(Collectors.toList());
-					productComposite.setProducts(Sets.newHashSet(this.findAll(ids)));
+					productComposite.setProducts(this.productAmountDtoToAmountMap(productUpdateDto.getProducts()));
 					productComposite = productDao.save(productComposite);
 					return productCompositeMapper.asProductDto(productComposite);
 				}
@@ -275,8 +278,26 @@ public class ProductServiceImpl implements ProductService {
 				.filter(pf -> !pf.getCatalogable())
 				.collect(Collectors.toList())
 			)
-			.map(p -> productMapper.asProductsForOrderingDto(p))
+			.map(p -> {
+				if (p.getProductType().equals(ProductType.COMPOSITE)) {
+					return productCompositeMapper.asProductsForOrderingDto((ProductComposite) p);
+				} else {
+					return productMapper.asProductsForOrderingDto(p);
+				}
+			})
 			.collect(Collectors.toList());
+	}
+
+	@Override
+	public Map<Product, Integer> productAmountDtoToAmountMap(List<ProductNameAmountDto> productsAmountDto) throws UserNotFoundException {
+		Map<Product, Integer> products = new HashMap<>();
+		for(ProductNameAmountDto productDto: productsAmountDto) {
+			Optional<Product> product = this.findOne(productDto.getId());
+			if(product.isPresent()) {
+				products.put(product.get(), productDto.getAmount());
+			}
+		}
+		return products;
 	}
 
 }

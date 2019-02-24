@@ -1,6 +1,7 @@
 package com.pbg.tpvbackend.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 
 import com.pbg.tpvbackend.dto.product.ProductDto;
 import com.pbg.tpvbackend.dto.product.ProductFilterDto;
+import com.pbg.tpvbackend.dto.product.ProductNameAmountDto;
 import com.pbg.tpvbackend.dto.product.ProductNameDto;
 import com.pbg.tpvbackend.dto.product.ProductPostDto;
 import com.pbg.tpvbackend.dto.product.ProductUpdateDto;
@@ -36,5 +38,6 @@ public interface ProductService {
 	public Optional<ProductSimple> findOneSimple(Integer id) throws UserNotFoundException;
 	public Optional<ProductComposite> findOneComposite(Integer id) throws UserNotFoundException;
 	public List<Product> findAll(List<Integer> ids) throws UserNotFoundException;
+	public Map<Product, Integer> productAmountDtoToAmountMap(List<ProductNameAmountDto> productsAmountDto) throws UserNotFoundException;
 	
 }

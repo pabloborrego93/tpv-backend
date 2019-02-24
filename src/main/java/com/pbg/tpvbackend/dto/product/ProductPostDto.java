@@ -56,6 +56,6 @@ public class ProductPostDto implements Serializable {
 	@Getter @Setter private ProductType productType;
 	
 	@Builder.Default
-	@Getter @Setter List<ProductNameDto> products = new ArrayList<ProductNameDto>();
+	@Getter @Setter List<ProductNameAmountDto> products = new ArrayList<>();
 	
 }

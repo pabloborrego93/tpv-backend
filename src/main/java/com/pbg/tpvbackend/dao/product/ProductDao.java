@@ -39,6 +39,7 @@ public interface ProductDao extends PagingAndSortingRepository<Product, Integer>
 	@Query("SELECT DISTINCT p "
 		 + "FROM Product p "
 		 + "INNER JOIN FETCH p.families fam "
+		 + "LEFT JOIN FETCH p.products prod "
 		 + "WHERE p.chainProduct = :restaurantChain "
 		 + "AND fam.catalogable = 1 "
 		 + "AND p.catalogable = 1")

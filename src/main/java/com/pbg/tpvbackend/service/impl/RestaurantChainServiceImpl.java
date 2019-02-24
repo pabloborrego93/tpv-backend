@@ -55,6 +55,7 @@ public class RestaurantChainServiceImpl implements RestaurantChainService {
 			newChain.setName(restaurantChainPostDto.getName());
 			newChain.setOwner(user);
 			newChain = restaurantChainDao.save(newChain);
+			user.setChain(newChain);
 			userService.save(user);
 			return restaurantChainMapper.asRestaurantChainDto(newChain);
 		}

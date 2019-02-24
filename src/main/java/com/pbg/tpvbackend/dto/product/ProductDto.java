@@ -1,7 +1,9 @@
 package com.pbg.tpvbackend.dto.product;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.pbg.tpvbackend.dto.productFamily.ProductFamilyDto;
@@ -38,9 +40,9 @@ public class ProductDto implements Serializable {
 	
 	@Getter @Setter private ProductType productType;
 	
-	@Getter @Setter private Set<ProductNameDto> products = new HashSet<ProductNameDto>();
+	@Getter @Setter List<ProductNameAmountDto> products = new ArrayList<>();
 	
-	@Getter @Setter private Set<ProductFamilyDto> families = new HashSet<ProductFamilyDto>();
+	@Getter @Setter private Set<ProductFamilyDto> families = new HashSet<>();
 	
 	
 }

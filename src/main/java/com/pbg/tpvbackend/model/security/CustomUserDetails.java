@@ -53,7 +53,9 @@ public class CustomUserDetails implements UserDetails {
 		this.firstname = user.getFirstname();
 		this.lastname = user.getLastname();
 		this.email = user.getEmail();
-		this.chainId = user.getChain().getId();
+		if(user.getChain() != null) {
+			this.chainId = user.getChain().getId();
+		}
 		this.roles = Lists.newArrayList(user.getRoles().stream().map(role -> role.getName()).collect(Collectors.toList()));
 	}
 

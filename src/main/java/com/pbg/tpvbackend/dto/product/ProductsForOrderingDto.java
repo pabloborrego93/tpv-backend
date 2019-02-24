@@ -36,6 +36,9 @@ public class ProductsForOrderingDto implements Serializable {
 	@Getter @Setter private Boolean forKitchen;
 	
 	@Builder.Default
-	@Getter @Setter List<ProductFamilyDto> families = new ArrayList<ProductFamilyDto>();
+	@Getter @Setter List<ProductFamilyDto> families = new ArrayList<>();
+	
+	@Builder.Default
+	@Getter @Setter List<ProductNameAmountDto> products = new ArrayList<>();
 	
 }
