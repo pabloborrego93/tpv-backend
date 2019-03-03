@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.pbg.tpvbackend.dao.order.OrderDao;
 import com.pbg.tpvbackend.dto.order.OrderDto;
+import com.pbg.tpvbackend.dto.order.OrderPostDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
 import com.pbg.tpvbackend.exception.user.UserDoesntWorkInRestaurantException;
@@ -44,6 +45,11 @@ public class OrderServiceImpl implements OrderService {
 		} else {
 			throw new RestaurantNotFoundException();
 		}
+	}
+
+	@Override
+	public OrderDto newOrder(OrderPostDto orderPostDto) {
+		return null;
 	}
 	
 }

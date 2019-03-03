@@ -103,7 +103,7 @@ public class AuthUtilsServiceImpl implements AuthUtilsService {
 		// ChainId
 		claims.put(AppConstants.getJWT_CHAIN_ID(), user.getChain().getId());
 		// UserId
-		claims.put(AppConstants.getJWT_USER_ID(), user.getId());
+		claims.put(AppConstants.getJWT_USER_ID(), user.getId().toString());
 		
 		return Jwts.builder()
 			.setSubject(user.getUsername())

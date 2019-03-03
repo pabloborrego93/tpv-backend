@@ -37,7 +37,8 @@ public class RestaurantChainController {
 	public ResponseEntity<?> create(@RequestBody RestaurantChainPostDto restaurantChainPostDto) throws UserNotFoundException, UserAlreadyWithRestaurantChain, ChainAlreadyExists {
 		RestaurantChainDto chain = restaurantChainService.create(restaurantChainPostDto);
 		return ResponseEntity.ok()
-			.header(HttpHeaders.AUTHORIZATION, authUtilsService.generateTokenFromBDInfo())
+			.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "x-auth-token")
+			.header("x-auth-token", authUtilsService.generateTokenFromBDInfo())
 			.body(chain);
 	}
 	

@@ -1,14 +1,16 @@
 package com.pbg.tpvbackend.dto.product;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.pbg.tpvbackend.model.product.ProductType;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductNameAmountDto implements Serializable {
@@ -23,5 +25,13 @@ public class ProductNameAmountDto implements Serializable {
 	@Getter @Setter private String name;
 	
 	@Getter @Setter private Integer amount;
+	
+	@Getter @Setter private Boolean forKitchen;
+	
+	@Getter @Setter private Boolean catalogable;
+	
+	@Getter @Setter private ProductType productType;
+	
+	@Getter @Setter List<ProductNameAmountDto> products = new ArrayList<>();
 	
 }
