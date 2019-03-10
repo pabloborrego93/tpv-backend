@@ -39,5 +39,6 @@ public interface ProductService {
 	public Optional<ProductComposite> findOneComposite(Integer id) throws UserNotFoundException;
 	public List<Product> findAll(List<Integer> ids) throws UserNotFoundException;
 	public Map<Product, Integer> productAmountDtoToAmountMap(List<ProductNameAmountDto> productsAmountDto) throws UserNotFoundException;
+	public Product findById(Integer id) throws ProductNotFoundException;
 	
 }

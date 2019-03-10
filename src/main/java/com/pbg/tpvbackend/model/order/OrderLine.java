@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -31,17 +29,14 @@ public class OrderLine implements Serializable {
 	@MapsId("orderId")
     @JoinColumn(name="order_id")
 	@ManyToOne
-	@Getter @Setter private Order orderObject;
+	@Getter private Order orderObject;
 	
 	@MapsId("productId")
     @JoinColumn(name="product_id")
 	@ManyToOne
-	@Getter @Setter private Product product;
+	@Getter private Product product;
 	
 	@Getter @Setter private Double total;
-	
-	@Enumerated(EnumType.STRING)
-	@Getter @Setter private OrderLineStatus status;
 	
 	public OrderLine() {
 		super();
@@ -53,7 +48,6 @@ public class OrderLine implements Serializable {
 		this.product = product;
 		this.id = new OrderLinePK(orderObject.getId(), product.getId());
 		this.amount = amount;
-		calculateTotal();
 	}
 	
 	public OrderLine(Order orderObject, Product product) {
@@ -61,7 +55,6 @@ public class OrderLine implements Serializable {
 		this.orderObject = orderObject;
 		this.product = product;
 		this.id = new OrderLinePK(orderObject.getId(), product.getId());
-		calculateTotal();
 	}
 
 	public void calculateTotal() {

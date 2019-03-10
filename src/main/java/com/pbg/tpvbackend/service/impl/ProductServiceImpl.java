@@ -204,6 +204,15 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public Product findById(Integer id) throws ProductNotFoundException {
+		Optional<Product> product = productDao.findById(id);
+		if (product.isPresent())
+			return product.get();
+		else
+			throw new ProductNotFoundException(String.format(AppConstants.getERR_PRODUCT_NOT_FOUND(), id));
+	}
+	
+	@Override
 	public Product findByName(String name) throws ProductNotFoundException {
 		Optional<Product> product = productDao.findByName(name.toLowerCase());
 		if (product.isPresent())

@@ -45,6 +45,8 @@ public class Order implements Serializable {
 	@ManyToOne
 	@Getter @Setter private Zone zone;
 	
+	@Getter @Setter private Double total;
+	
 	public Order() {
 		super();
 		this.status = OrderStatus.OPENED;
@@ -52,6 +54,6 @@ public class Order implements Serializable {
 	}
 	
 	@OneToMany(mappedBy = "orderObject", fetch = FetchType.EAGER)
-	@Getter @Setter private Set<OrderLine> lines = new HashSet<OrderLine>();
+	@Getter @Setter private Set<OrderLine> orderLines = new HashSet<OrderLine>();
 	
 }
