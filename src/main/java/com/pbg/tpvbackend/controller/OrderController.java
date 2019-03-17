@@ -21,6 +21,7 @@ import com.pbg.tpvbackend.exception.product.ProductNotFoundException;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
 import com.pbg.tpvbackend.exception.user.UserDoesntWorkInRestaurantException;
 import com.pbg.tpvbackend.exception.zone.ZoneNotFoundException;
+import com.pbg.tpvbackend.model.order.OrderStatus;
 import com.pbg.tpvbackend.service.OrderService;
 
 import lombok.AllArgsConstructor;
@@ -35,9 +36,10 @@ public class OrderController {
 	@GetMapping("/{idRestaurant}")
 	public Page<OrderDto> search(
 		@PathVariable("idRestaurant") Integer idRestaurant, 
+		@RequestParam(value = "orderStatus", required = true) OrderStatus orderStatus,
 		@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, 
 		@RequestParam(value = "max_per_page", required = false, defaultValue = "10") Integer max_per_page) throws UserNotFoundException, RestaurantNotFoundException, UserDoesntWorkInRestaurantException {
-		return orderService.findByRestaurantPaged(idRestaurant, page, max_per_page);
+		return orderService.findByRestaurantPaged(idRestaurant, orderStatus, page, max_per_page);
 	}
 	
 	@PostMapping("/create/{idZone}")

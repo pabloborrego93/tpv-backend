@@ -1,11 +1,11 @@
-package com.pbg.tpvbackend.dto.product;
+package com.pbg.tpvbackend.dto.kitchen;
 
 import java.io.Serializable;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class KitchenProduct implements Serializable {
+public class KitchenProductPostDto implements Serializable {
 
 	/**
 	 * 

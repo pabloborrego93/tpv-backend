@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import com.pbg.tpvbackend.model.Restaurant;
 import com.pbg.tpvbackend.model.RestaurantChain;
 import com.pbg.tpvbackend.model.order.Order;
+import com.pbg.tpvbackend.model.order.OrderStatus;
 
 public interface OrderDao extends PagingAndSortingRepository<Order, Integer> {
 	
@@ -24,7 +25,9 @@ public interface OrderDao extends PagingAndSortingRepository<Order, Integer> {
 		 + "FROM orders o "
 		 + "JOIN o.zone z "
 		 + "JOIN z.restaurant r "
-		 + "WHERE r = :restaurant")
-	Page<Order> findByRestaurant(@Param("restaurant") Restaurant restaurant, Pageable pageable);
+		 + "WHERE r = :restaurant "
+		 + "AND o.status = :orderStatus "
+		 + "ORDER BY o.createdAt DESC")
+	Page<Order> findByRestaurant(@Param("orderStatus") OrderStatus orderStatus, @Param("restaurant") Restaurant restaurant, Pageable pageable);
 	
 }

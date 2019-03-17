@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.pbg.tpvbackend.dao.order.OrderDao;
 import com.pbg.tpvbackend.dao.order.OrderLineDao;
+import com.pbg.tpvbackend.dto.kitchen.KitchenProductPostDto;
 import com.pbg.tpvbackend.dto.order.OrderDto;
 import com.pbg.tpvbackend.dto.order.OrderPostDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
@@ -27,10 +28,13 @@ import com.pbg.tpvbackend.exception.zone.ZoneNotFoundException;
 import com.pbg.tpvbackend.mapper.OrderMapper;
 import com.pbg.tpvbackend.model.Restaurant;
 import com.pbg.tpvbackend.model.RestaurantChain;
+import com.pbg.tpvbackend.model.kitchen.KitchenProduct;
+import com.pbg.tpvbackend.model.kitchen.KitchenProductStatus;
 import com.pbg.tpvbackend.model.order.Order;
 import com.pbg.tpvbackend.model.order.OrderLine;
 import com.pbg.tpvbackend.model.order.OrderStatus;
 import com.pbg.tpvbackend.model.product.Product;
+import com.pbg.tpvbackend.service.KitchenService;
 import com.pbg.tpvbackend.service.OrderService;
 import com.pbg.tpvbackend.service.ProductService;
 import com.pbg.tpvbackend.service.RestaurantService;
@@ -51,14 +55,15 @@ public class OrderServiceImpl implements OrderService {
 	RestaurantService restaurantService;
 	ZoneService zoneService;
 	ProductService productService;
+	KitchenService kitchenService;
 	
 	@Override
-	public Page<OrderDto> findByRestaurantPaged(Integer idRestaurant, Integer page, Integer max_per_page) throws RestaurantNotFoundException, UserNotFoundException, UserDoesntWorkInRestaurantException {
+	public Page<OrderDto> findByRestaurantPaged(Integer idRestaurant, OrderStatus orderStatus, Integer page, Integer max_per_page) throws RestaurantNotFoundException, UserNotFoundException, UserDoesntWorkInRestaurantException {
 		RestaurantChain chain = userDataService.chain();
 		Optional<Restaurant> optRestaurant = chain.getRestaurants().stream().filter((r) -> r.getId().equals(idRestaurant)).findFirst();
 		if(optRestaurant.isPresent()) {
 			if(restaurantService.worksIn(optRestaurant.get().getId(), userDataService.getId())) {
-				return orderDao.findByRestaurant(optRestaurant.get(), PageRequest.of(page, max_per_page)).map((o) -> orderMapper.asOrderDto(o));
+				return orderDao.findByRestaurant(orderStatus, optRestaurant.get(), PageRequest.of(page, max_per_page)).map((o) -> orderMapper.asOrderDto(o));
 			} else {
 				throw new UserDoesntWorkInRestaurantException();
 			}
@@ -80,7 +85,16 @@ public class OrderServiceImpl implements OrderService {
 			OrderLine orderLine = new OrderLine(newOrder, product);
 			orderLine.setAmount(orderLineDto.getAmount());
 			orderLine.calculateTotal();
-			orderLineDao.save(orderLine);
+			orderLine = orderLineDao.save(orderLine);
+			for(KitchenProductPostDto kitchenProductPostDto: orderLineDto.getKitchenProductPostDto()) {
+				KitchenProduct kP = new KitchenProduct();
+				kP.setComment(kitchenProductPostDto.getComment());
+				kP.setOrderLine(orderLine);
+				kP.setRestaurant(newOrder.getZone().getRestaurant());
+				kP.setStatus(KitchenProductStatus.QUEUED);
+				kP.setProduct(productService.findById(kitchenProductPostDto.getId()));
+				kitchenService.create(kP);
+			}
 		}
 		return orderMapper.asOrderDto(newOrder);
 	}
@@ -114,7 +128,16 @@ public class OrderServiceImpl implements OrderService {
 			OrderLine orderLine = new OrderLine(order, product);
 			orderLine.setAmount(orderLineDto.getAmount());
 			orderLine.calculateTotal();
-			orderLineDao.save(orderLine);
+			orderLine = orderLineDao.save(orderLine);
+			for(KitchenProductPostDto kitchenProductPostDto: orderLineDto.getKitchenProductPostDto()) {
+				KitchenProduct kP = new KitchenProduct();
+				kP.setComment(kitchenProductPostDto.getComment());
+				kP.setOrderLine(orderLine);
+				kP.setRestaurant(order.getZone().getRestaurant());
+				kP.setStatus(KitchenProductStatus.QUEUED);
+				kP.setProduct(productService.findById(kitchenProductPostDto.getId()));
+				kitchenService.create(kP);
+			}
 		}
 		return orderMapper.asOrderDto(order);
 	}

@@ -15,10 +15,11 @@ import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
 import com.pbg.tpvbackend.exception.user.UserDoesntWorkInRestaurantException;
 import com.pbg.tpvbackend.exception.zone.ZoneNotFoundException;
 import com.pbg.tpvbackend.model.order.Order;
+import com.pbg.tpvbackend.model.order.OrderStatus;
 
 public interface OrderService {
 
-	Page<OrderDto> findByRestaurantPaged(Integer idRestaurant, Integer page, Integer max_per_page) throws RestaurantNotFoundException, UserNotFoundException, UserDoesntWorkInRestaurantException;
+	Page<OrderDto> findByRestaurantPaged(Integer idRestaurant, OrderStatus orderStatus, Integer page, Integer max_per_page) throws RestaurantNotFoundException, UserNotFoundException, UserDoesntWorkInRestaurantException;
 	OrderDto newOrder(Integer idZone, @Valid List<OrderPostDto> orderPostDto) throws ZoneNotFoundException, ProductNotFoundException;
 	public Order findById(Integer id) throws OrderNotFoundException;
 	OrderDto closeOrder(Integer idOrder) throws OrderNotFoundException;
