@@ -86,6 +86,16 @@ public class RestaurantServiceImpl implements RestaurantService {
 			throw new RestaurantNotFoundException();
 		}
 	}
+	
+	@Override
+	public List<UserExtendedInfoDto> getScreens(Integer id) throws RestaurantNotFoundException {
+		Optional<Restaurant> restaurant = restaurantDao.findById(id);
+		if(restaurant.isPresent()) {
+			return restaurant.get().getScreens().stream().map((u) -> userMapper.asUserExtendedInfoDto(u)).collect(Collectors.toList());
+		} else {
+			throw new RestaurantNotFoundException();
+		}
+	}
 
 	@Override
 	public List<UserExtendedInfoDto> setWorkers(Integer id, ArrayList<UserExtendedInfoDto> workers) throws RestaurantNotFoundException, NumberFormatException, UserNotFoundException {
@@ -99,6 +109,23 @@ public class RestaurantServiceImpl implements RestaurantService {
 			rest.setWorkers(users);
 			rest = restaurantDao.save(rest);
 			return rest.getWorkers().stream().map((u) -> userMapper.asUserExtendedInfoDto(u)).collect(Collectors.toList());
+		} else {
+			throw new RestaurantNotFoundException();
+		}
+	}
+	
+	@Override
+	public List<UserExtendedInfoDto> setScreens(Integer id, ArrayList<UserExtendedInfoDto> screens) throws RestaurantNotFoundException, NumberFormatException, UserNotFoundException {
+		Optional<Restaurant> restaurant = restaurantDao.findById(id);
+		if(restaurant.isPresent()) {
+			Set<User> users = new HashSet<>();
+			for(UserExtendedInfoDto userInfo: screens) {
+				users.add(userService.findById(Integer.parseInt(userInfo.getId())));
+			}
+			Restaurant rest = restaurant.get();
+			rest.setScreens(users);
+			rest = restaurantDao.save(rest);
+			return rest.getScreens().stream().map((u) -> userMapper.asUserExtendedInfoDto(u)).collect(Collectors.toList());
 		} else {
 			throw new RestaurantNotFoundException();
 		}
@@ -118,12 +145,24 @@ public class RestaurantServiceImpl implements RestaurantService {
 	public List<Restaurant> findRestaurantsByWorkerOrderByName(User user) {
 		return restaurantDao.findByWorkersInOrderByName(user);
 	}
+	
+	@Override
+	public List<Restaurant> findRestaurantsByScreensOrderByName(User user) {
+		return restaurantDao.findByScreensInOrderByName(user);
+	}
 
 	@Override
 	public Boolean worksIn(Integer idRestaurant, Integer IdUser) throws RestaurantNotFoundException, UserNotFoundException {
 		Restaurant restaurant = this.findById(idRestaurant);
 		User user = userService.findById(IdUser);
 		return restaurant.getWorkers().stream().anyMatch((u) -> u.getId().equals(user.getId()));
+	}
+	
+	@Override
+	public Boolean screensIn(Integer idRestaurant, Integer IdUser) throws RestaurantNotFoundException, UserNotFoundException {
+		Restaurant restaurant = this.findById(idRestaurant);
+		User user = userService.findById(IdUser);
+		return restaurant.getScreens().stream().anyMatch((u) -> u.getId().equals(user.getId()));
 	}
 
 }

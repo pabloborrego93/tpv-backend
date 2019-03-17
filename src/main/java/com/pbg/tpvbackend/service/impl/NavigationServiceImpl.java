@@ -59,6 +59,11 @@ public class NavigationServiceImpl implements NavigationService {
 		
 		if(userDataService.hasRole(RoleName.ROLE_ORDER_SCREEN)) {
 			navigationList.add(getNavigation_ROLE_ORDER_SCREEN_HEADER());
+			User user = userService.findByUsername();
+			List<Restaurant> restaurants = restaurantService.findRestaurantsByScreensOrderByName(user);
+			for(Restaurant restaurant: restaurants) {
+				navigationList.add(getNavigation_ROLE_ORDER_SCREEN_RESTAURANTS(restaurant));
+			}
 		}
 		
 		if(userDataService.hasRole(RoleName.ROLE_WAITER)) {
@@ -391,6 +396,19 @@ public class NavigationServiceImpl implements NavigationService {
 			.icon("")
 			.url("/admin")
 			.build();
+	}
+
+	@Override
+	public NavigationDto getNavigation_ROLE_ORDER_SCREEN_RESTAURANTS(Restaurant restaurant)
+			throws UserNotFoundException {
+		return NavigationDto
+			.builder()
+				.id(String.format("restaurant-%s", restaurant.getName()))
+				.title(restaurant.getName())
+				.type(NavigationType.ITEM.getValue())
+				.icon("announcement")
+				.url(String.format("/admin/kitchen/%s", restaurant.getId()))
+				.build();
 	}
 	
 }

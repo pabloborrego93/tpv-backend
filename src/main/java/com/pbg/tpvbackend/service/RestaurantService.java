@@ -19,9 +19,14 @@ public interface RestaurantService {
 	public RestaurantDto findOne(String name) throws UserNotFoundException, UserWithoutRestaurantChain, RestaurantNotFoundException;
 	public List<UserExtendedInfoDto> getWorkers(Integer id) throws RestaurantNotFoundException;
 	public List<UserExtendedInfoDto> setWorkers(Integer id, ArrayList<UserExtendedInfoDto> workers) throws RestaurantNotFoundException, NumberFormatException, UserNotFoundException;
+	public List<UserExtendedInfoDto> getScreens(Integer id) throws RestaurantNotFoundException;
+	public List<UserExtendedInfoDto> setScreens(Integer id, ArrayList<UserExtendedInfoDto> screens) throws RestaurantNotFoundException, NumberFormatException, UserNotFoundException;
 	public Restaurant findById(Integer id) throws RestaurantNotFoundException;
-	public Boolean worksIn(Integer idRestaurant, Integer IdUser) throws RestaurantNotFoundException, UserNotFoundException;
+	
+	public Boolean worksIn(Integer idRestaurant, Integer idUser) throws RestaurantNotFoundException, UserNotFoundException;
+	public Boolean screensIn(Integer idRestaurant, Integer idUser) throws RestaurantNotFoundException, UserNotFoundException;
 	
 	public List<Restaurant> findRestaurantsByWorkerOrderByName(User user);
+	public List<Restaurant> findRestaurantsByScreensOrderByName(User user);
 	
 }

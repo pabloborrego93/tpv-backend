@@ -61,6 +61,18 @@ public class RestaurantController {
 		return ResponseEntity.ok(restaurantService.setWorkers(id, workers));
 	}
 	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
+	@GetMapping("/{id}/screens")
+	public ResponseEntity<?> getScreens(@PathVariable("id") Integer id) throws RestaurantNotFoundException {
+		return ResponseEntity.ok(restaurantService.getScreens(id));
+	}
+	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
+	@PostMapping("/{id}/screens")
+	public ResponseEntity<?> postScreens(@PathVariable("id") Integer id, @RequestBody ArrayList<UserExtendedInfoDto> screens) throws RestaurantNotFoundException, NumberFormatException, UserNotFoundException {
+		return ResponseEntity.ok(restaurantService.setScreens(id, screens));
+	}
+	
 	@GetMapping("/{id}/zones")
 	public Page<ZoneDto> search(
 		@PathVariable("id") Integer id,

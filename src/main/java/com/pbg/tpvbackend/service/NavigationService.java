@@ -46,6 +46,7 @@ public interface NavigationService {
 	 * ROLE_ORDER_SCREEN
 	 */
 	public NavigationDto getNavigation_ROLE_ORDER_SCREEN_HEADER() throws UserNotFoundException;
+	public NavigationDto getNavigation_ROLE_ORDER_SCREEN_RESTAURANTS(Restaurant restaurant) throws UserNotFoundException;
 	/*
 	 * FIN ROLE_ORDER_SCREEN
 	 */

@@ -12,5 +12,6 @@ import com.pbg.tpvbackend.model.security.User;
 public interface RestaurantDao extends CrudRepository<Restaurant, Integer> {
 
 	List<Restaurant> findByWorkersInOrderByName(User user);
+	List<Restaurant> findByScreensInOrderByName(User user);
 	
 }

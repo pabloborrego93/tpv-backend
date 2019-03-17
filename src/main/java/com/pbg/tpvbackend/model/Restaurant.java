@@ -59,6 +59,14 @@ public class Restaurant implements Serializable {
 	private Set<User> workers = new HashSet<User>();
 	
 	@Getter @Setter
+	@ManyToMany
+	@JoinTable(
+		name = "restaurant_screens",
+        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "restaurant_id", referencedColumnName = "id")})
+	private Set<User> screens = new HashSet<User>();
+	
+	@Getter @Setter
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
 	private Set<Zone> zones = new HashSet<Zone>();
 	
