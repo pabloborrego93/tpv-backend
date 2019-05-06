@@ -3,8 +3,16 @@ spring:
       active: local
    banner:
       location: 'classpath:/static/banner.txt'
+   cloud:
+      gcp:
+         proyect-id: seraphic-cocoa-239316
+         #credentials:
+            #scopes: DEFAULT_SCOPES,https://www.googleapis.com/auth/cloudprint
+            #location: 'classpath:/static/keys.json'
+         sql:
+            database-name: tpvBD
+            instance-connection-name: seraphic-cocoa-239316:europe-west1:tpvbd     
    datasource:
-      url: 'jdbc:mysql://localhost:3306/tpvBD?&useSSL=false&allowPublicKeyRetrieval=true'
       username: root
       password: borrego
    jpa:
@@ -13,6 +21,7 @@ spring:
          dialect: org.hibernate.dialect.MySQL5Dialect
       hibernate:
          ddl-auto: update
+      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
    mvc:
       throw-exception-if-no-handler-found: true 
 logging:

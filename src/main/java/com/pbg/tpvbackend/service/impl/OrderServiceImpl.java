@@ -1,5 +1,8 @@
 package com.pbg.tpvbackend.service.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,18 +17,23 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import com.itextpdf.text.DocumentException;
 import com.pbg.tpvbackend.dao.order.OrderDao;
 import com.pbg.tpvbackend.dao.order.OrderLineDao;
 import com.pbg.tpvbackend.dto.kitchen.KitchenProductPostDto;
 import com.pbg.tpvbackend.dto.order.OrderDto;
 import com.pbg.tpvbackend.dto.order.OrderPostDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
+import com.pbg.tpvbackend.exception.gcp.AccessTokenException;
+import com.pbg.tpvbackend.exception.gcp.SubmitJobException;
 import com.pbg.tpvbackend.exception.order.OrderNotFoundException;
+import com.pbg.tpvbackend.exception.printer.PrinterNotFoundException;
 import com.pbg.tpvbackend.exception.product.ProductNotFoundException;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
 import com.pbg.tpvbackend.exception.user.UserDoesntWorkInRestaurantException;
 import com.pbg.tpvbackend.exception.zone.ZoneNotFoundException;
 import com.pbg.tpvbackend.mapper.OrderMapper;
+import com.pbg.tpvbackend.model.Printer;
 import com.pbg.tpvbackend.model.Restaurant;
 import com.pbg.tpvbackend.model.RestaurantChain;
 import com.pbg.tpvbackend.model.kitchen.KitchenProduct;
@@ -34,8 +42,11 @@ import com.pbg.tpvbackend.model.order.Order;
 import com.pbg.tpvbackend.model.order.OrderLine;
 import com.pbg.tpvbackend.model.order.OrderStatus;
 import com.pbg.tpvbackend.model.product.Product;
+import com.pbg.tpvbackend.service.CloudPrintService;
 import com.pbg.tpvbackend.service.KitchenService;
 import com.pbg.tpvbackend.service.OrderService;
+import com.pbg.tpvbackend.service.PdfService;
+import com.pbg.tpvbackend.service.PrinterService;
 import com.pbg.tpvbackend.service.ProductService;
 import com.pbg.tpvbackend.service.RestaurantService;
 import com.pbg.tpvbackend.service.ZoneService;
@@ -56,6 +67,9 @@ public class OrderServiceImpl implements OrderService {
 	ZoneService zoneService;
 	ProductService productService;
 	KitchenService kitchenService;
+	PdfService pdfService;
+	PrinterService printerService;
+	CloudPrintService cloudPrintService;
 	
 	@Override
 	public Page<OrderDto> findByRestaurantPaged(Integer idRestaurant, OrderStatus orderStatus, Integer page, Integer max_per_page) throws RestaurantNotFoundException, UserNotFoundException, UserDoesntWorkInRestaurantException {
@@ -140,6 +154,15 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}
 		return orderMapper.asOrderDto(order);
+	}
+
+	@Override
+	public void printTicket(Integer idOrder) throws DocumentException, OrderNotFoundException, PrinterNotFoundException, IOException, AccessTokenException, GeneralSecurityException, SubmitJobException {
+		Order order = this.findById(idOrder);
+		Restaurant restaurant = order.getZone().getRestaurant();
+		InputStream content = pdfService.generateTicket(idOrder);
+		Printer printer = printerService.defaultPrinter(restaurant);
+		cloudPrintService.submitJob(printer.getPrinterid(), "ticket", content, 2);
 	}
 	
 }

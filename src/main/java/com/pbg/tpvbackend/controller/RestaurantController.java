@@ -16,15 +16,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pbg.tpvbackend.dto.printer.PrinterDto;
 import com.pbg.tpvbackend.dto.restaurant.RestaurantDto;
 import com.pbg.tpvbackend.dto.restaurant.RestaurantPostDto;
 import com.pbg.tpvbackend.dto.user.UserExtendedInfoDto;
 import com.pbg.tpvbackend.dto.zone.ZoneDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
+import com.pbg.tpvbackend.exception.printer.PrinterNotFoundException;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantAlreadyExists;
 import com.pbg.tpvbackend.exception.restaurant.RestaurantNotFoundException;
 import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
 import com.pbg.tpvbackend.exception.zone.ZoneNotFoundException;
+import com.pbg.tpvbackend.service.PrinterService;
 import com.pbg.tpvbackend.service.RestaurantService;
 import com.pbg.tpvbackend.service.ZoneService;
 
@@ -37,6 +40,7 @@ public class RestaurantController {
 
 	RestaurantService restaurantService;
 	ZoneService zoneService;
+	PrinterService printerService;
 	
 	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
@@ -101,6 +105,40 @@ public class RestaurantController {
 	@DeleteMapping("/{idRestaurant}/zone/{idZone}")
 	public void deleteZone(@PathVariable("idRestaurant") Integer idRestaurant, @PathVariable("idZone") Integer idZone) {
 		zoneService.deleteZoneByRestaurant(idRestaurant, idZone);
+	}
+	
+	/**
+	 * Printer
+	 * @throws RestaurantNotFoundException 
+	 */
+	@GetMapping("/{id}/printers")
+	public Page<PrinterDto> searchPrinter(
+		@PathVariable("id") Integer id,
+		@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, 
+		@RequestParam(value = "max_per_page", required = false, defaultValue = "10") Integer max_per_page) throws PrinterNotFoundException, RestaurantNotFoundException {
+		return printerService.findByRestaurant(id, page, max_per_page);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
+	@PostMapping("/{id}/printer")
+	public PrinterDto postPrinter(
+		@PathVariable("id") Integer id,
+		@RequestBody PrinterDto printerDto) throws RestaurantNotFoundException {
+		return printerService.postPrinterByRestaurant(id, printerDto);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
+	@PutMapping("/{id}/printer")
+	public PrinterDto putPrinter(
+		@PathVariable("id") Integer id,
+		@RequestBody PrinterDto printerDto) throws NumberFormatException, PrinterNotFoundException, RestaurantNotFoundException {
+		return printerService.putPrinterByRestaurant(id, printerDto);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_RESTAURANT_CHAIN_ADMIN')")
+	@DeleteMapping("/{idRestaurant}/printer/{idPrinter}")
+	public void deletePrinter(@PathVariable("idRestaurant") Integer idRestaurant, @PathVariable("idPrinter") Integer idPrinter) {
+		printerService.deletePrinterByRestaurant(idRestaurant, idPrinter);
 	}
 	
 }

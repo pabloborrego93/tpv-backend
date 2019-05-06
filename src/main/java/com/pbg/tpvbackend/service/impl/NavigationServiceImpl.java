@@ -321,7 +321,7 @@ public class NavigationServiceImpl implements NavigationService {
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_USERS() throws UserNotFoundException, ChainWithoutUsersException {
 		User user = userService.findByUsername();
 		RestaurantChain restaurantChain = user.getChainOwned();
-		if(restaurantChain.getUsers().isEmpty()) {
+		if(restaurantChain.getUsers().size() == 1) {
 			throw new ChainWithoutUsersException();
 		}
 		Integer amountOfUsers = restaurantChain.getUsers().size();

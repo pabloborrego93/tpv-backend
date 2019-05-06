@@ -14,12 +14,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pbg.tpvbackend.architecture.config.AppProperties;
@@ -43,7 +43,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		try {
 			UserLoginDto creds = new ObjectMapper().readValue(req.getInputStream(), UserLoginDto.class);
 			String username = null;
-			if(!StringUtils.isBlank(creds.getChainId())) {
+			if(!StringUtils.isEmpty(creds.getChainId())) {
 				username = com.pbg.tpvbackend.utils.StringUtils.generateUserPrefix(Integer.parseInt(creds.getChainId()), creds.getUsername());
 			} else {
 				username = creds.getUsername();
