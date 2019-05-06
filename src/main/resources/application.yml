@@ -6,9 +6,6 @@ spring:
    cloud:
       gcp:
          proyect-id: seraphic-cocoa-239316
-         #credentials:
-            #scopes: DEFAULT_SCOPES,https://www.googleapis.com/auth/cloudprint
-            #location: 'classpath:/static/keys.json'
          sql:
             database-name: tpvBD
             instance-connection-name: seraphic-cocoa-239316:europe-west1:tpvbd     
