@@ -83,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
 		} catch (Exception e) {
 			throw new InvalidProductTypeException(AppConstants.getERR_INVALID_PRODUCT_TYPE());
 		}
-		try {
+		/* try {
 			Product product = this.findByName(productPostDto.getName());
 			if (product != null) {
 				throw new ProductAlreadyExistsException(
@@ -91,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
 			}
 		} catch (ProductNotFoundException e) {
 			logger.info(String.format(AppConstants.getPRODUCT_NOT_FOUND(), productPostDto.getName()));
-		}
+		} */
 		if (productType.equals(ProductType.SIMPLE)) {
 			ProductSimple productSimple = productSimpleMapper.asProductSimple(productPostDto);
 			productSimple.setChainProduct(restaurantChainService.findChainByUser());

@@ -49,7 +49,7 @@ public class RestaurantChain implements Serializable {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	@Getter private Integer id;
 	
-	@Column(length = 16, unique = true)
+	@Column(length = 32, unique = true)
 	@Getter @Setter @NonNull private String name;
 	
 	@OneToOne

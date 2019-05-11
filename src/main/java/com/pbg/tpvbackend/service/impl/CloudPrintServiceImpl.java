@@ -35,7 +35,7 @@ public class CloudPrintServiceImpl implements CloudPrintService {
 	private static final String URL_SUBMIT = "https://www.google.com/cloudprint/submit";
 	private static final String URL_PROCESS_INVITE = "https://www.google.com/cloudprint/processinvite";
 	private static final String URL_SCOPE_GOOGLE_CLOUD_PRINT = "https://www.googleapis.com/auth/cloudprint";
-
+	
 	public Boolean submitJob(String printerid, String title, InputStream content, Integer retries)
 			throws IOException, AccessTokenException, GeneralSecurityException, SubmitJobException {
 

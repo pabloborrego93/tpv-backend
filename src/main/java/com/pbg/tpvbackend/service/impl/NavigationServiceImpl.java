@@ -366,7 +366,7 @@ public class NavigationServiceImpl implements NavigationService {
 		return NavigationDto
 			.builder()
 			.id("camarero")
-			.title("Menú Restaurantes")
+			.title("Menú Pedidos")
 			.type(NavigationType.ITEM.getValue())
 			.icon("")
 			.url("/admin")
@@ -391,7 +391,7 @@ public class NavigationServiceImpl implements NavigationService {
 		return NavigationDto
 			.builder()
 			.id("pantalla")
-			.title("Menú Pantallas")
+			.title("Menú Cocina")
 			.type(NavigationType.ITEM.getValue())
 			.icon("")
 			.url("/admin")

@@ -30,7 +30,7 @@ public class ProductPostDto implements Serializable {
 	
 	@NotNull(message = "Name can not be null")
     @NotBlank(message = "Name can not be blank")
-	@Size(min = 2, max = 16, message = "Name length must be between 2 and 16 chars")
+	@Size(min = 2, max = 32, message = "Name length must be between 2 and 16 chars")
 	@Getter @Setter private String name;
 	
 	@NotNull(message = "Price can not be null")

@@ -29,7 +29,7 @@ public class RestaurantChainDto implements Serializable {
 	@NotNull(message = "Id can not be null")
 	@Getter @Setter private Integer id;
 	
-	@Size(min = 2, max = 16, message = "Name length must be between 2 and 16 chars")
+	@Size(min = 2, max = 32, message = "Name length must be between 2 and 32 chars")
 	@NotNull(message = "Name can not be null")
     @NotBlank(message = "Name can not be blank")
 	@Getter @Setter private String name;
