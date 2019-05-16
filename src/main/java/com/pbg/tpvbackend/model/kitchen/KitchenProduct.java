@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.pbg.tpvbackend.model.Restaurant;
+import com.pbg.tpvbackend.model.Zone;
 import com.pbg.tpvbackend.model.order.OrderLine;
 import com.pbg.tpvbackend.model.product.Product;
 
@@ -32,6 +33,9 @@ public class KitchenProduct {
 	
 	@ManyToOne
 	@Getter @Setter private OrderLine orderLine;
+	
+	@ManyToOne
+	@Getter @Setter private Zone zone;
 	
 	@ManyToOne
 	@Getter @Setter private Product product;

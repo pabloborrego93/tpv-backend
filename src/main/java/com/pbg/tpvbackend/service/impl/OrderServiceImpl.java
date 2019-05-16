@@ -36,6 +36,7 @@ import com.pbg.tpvbackend.mapper.OrderMapper;
 import com.pbg.tpvbackend.model.Printer;
 import com.pbg.tpvbackend.model.Restaurant;
 import com.pbg.tpvbackend.model.RestaurantChain;
+import com.pbg.tpvbackend.model.Zone;
 import com.pbg.tpvbackend.model.kitchen.KitchenProduct;
 import com.pbg.tpvbackend.model.kitchen.KitchenProductStatus;
 import com.pbg.tpvbackend.model.order.Order;
@@ -90,9 +91,10 @@ public class OrderServiceImpl implements OrderService {
 	@Transactional(readOnly = false, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
 	public OrderDto newOrder(Integer idZone, List<OrderPostDto> orderPostDto) throws ZoneNotFoundException, ProductNotFoundException {
 		Order newOrder = new Order();
+		Zone zone = zoneService.findById(idZone);
 		newOrder.setCreatedAt(new Date());
 		newOrder.setStatus(OrderStatus.OPENED);
-		newOrder.setZone(zoneService.findById(idZone));
+		newOrder.setZone(zone);
 		newOrder = orderDao.save(newOrder);
 		for(OrderPostDto orderLineDto: orderPostDto) {
 			Product product = productService.findById(orderLineDto.getId());
@@ -104,6 +106,7 @@ public class OrderServiceImpl implements OrderService {
 				KitchenProduct kP = new KitchenProduct();
 				kP.setComment(kitchenProductPostDto.getComment());
 				kP.setOrderLine(orderLine);
+				kP.setZone(zone);
 				kP.setRestaurant(newOrder.getZone().getRestaurant());
 				kP.setStatus(KitchenProductStatus.QUEUED);
 				kP.setProduct(productService.findById(kitchenProductPostDto.getId()));
@@ -147,6 +150,7 @@ public class OrderServiceImpl implements OrderService {
 				KitchenProduct kP = new KitchenProduct();
 				kP.setComment(kitchenProductPostDto.getComment());
 				kP.setOrderLine(orderLine);
+				kP.setZone(order.getZone());
 				kP.setRestaurant(order.getZone().getRestaurant());
 				kP.setStatus(KitchenProductStatus.QUEUED);
 				kP.setProduct(productService.findById(kitchenProductPostDto.getId()));

@@ -6,6 +6,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 import com.pbg.tpvbackend.dto.product.ProductNameDto;
+import com.pbg.tpvbackend.dto.zone.ZoneDto;
 import com.pbg.tpvbackend.model.kitchen.KitchenProductStatus;
 
 import lombok.Getter;
@@ -23,6 +24,8 @@ public class KitchenProductDto implements Serializable {
 	@Getter @Setter private String comment;
 	
 	@Getter @Setter private ProductNameDto product;
+	
+	@Getter @Setter private ZoneDto zone;
 	
 	@Enumerated(EnumType.STRING)
 	@Getter @Setter private KitchenProductStatus status;
