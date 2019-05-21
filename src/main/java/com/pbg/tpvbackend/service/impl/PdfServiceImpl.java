@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.ResourceLoader;
@@ -101,9 +102,15 @@ public class PdfServiceImpl implements PdfService {
 
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy HH:mm:ss");
-		Paragraph last = new Paragraph("Hasta pronto! - " + sdf.format(orderDto.getClosedAt()));
-		last.setAlignment(Element.ALIGN_CENTER);
-		pdf.add(last);
+		if(orderDto.getClosedAt() != null) {
+			Paragraph last = new Paragraph("Hasta pronto! - " + sdf.format(orderDto.getClosedAt()));
+			last.setAlignment(Element.ALIGN_CENTER);
+			pdf.add(last);
+		} else {
+			Paragraph last = new Paragraph("Hasta pronto!" + sdf.format(new Date()));
+			last.setAlignment(Element.ALIGN_CENTER);
+			pdf.add(last);
+		}
 
 		pdf.close();
 

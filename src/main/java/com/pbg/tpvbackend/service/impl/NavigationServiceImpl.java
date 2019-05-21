@@ -47,15 +47,15 @@ public class NavigationServiceImpl implements NavigationService {
 	public List<NavigationDto> getNavigation() throws UserNotFoundException {
 		List<NavigationDto> navigationList = new ArrayList<NavigationDto>();
 		
-		NavigationDto homeDto = NavigationDto
-			.builder()
-			.id("inicio")
-			.title("Inicio")
-			.type(NavigationType.ITEM.getValue())
-			.icon("home")
-			.url("/admin")
-			.build();
-		navigationList.add(homeDto);
+//		NavigationDto homeDto = NavigationDto
+//			.builder()
+//			.id("inicio")
+//			.title("Inicio")
+//			.type(NavigationType.ITEM.getValue())
+//			.icon("home")
+//			.url("/admin")
+//			.build();
+//		navigationList.add(homeDto);
 		
 		if(userDataService.hasRole(RoleName.ROLE_ORDER_SCREEN)) {
 			navigationList.add(getNavigation_ROLE_ORDER_SCREEN_HEADER());
@@ -136,7 +136,7 @@ public class NavigationServiceImpl implements NavigationService {
 			.title("Menú Administración")
 			.type(NavigationType.ITEM.getValue())
 			.icon("")
-			.url("/admin")
+			.url(null)
 			.build();
 	}
 
@@ -164,7 +164,7 @@ public class NavigationServiceImpl implements NavigationService {
 			.id("restaurantChain-create")
 			.title("Mi Cadena")
 			.type(NavigationType.ITEM.getValue())
-			.icon("announcement")
+			.icon("home")
 			.badge(
 				BadgeDto
 				.builder()
@@ -199,7 +199,7 @@ public class NavigationServiceImpl implements NavigationService {
 			.id("restaurant-create")
 			.title("Restaurantes")
 			.type(NavigationType.COLLAPSE.getValue())
-			.icon("announcement")
+			.icon("store_mall_directory")
 			.badge(
 				BadgeDto
 				.builder()
@@ -220,7 +220,7 @@ public class NavigationServiceImpl implements NavigationService {
 				.id("restaurant-create")
 				.title("Restaurantes")
 				.type(NavigationType.ITEM.getValue())
-				.icon("announcement")
+				.icon("store_mall_directory")
 				.badge(
 					BadgeDto
 					.builder()
@@ -244,7 +244,7 @@ public class NavigationServiceImpl implements NavigationService {
 				.id("productfamily-create")
 				.title("Familia Productos")
 				.type(NavigationType.ITEM.getValue())
-				.icon("announcement")
+				.icon("category")
 				.badge(
 					BadgeDto
 					.builder()
@@ -263,7 +263,7 @@ public class NavigationServiceImpl implements NavigationService {
 				.id("productfamily-create")
 				.title("Familia Productos")
 				.type(NavigationType.ITEM.getValue())
-				.icon("announcement")
+				.icon("category")
 				.badge(
 					BadgeDto
 					.builder()
@@ -287,7 +287,7 @@ public class NavigationServiceImpl implements NavigationService {
 				.id("products")
 				.title("Productos")
 				.type(NavigationType.ITEM.getValue())
-				.icon("announcement")
+				.icon("fastfood")
 				.badge(
 					BadgeDto
 					.builder()
@@ -306,7 +306,7 @@ public class NavigationServiceImpl implements NavigationService {
 				.id("products")
 				.title("Productos")
 				.type(NavigationType.ITEM.getValue())
-				.icon("announcement")
+				.icon("fastfood")
 				.badge(
 					BadgeDto
 					.builder()
@@ -330,7 +330,7 @@ public class NavigationServiceImpl implements NavigationService {
 				.id("users")
 				.title("Usuarios")
 				.type(NavigationType.ITEM.getValue())
-				.icon("announcement")
+				.icon("supervised_user_circle")
 				.badge(
 					BadgeDto
 					.builder()
@@ -350,7 +350,7 @@ public class NavigationServiceImpl implements NavigationService {
 				.id("users")
 				.title("Usuarios")
 				.type(NavigationType.ITEM.getValue())
-				.icon("announcement")
+				.icon("supervised_user_circle")
 				.badge(
 					BadgeDto
 					.builder()
@@ -369,7 +369,7 @@ public class NavigationServiceImpl implements NavigationService {
 			.title("Menú Pedidos")
 			.type(NavigationType.ITEM.getValue())
 			.icon("")
-			.url("/admin")
+			.url(null)
 			.build();
 	}
 
@@ -381,7 +381,7 @@ public class NavigationServiceImpl implements NavigationService {
 				.id(String.format("restaurant-%s", restaurant.getName()))
 				.title(restaurant.getName())
 				.type(NavigationType.ITEM.getValue())
-				.icon("announcement")
+				.icon("local_grocery_store")
 				.url(String.format("/admin/orders/%s", restaurant.getId()))
 				.build();
 	}
@@ -394,7 +394,7 @@ public class NavigationServiceImpl implements NavigationService {
 			.title("Menú Cocina")
 			.type(NavigationType.ITEM.getValue())
 			.icon("")
-			.url("/admin")
+			.url(null)
 			.build();
 	}
 
@@ -406,7 +406,7 @@ public class NavigationServiceImpl implements NavigationService {
 				.id(String.format("restaurant-%s", restaurant.getName()))
 				.title(restaurant.getName())
 				.type(NavigationType.ITEM.getValue())
-				.icon("announcement")
+				.icon("kitchen")
 				.url(String.format("/admin/kitchen/%s", restaurant.getId()))
 				.build();
 	}

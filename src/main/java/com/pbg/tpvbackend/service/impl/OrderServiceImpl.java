@@ -41,6 +41,7 @@ import com.pbg.tpvbackend.model.kitchen.KitchenProduct;
 import com.pbg.tpvbackend.model.kitchen.KitchenProductStatus;
 import com.pbg.tpvbackend.model.order.Order;
 import com.pbg.tpvbackend.model.order.OrderLine;
+import com.pbg.tpvbackend.model.order.OrderLinePK;
 import com.pbg.tpvbackend.model.order.OrderStatus;
 import com.pbg.tpvbackend.model.product.Product;
 import com.pbg.tpvbackend.service.CloudPrintService;
@@ -142,8 +143,14 @@ public class OrderServiceImpl implements OrderService {
 		Order order = this.findById(idOrder);
 		for(OrderPostDto orderLineDto: orderPostDto) {
 			Product product = productService.findById(orderLineDto.getId());
-			OrderLine orderLine = new OrderLine(order, product);
-			orderLine.setAmount(orderLineDto.getAmount());
+			OrderLine orderLine = null;
+			Optional<OrderLine> orderLineOpt = orderLineDao.findById(new OrderLinePK(order.getId(), product.getId()));
+			if(orderLineOpt.isPresent()) {
+				orderLine = orderLineOpt.get();
+			} else {
+				orderLine = new OrderLine(order, product);
+			}
+			orderLine.setAmount(orderLine.getAmount() + orderLineDto.getAmount());
 			orderLine.calculateTotal();
 			orderLine = orderLineDao.save(orderLine);
 			for(KitchenProductPostDto kitchenProductPostDto: orderLineDto.getKitchenProductPostDto()) {
@@ -157,6 +164,7 @@ public class OrderServiceImpl implements OrderService {
 				kitchenService.create(kP);
 			}
 		}
+		order = orderDao.save(order);
 		return orderMapper.asOrderDto(order);
 	}
 
