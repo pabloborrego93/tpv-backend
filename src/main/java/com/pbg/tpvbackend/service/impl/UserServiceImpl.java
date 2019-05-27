@@ -37,7 +37,6 @@ import com.pbg.tpvbackend.model.security.User;
 import com.pbg.tpvbackend.service.RestaurantChainService;
 import com.pbg.tpvbackend.service.UserService;
 import com.pbg.tpvbackend.service.security.UserDataService;
-import com.pbg.tpvbackend.utils.StringUtils;
 
 import lombok.AllArgsConstructor;
 
@@ -111,13 +110,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Optional<UserBasicInfoDto> registerRestaurantChainUser(RestaurantChainUserPostDto restaurantChainUserPostDto) throws UserNotFoundException, UserWithoutRestaurantChain, UserAlreadyExistsException {
 		RestaurantChain chain = restaurantChainService.findChainByUser();
-		String userPrefix = StringUtils.generateUserPrefix(chain.getId(), restaurantChainUserPostDto.getUsername());
-		Optional<User> optionalUser = userDao.findByUsername(userPrefix);
+		// String userPrefix = StringUtils.generateUserPrefix(chain.getId(), restaurantChainUserPostDto.getUsername());
+		Optional<User> optionalUser = userDao.findByUsername(restaurantChainUserPostDto.getUsername());
 		if(optionalUser.isPresent()) 
 			throw new UserAlreadyExistsException();
 		else {
 			User user = userMapper.asEntity(restaurantChainUserPostDto);
-			user.setUsername(userPrefix);
+			user.setUsername(restaurantChainUserPostDto.getUsername());
 			user.setEnabled(Boolean.TRUE);
 			user.setPassword(bcrypt.encode(restaurantChainUserPostDto.getPassword()));
 			user.setLastPasswordResetDate(new Date());
