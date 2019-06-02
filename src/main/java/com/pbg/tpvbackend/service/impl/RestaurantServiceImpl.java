@@ -165,4 +165,11 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return restaurant.getScreens().stream().anyMatch((u) -> u.getId().equals(user.getId()));
 	}
 
+	@Override
+	public Integer countByChain() throws UserNotFoundException {
+		User user = userService.findByUsername();
+		RestaurantChain chain = user.getChain();
+		return restaurantDao.countByChain(chain);
+	}
+
 }

@@ -28,5 +28,6 @@ public interface RestaurantService {
 	
 	public List<Restaurant> findRestaurantsByWorkerOrderByName(User user);
 	public List<Restaurant> findRestaurantsByScreensOrderByName(User user);
+	public Integer countByChain() throws UserNotFoundException;
 	
 }

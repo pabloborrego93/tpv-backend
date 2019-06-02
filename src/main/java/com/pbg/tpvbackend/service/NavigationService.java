@@ -29,6 +29,7 @@ public interface NavigationService {
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_PRODUCTS_NOT_CREATED();
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_USERS() throws UserNotFoundException, ChainWithoutUsersException;
 	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_USERS_NOT_CREATED() throws UserNotFoundException;
+	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_STATISTICS() throws UserNotFoundException;
 	/*
 	 * FIN ROLE_RESTAURANT_CHAIN_ADMIN
 	 */

@@ -21,6 +21,7 @@ public interface ProductFamilyService {
 	public ProductFamilyDto update(@Valid ProductFamilyUpdateDto productFamilyUpdateDto) throws UserNotFoundException, UserWithoutRestaurantChain, ProductFamilyAlreadyExists, ProductFamilyNotExists;
 	public void delete(String name) throws ProductFamilyNotExists, UserWithoutRestaurantChain, UserNotFoundException;
 	public Page<ProductFamilyDto> listPagedByName(String name, Integer page, Integer max) throws UserNotFoundException, UserWithoutRestaurantChain;
+	public Integer countByChain() throws UserNotFoundException;
 	
 	/*
 	 * Entity - Dto

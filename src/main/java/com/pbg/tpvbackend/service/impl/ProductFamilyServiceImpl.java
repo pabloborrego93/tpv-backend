@@ -25,6 +25,7 @@ import com.pbg.tpvbackend.exception.user.UserWithoutRestaurantChain;
 import com.pbg.tpvbackend.mapper.ProductFamilyMapper;
 import com.pbg.tpvbackend.model.RestaurantChain;
 import com.pbg.tpvbackend.model.product.ProductFamily;
+import com.pbg.tpvbackend.model.security.User;
 import com.pbg.tpvbackend.service.ProductFamilyService;
 import com.pbg.tpvbackend.service.RestaurantChainService;
 import com.pbg.tpvbackend.service.UserService;
@@ -162,6 +163,13 @@ public class ProductFamilyServiceImpl implements ProductFamilyService {
 			productFamiliesDto.add(this.toDto(productFamily));
 		}
 		return productFamiliesDto;
+	}
+
+	@Override
+	public Integer countByChain() throws UserNotFoundException {
+		User user = userService.findByUsername();
+		RestaurantChain chain = user.getChain();
+		return pfDao.countByChain(chain);
 	}
 	
 }

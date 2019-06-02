@@ -117,6 +117,14 @@ public class NavigationServiceImpl implements NavigationService {
 					logger.error(errorMsg);
 					navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_USERS_NOT_CREATED());
 				}
+				try {
+					// 1.5: Adding statistics to navigation
+					navigationList.add(getNavigation_ROLE_RESTAURANT_CHAIN_STATISTICS());
+				} catch(Exception e) {
+					// Catch 1.5: Exception
+					String errorMsg = String.format(AppConstants.getERR_STATISTICS(), userDataService.getUsername());
+					logger.error(errorMsg);
+				}
 			} catch(UserWithoutRestaurantChain e) {
 				// Catch 1: Dont have chain configured
 				String errorMsg = String.format(AppConstants.getERR_USER_WITHOUT_RESTAURANT_CHAIN(), userDataService.getUsername());
@@ -411,4 +419,16 @@ public class NavigationServiceImpl implements NavigationService {
 				.build();
 	}
 	
+	@Override
+	public NavigationDto getNavigation_ROLE_RESTAURANT_CHAIN_STATISTICS() throws UserNotFoundException {
+		return NavigationDto
+				.builder()
+					.id("statistics")
+					.title("Estadísticas")
+					.type(NavigationType.ITEM.getValue())
+					.icon("insert_chart_outlined")
+					.url("/admin/statistics")
+					.build();
+	}
+
 }

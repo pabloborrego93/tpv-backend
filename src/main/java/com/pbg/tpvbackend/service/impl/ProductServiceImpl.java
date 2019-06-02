@@ -309,4 +309,11 @@ public class ProductServiceImpl implements ProductService {
 		return products;
 	}
 
+	@Override
+	public Integer countByChain() throws UserNotFoundException {
+		User user = userService.findByUsername();
+		RestaurantChain chain = user.getChain();
+		return productDao.countByChain(chain);
+	}
+
 }

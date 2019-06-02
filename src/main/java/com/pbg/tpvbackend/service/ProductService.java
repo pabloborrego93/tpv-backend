@@ -40,5 +40,6 @@ public interface ProductService {
 	public List<Product> findAll(List<Integer> ids) throws UserNotFoundException;
 	public Map<Product, Integer> productAmountDtoToAmountMap(List<ProductNameAmountDto> productsAmountDto) throws UserNotFoundException;
 	public Product findById(Integer id) throws ProductNotFoundException;
+	public Integer countByChain() throws UserNotFoundException;
 	
 }

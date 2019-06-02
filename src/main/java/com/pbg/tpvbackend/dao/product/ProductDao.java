@@ -70,4 +70,7 @@ public interface ProductDao extends PagingAndSortingRepository<Product, Integer>
 	@Query("UPDATE Product p SET p.productType = 'SIMPLE' WHERE p.id = :id")
 	void updateToSimple(@Param("id") Integer id);
 	
+	@Query("SELECT count(p) FROM Product p WHERE p.chainProduct = :restaurantChain")
+	Integer countByChain(@Param("restaurantChain") RestaurantChain restaurantChain);
+	
 }

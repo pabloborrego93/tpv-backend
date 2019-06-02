@@ -23,6 +23,7 @@ import com.pbg.tpvbackend.dao.order.OrderLineDao;
 import com.pbg.tpvbackend.dto.kitchen.KitchenProductPostDto;
 import com.pbg.tpvbackend.dto.order.OrderDto;
 import com.pbg.tpvbackend.dto.order.OrderPostDto;
+import com.pbg.tpvbackend.dto.statistics.StatisticsTotalsDto;
 import com.pbg.tpvbackend.exception.UserNotFoundException;
 import com.pbg.tpvbackend.exception.gcp.AccessTokenException;
 import com.pbg.tpvbackend.exception.gcp.SubmitJobException;
@@ -175,6 +176,18 @@ public class OrderServiceImpl implements OrderService {
 		InputStream content = pdfService.generateTicket(idOrder);
 		Printer printer = printerService.defaultPrinter(restaurant);
 		cloudPrintService.submitJob(printer.getPrinterid(), "ticket", content, 2);
+	}
+
+	@Override
+	public List<StatisticsTotalsDto> totalEarningsByRestaurantChainByDay() {
+		RestaurantChain chain = userDataService.chain();
+		return orderDao.totalEarningsByRestaurantChainByDay(chain);
+	}
+
+	@Override
+	public List<StatisticsTotalsDto> totalOrdersByRestaurantChainByDay() {
+		RestaurantChain chain = userDataService.chain();
+		return orderDao.totalOrdersByRestaurantChainByDay(chain);
 	}
 	
 }
