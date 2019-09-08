@@ -5,13 +5,13 @@ spring:
       location: 'classpath:/static/banner.txt'
    cloud:
       gcp:
-         proyect-id: seraphic-cocoa-239316
+         proyect-id: ${PROYECT_ID}
          sql:
-            database-name: tpvBD
-            instance-connection-name: seraphic-cocoa-239316:europe-west1:tpvbd     
+            database-name: ${DATABASE_NAME}
+            instance-connection-name: ${INSTANCE_CONNECTION_NAME}    
    datasource:
-      username: root
-      password: borrego
+      username: ${USERNAME}
+      password: ${PASSWORD}
    jpa:
       show-sql: true
       properties:
