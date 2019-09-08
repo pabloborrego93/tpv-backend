@@ -1,12 +1,12 @@
 {
-  "type": "service_account",
-  "project_id": "seraphic-cocoa-239316",
-  "private_key_id": "bf976c9da553223fe43778c957855f9ecd91d2a6",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCSw1RahQkVNTWr\n39ZW25KStjBlAHRQ1ZHepPUH2G70fr29heAqwr8wv2E6WOuMf7C9MyRCGsGLk6+L\nUHsAHcQPdEKoVSZgJerx9bC+Sw7E46t/YJR8DR6wwxATWQHWWgRJpeafYIizYFGO\nU8mgx+bY2H3dOs2LiEY+OgK7dxwm09/dyWixj7Re4iZjz9qjjA/Alga1wCyP+9Wt\nsVTFHACJmwPCGKj1N4T1DtgrMiGqwXf/gPv0o/oXYNROX9ME82IWei1AWJ2AYZFA\nMPt8BG4fF+S26YDIX3HGvW7LMLSzyU6zRFuUEzLLFVO0Hd/B4ycAlUHAQFPt3eSY\nAw2kpZK7AgMBAAECggEABd+IkfweRO8AMC9LpeYw6MDJvFZW+/UlWpeXXAeunlzZ\naFWMhv7hen3uJ3uaJuE6nW0H18K3rseWOtOvAxjYg8B5+mqN7UMXMopL1xGsjEyK\nzGonsbSEtJDZz9cRWmv3x/Vk/p51BK38wDQHhEZRAqnclOyJf+VQNPqf/rM249wp\n3d3+LUo/wXrkJZUaNL5ki9GdpHPc1mECrRAWhVpBHd/ZBwEEy1MQfkivai7SW7LK\ne5N2ipmRdwlz2fFhgaeDHzvDLW2lFmBXeemZv5YL1zR7NFy95nGvGmI0zSH2mnQI\nxOJhCXJBdBLTHbjLp6GyozdaLt+02W9SKQZqF2Pw4QKBgQDPfI2VaF0uhrBN+d9Q\nF69sKUuPkVVS4KkMN2kl26kF7KjvKLn3M0vyxTHtsE4oRUhnGR1Tcu9FwottSTu1\nNBtTYEIlyEI8aLlB/ZjBfeHkRsrTkDq1fJ7ekhU7au2ocEs9B3XOU7AeIHa/Z2wI\nJbZC9Q68t3C8IqHcQdAL2H9/bwKBgQC1FBHp3xXrICsMjoTuDx9HXGIjxrHI7/TZ\nAeuwZeyvorVHVqozFy45bMl9AaKWXlUxVf76TFWwwiIJohvXPWrrCy8S75zWF8c7\n6I7CRXnLDoqFjPvhgByy0y3Pv2Pe7oJPRXbGZz1yA9+aGlYVhL83Hrkj/Mh2PA5C\nm+b0/zp7dQKBgDJAx4X1VgRLyO3J5EVgxzMaOVvXZmQBV9BGp2fs8N4neK8cHRZ7\nTRzKmBIqjnOAfE3ELm8kukEaImzgvN5hdXDXMo42F5zL/Hq4MkRC+fAxGTTujNmi\nClR76zqN5mvSbtakNOs5J8HUOQ6YvPioMaG7+srIXzyh4rQXGI2V7SNvAoGBAJDC\nQq/ckAEv7jpTlSFbJX4+9JX1OhuQ+QSi7HBQiy69vH4TYm0FkwaFWW596CSdtS2D\nuhsO+1IbYGqjFe60Qs00W6WfuJnO2I+kErxsHjmenk61rodPi6HKAU2bi5OkyLfm\nqFVkI1MKla70bu00+khuX0PNydP7nsrRJ4mkoHQhAoGBAIQ94d1aefHBAJV1zYTg\nRgr2m8KfZpZy1Q9XLpVIhgr4ZCuQKC2BJVx/ZKWdsoZZ51O0CF4TNJmt5Rrxpp56\nJ23hcFF/i/n7TvonTpRp6Xu8zR/AYGUQT6KAYkwEK7p/pbaTEoOBOkTzlZknNoZX\nIJCuo31FUpqM061ISM5jpSeC\n-----END PRIVATE KEY-----\n",
-  "client_email": "seraphic-cocoa-239316@appspot.gserviceaccount.com",
-  "client_id": "102766722159243940609",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/seraphic-cocoa-239316%40appspot.gserviceaccount.com"
+  "type": "",
+  "project_id": "",
+  "private_key_id": "",
+  "private_key": "",
+  "client_email": "",
+  "client_id": "",
+  "auth_uri": "",
+  "token_uri": "",
+  "auth_provider_x509_cert_url": "",
+  "client_x509_cert_url": ""
 }
